@@ -1,0 +1,1 @@
+Review the current git changes using git status and git diff. Analyze all changes and draft an appropriate commit message that follows the repository's commit message style. Then create the commit with the drafted message.
