@@ -33,12 +33,7 @@ export const POST: RequestHandler = async ({ request }) => {
 		expiresAt.setDate(expiresAt.getDate() + expiresInDays);
 
 		// Create share link in database
-		const shareLink = database.createShareLink(
-			token,
-			fileId,
-			expiresAt,
-			maxDownloads || null
-		);
+		const shareLink = database.createShareLink(token, fileId, expiresAt, maxDownloads || null);
 
 		return json({
 			success: true,

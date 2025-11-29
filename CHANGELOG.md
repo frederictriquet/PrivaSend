@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### To be implemented
+
 - Phase 3: Advanced Security (Authentication, Encryption)
 - Phase 4: UX Enhancements
 - Phase 5: Admin Dashboard
@@ -19,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Phase 2: CI/CD & Quality
 
 #### Added
+
 - GitHub Actions CI workflow (lint, test, build, typecheck)
 - GitHub Actions Docker workflow (multi-arch build, GHCR publish)
 - GitHub Actions Security workflow (Trivy, Hadolint, CodeQL, npm audit)
@@ -33,11 +35,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Test directory structure
 
 #### Changed
+
 - Updated package.json with test dependencies
 - Updated package.json with quality tool scripts
 - All CI workflows use `master` branch instead of `main`
 
 #### Documentation
+
 - Added VERSIONING.md - Versioning strategy guide
 - Added PHASE_2_COMPLETE.md - Phase 2 documentation
 - Added QUICK_START.md - Quick start guide
@@ -51,6 +55,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Phase 1.4: Basic Security
 
 #### Added
+
 - HTTPS enforcement middleware (production)
 - Security headers (CSP, HSTS, X-Frame-Options, etc.)
 - Filename sanitization (path traversal protection)
@@ -60,11 +65,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - XSS protection utilities
 
 #### Changed
+
 - Updated upload API with security validations
 - Updated download API with rate limiting
 - Integrated security middleware in hooks.server.ts
 
 #### Security
+
 - Protected against path traversal attacks
 - Protected against XSS
 - Protected against clickjacking
@@ -72,6 +79,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - DoS protection via rate limiting
 
 #### Documentation
+
 - Added PHASE_1.4_COMPLETE.md
 
 ---
@@ -81,6 +89,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Phase 1.2: Secure Links & Download
 
 #### Added
+
 - SQLite database with WAL mode
 - Share links automatic generation
 - Download page with file information
@@ -91,11 +100,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Download API with streaming: `GET /download/[token]`
 
 #### Changed
+
 - Upload API now returns shareLink in response
 - Cleanup service now cleans expired links
 - Configuration updated with database and links settings
 
 #### Documentation
+
 - Added PHASE_1.2_COMPLETE.md
 - Updated README.md with Phase 1.2 features
 
@@ -106,6 +117,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Phase 1.1: File Upload & Storage
 
 #### Added
+
 - File upload interface with drag & drop
 - Large file support (up to 5GB)
 - Chunked upload for files > 10MB
@@ -118,6 +130,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Docker support with Dockerfile and docker-compose.yml
 
 #### Initial Setup
+
 - SvelteKit 2.x project structure
 - TypeScript configuration
 - Node.js adapter for deployment
@@ -125,6 +138,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Cleanup service with background tasks
 
 #### Documentation
+
 - Added README.md
 - Added ROADMAP.md
 - Added SETUP.md
@@ -135,13 +149,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Version Mapping
 
-| Version | Phase | Date | Status |
-|---------|-------|------|--------|
-| v0.1.0 | Phase 1.1 | 2025-11-29 | ✅ Released |
-| v0.2.0 | Phase 1.2 | 2025-11-29 | ✅ Released |
-| v0.3.0 | Phase 1.4 | 2025-11-29 | ✅ Released |
-| v0.4.0 | Phase 2 | 2025-11-29 | ✅ Released |
-| v1.0.0 | Phase 3 | TBD | 🔜 Next Stable |
+| Version | Phase     | Date       | Status         |
+| ------- | --------- | ---------- | -------------- |
+| v0.1.0  | Phase 1.1 | 2025-11-29 | ✅ Released    |
+| v0.2.0  | Phase 1.2 | 2025-11-29 | ✅ Released    |
+| v0.3.0  | Phase 1.4 | 2025-11-29 | ✅ Released    |
+| v0.4.0  | Phase 2   | 2025-11-29 | ✅ Released    |
+| v1.0.0  | Phase 3   | TBD        | 🔜 Next Stable |
 
 ---
 

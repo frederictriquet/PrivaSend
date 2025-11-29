@@ -31,6 +31,7 @@ If you cannot use Node 20, you have two options:
 #### Option 1: Use Node 20 LTS (Recommended)
 
 This is the recommended approach as `better-sqlite3` offers:
+
 - Best performance
 - Native SQLite integration
 - WAL mode support
@@ -41,18 +42,20 @@ This is the recommended approach as `better-sqlite3` offers:
 If you must use Node 25+, we can modify the database layer to use `sql.js`:
 
 1. Update `package.json`:
+
 ```json
 {
-  "dependencies": {
-    "nanoid": "^5.0.0",
-    "sql.js": "^1.10.0"
-  }
+	"dependencies": {
+		"nanoid": "^5.0.0",
+		"sql.js": "^1.10.0"
+	}
 }
 ```
 
 2. Rewrite `src/lib/server/database.ts` to use sql.js API
 
 **Note**: sql.js has some limitations:
+
 - No WAL mode
 - Slightly slower performance
 - All in-memory (needs manual persistence)
@@ -84,22 +87,26 @@ npm run dev
 ### "npm install" still fails
 
 1. Make sure you're using Node 20:
+
    ```bash
    node --version
    ```
 
 2. Clear npm cache:
+
    ```bash
    npm cache clean --force
    ```
 
 3. Remove node_modules and reinstall:
+
    ```bash
    rm -rf node_modules package-lock.json
    npm install
    ```
 
 4. Make sure you have build tools installed:
+
    ```bash
    # macOS
    xcode-select --install
@@ -111,6 +118,7 @@ npm run dev
 ### Build tools missing
 
 On macOS, you may need Xcode Command Line Tools:
+
 ```bash
 xcode-select --install
 ```
@@ -118,6 +126,7 @@ xcode-select --install
 ### Python version issues
 
 `node-gyp` requires Python 3. If you have issues:
+
 ```bash
 # macOS with Homebrew
 brew install python@3.11

@@ -22,24 +22,28 @@ Phase 2 du projet PrivaSend est maintenant terminée ! L'infrastructure complèt
 - ✅ **Artifacts** : Upload build et rapports
 
 **Triggers:**
+
 - Push sur main/develop
 - Pull requests vers main/develop
 
 ### ✅ 2.2 Tests Automatisés
 
 **Configuration Vitest** : `vitest.config.ts`
+
 - Framework de tests unitaires
 - Coverage avec V8
 - Thresholds à 80%
 - Rapports : text, json, html, lcov
 
 **Configuration Playwright** : `playwright.config.ts`
+
 - Tests E2E automatiques
 - Browser: Chromium
 - Retries en CI
 - Rapport HTML
 
 **Structure de tests** :
+
 ```
 tests/
 ├── unit/       # Tests unitaires (à implémenter)
@@ -61,8 +65,9 @@ tests/
 - ✅ **Scan intégré** : Trivy après build
 
 **Triggers:**
+
 - Push sur main
-- Tags v*
+- Tags v\*
 - Pull requests (build only, no push)
 
 ### ✅ 2.4 Security Scanning
@@ -70,17 +75,20 @@ tests/
 **Workflow**: `.github/workflows/security.yml`
 
 **Scans configurés:**
+
 1. **NPM Audit** : Vulnérabilités dépendances Node.js
 2. **CodeQL** : Analyse statique TypeScript/JavaScript
 3. **Trivy Filesystem** : Vulnérabilités dans le code
 4. **Hadolint** : Lint du Dockerfile
 
 **Configuration Hadolint** : `.hadolint.yaml`
+
 - Règles personnalisées
 - Trusted registries
 - Failure threshold: warning
 
 **Features:**
+
 - Upload vers GitHub Security tab
 - Scan hebdomadaire automatique (dimanche)
 - Scan sur chaque PR et push
@@ -88,12 +96,14 @@ tests/
 ### ✅ 2.5 Rapports & Métriques
 
 **Codecov** : `codecov.yml`
+
 - Target: 80% coverage
 - Threshold: 5% projet, 10% patch
 - Commentaires automatiques sur PR
 - Ignore tests et config
 
 **Rapports générés:**
+
 - Coverage tests (Codecov)
 - Vulnérabilités (GitHub Security)
 - E2E results (Playwright HTML)
@@ -102,37 +112,42 @@ tests/
 ### ✅ 2.6 Code Quality Tools
 
 **ESLint** : `.eslintrc.json`
+
 - Règles TypeScript recommandées
 - Support Svelte
 - Compatible Prettier
 
 **Prettier** : `.prettierrc`
+
 - Tabs
 - Single quotes
 - Plugin Svelte
 - Print width: 100
 
 **Scripts package.json:**
+
 ```json
 {
-  "test": "vitest",
-  "test:coverage": "vitest run --coverage",
-  "test:e2e": "playwright test",
-  "lint": "eslint .",
-  "lint:fix": "eslint . --fix",
-  "format": "prettier --write .",
-  "format:check": "prettier --check ."
+	"test": "vitest",
+	"test:coverage": "vitest run --coverage",
+	"test:e2e": "playwright test",
+	"lint": "eslint .",
+	"lint:fix": "eslint . --fix",
+	"format": "prettier --write .",
+	"format:check": "prettier --check ."
 }
 ```
 
 ## Fichiers Créés
 
 ### GitHub Actions Workflows
+
 - `.github/workflows/ci.yml` - Pipeline CI complet
 - `.github/workflows/docker.yml` - Build et publish Docker
 - `.github/workflows/security.yml` - Scans de sécurité
 
 ### Configurations
+
 - `.eslintrc.json` - ESLint config
 - `.prettierrc` - Prettier config
 - `.prettierignore` - Fichiers à ignorer
@@ -142,13 +157,16 @@ tests/
 - `codecov.yml` - Coverage reporting
 
 ### Structure Tests
+
 - `tests/unit/.gitkeep` - Dossier tests unitaires
 - `tests/e2e/.gitkeep` - Dossier tests E2E
 
 ### Documentation
+
 - `PHASE_2_COMPLETE.md` - Ce fichier
 
 ### Modifications
+
 - `package.json` - Nouvelles dépendances et scripts
 - `ROADMAP.md` - Phase 2 remontée en priorité
 
@@ -179,7 +197,7 @@ tests/
    Image disponible sur ghcr.io
 ```
 
-### Sur Tag v*
+### Sur Tag v\*
 
 ```
 1. Tous les checks CI
@@ -219,10 +237,11 @@ npm run check
 ### CI/CD
 
 Les workflows s'exécutent automatiquement sur:
+
 - Chaque push
 - Chaque pull request
 - Chaque dimanche (scans sécurité)
-- Chaque tag v*
+- Chaque tag v\*
 
 ### Pull Docker Image
 
@@ -240,11 +259,13 @@ docker run -p 3000:3000 -v ./storage:/app/storage ghcr.io/USER/privasend:latest
 ## Dépendances Ajoutées
 
 ### Testing
+
 - `vitest` : Test runner
 - `@vitest/coverage-v8` : Coverage reporter
 - `@playwright/test` : E2E testing
 
 ### Linting & Formatting
+
 - `eslint` : Linter JavaScript/TypeScript
 - `@typescript-eslint/parser` : Parser TypeScript
 - `@typescript-eslint/eslint-plugin` : Règles TypeScript
@@ -262,6 +283,7 @@ Aucun ! Tout utilise `GITHUB_TOKEN` automatique.
 ### Settings Recommandés
 
 **Branch Protection (main):**
+
 - Require PR reviews: 1
 - Require status checks to pass:
   - Lint & Format Check
@@ -271,11 +293,13 @@ Aucun ! Tout utilise `GITHUB_TOKEN` automatique.
   - Dockerfile Lint
 
 **Security:**
+
 - Enable Dependabot alerts
 - Enable Dependabot security updates
 - Enable CodeQL analysis
 
 **Packages:**
+
 - Package visibility: Public ou Private selon besoin
 - Allow write access to GITHUB_TOKEN
 
@@ -293,6 +317,7 @@ Ajouter au README.md :
 ## Métriques de Qualité
 
 ### Coverage
+
 - **Target**: 80% minimum
 - **Thresholds**:
   - Lines: 80%
@@ -301,11 +326,13 @@ Ajouter au README.md :
   - Statements: 80%
 
 ### Security
+
 - **Zéro** vulnérabilité CRITICAL
 - **Minimal** vulnérabilités HIGH
 - Scans hebdomadaires automatiques
 
 ### Code Quality
+
 - **Zéro** erreur ESLint
 - **Zéro** erreur TypeScript
 - **100%** fichiers formatés
@@ -313,12 +340,14 @@ Ajouter au README.md :
 ## Optimisations Implémentées
 
 ### Build Speed
+
 - ✅ npm cache dans actions/setup-node
 - ✅ Docker BuildKit avec cache GitHub Actions
 - ✅ Jobs en parallèle
 - ✅ Conditional pushes (PR vs main)
 
 ### Resource Usage
+
 - ✅ 1 worker en CI (Playwright)
 - ✅ Retention artifacts 7 jours
 - ✅ Cleanup automatique des caches
@@ -394,16 +423,19 @@ npm run lint && npm run format:check && npm run check && npm run test
 ## Coûts Estimés
 
 ### GitHub Actions (Free Tier)
+
 - 2000 minutes/mois incluses
 - Estimation: ~100-150 min/semaine
 - **Coût**: 0€ (largement sous la limite)
 
 ### GitHub Container Registry
+
 - 500MB stockage gratuit
 - Bandwidth gratuite pour packages publics
 - **Coût**: 0€
 
 ### Codecov
+
 - Gratuit pour projets open-source
 - **Coût**: 0€
 

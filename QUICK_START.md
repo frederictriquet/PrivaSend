@@ -238,6 +238,7 @@ PrivaSend/
 ## Support
 
 Questions? Consulter:
+
 1. [ROADMAP.md](ROADMAP.md) pour les features
 2. [SETUP.md](SETUP.md) pour l'installation
 3. [PHASE_2_COMPLETE.md](PHASE_2_COMPLETE.md) pour CI/CD

@@ -5,11 +5,7 @@ import { database } from '$lib/server/database';
 import { config } from '$lib/server/config';
 import { nanoid } from 'nanoid';
 import { checkRateLimit } from '$lib/server/ratelimit';
-import {
-	sanitizeFilename,
-	isValidMimeType,
-	hasDangerousExtension
-} from '$lib/server/security';
+import { sanitizeFilename, isValidMimeType, hasDangerousExtension } from '$lib/server/security';
 
 /**
  * Handle file upload
@@ -64,7 +60,10 @@ async function handleMultipartUpload(request: Request) {
 
 	// Validate file size
 	if (file.size > config.storage.maxFileSize) {
-		throw error(413, `File size exceeds maximum allowed size of ${formatBytes(config.storage.maxFileSize)}`);
+		throw error(
+			413,
+			`File size exceeds maximum allowed size of ${formatBytes(config.storage.maxFileSize)}`
+		);
 	}
 
 	// Validate MIME type if restrictions are configured
@@ -156,7 +155,10 @@ async function handleChunkedUpload(request: Request) {
 		// Validate final file size
 		if (metadata.size > config.storage.maxFileSize) {
 			await storage.deleteFile(fileId);
-			throw error(413, `File size exceeds maximum allowed size of ${formatBytes(config.storage.maxFileSize)}`);
+			throw error(
+				413,
+				`File size exceeds maximum allowed size of ${formatBytes(config.storage.maxFileSize)}`
+			);
 		}
 
 		// Create share link automatically

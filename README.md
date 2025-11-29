@@ -157,13 +157,14 @@ curl -X POST http://localhost:5173/api/upload \
 ```
 
 Response:
+
 ```json
 {
-  "success": true,
-  "fileId": "abc123...",
-  "fileName": "file.pdf",
-  "fileSize": 1234567,
-  "expiresAt": "2025-12-06T12:00:00.000Z"
+	"success": true,
+	"fileId": "abc123...",
+	"fileName": "file.pdf",
+	"fileSize": 1234567,
+	"expiresAt": "2025-12-06T12:00:00.000Z"
 }
 ```
 
@@ -182,30 +183,33 @@ curl -X POST http://localhost:5173/api/upload \
 ```
 
 Response (intermediate chunk):
+
 ```json
 {
-  "success": true,
-  "complete": false,
-  "chunkIndex": 0,
-  "totalChunks": 10
+	"success": true,
+	"complete": false,
+	"chunkIndex": 0,
+	"totalChunks": 10
 }
 ```
 
 Response (final chunk):
+
 ```json
 {
-  "success": true,
-  "complete": true,
-  "fileId": "abc123...",
-  "fileName": "largefile.zip",
-  "fileSize": 52428800,
-  "expiresAt": "2025-12-06T12:00:00.000Z"
+	"success": true,
+	"complete": true,
+	"fileId": "abc123...",
+	"fileName": "largefile.zip",
+	"fileSize": 52428800,
+	"expiresAt": "2025-12-06T12:00:00.000Z"
 }
 ```
 
 ## Usage
 
 1. **Start the application**:
+
    ```bash
    npm run dev
    ```
@@ -267,6 +271,7 @@ CMD ["node", "build"]
 ```
 
 Build and run:
+
 ```bash
 docker build -t privasend .
 docker run -p 3000:3000 -v $(pwd)/storage:/app/storage privasend
@@ -275,6 +280,7 @@ docker run -p 3000:3000 -v $(pwd)/storage:/app/storage privasend
 ### Traditional Deployment
 
 1. Build the application:
+
    ```bash
    npm run build
    ```
@@ -282,6 +288,7 @@ docker run -p 3000:3000 -v $(pwd)/storage:/app/storage privasend
 2. Copy `build/`, `package.json`, and `.env` to your server
 
 3. Install production dependencies:
+
    ```bash
    npm ci --production
    ```
@@ -296,6 +303,7 @@ docker run -p 3000:3000 -v $(pwd)/storage:/app/storage privasend
 See [ROADMAP.md](ROADMAP.md) for the complete feature roadmap.
 
 **Upcoming in Phase 1.2 - Secure Link Generation:**
+
 - Generate secure, shareable download links
 - Configurable expiration times
 - Token-based access control

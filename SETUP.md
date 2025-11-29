@@ -13,17 +13,20 @@ Guide de démarrage rapide pour développer et déployer PrivaSend.
 ### Étapes
 
 1. **Installer les dépendances**
+
    ```bash
    npm install
    ```
 
 2. **Configurer l'environnement**
+
    ```bash
    cp .env.example .env
    # Éditez .env si nécessaire
    ```
 
 3. **Lancer en développement**
+
    ```bash
    npm run dev
    ```
@@ -72,11 +75,13 @@ CLEANUP_INTERVAL_HOURS=1
 ### Test 1: Upload de petit fichier (< 10MB)
 
 1. Créer un fichier test :
+
    ```bash
    dd if=/dev/zero of=test-small.bin bs=1M count=5
    ```
 
 2. Uploader via l'interface web ou curl :
+
    ```bash
    curl -X POST http://localhost:5173/api/upload \
      -F "file=@test-small.bin"
@@ -85,17 +90,18 @@ CLEANUP_INTERVAL_HOURS=1
 3. Vérifier la réponse :
    ```json
    {
-     "success": true,
-     "fileId": "...",
-     "fileName": "test-small.bin",
-     "fileSize": 5242880,
-     "expiresAt": "..."
+   	"success": true,
+   	"fileId": "...",
+   	"fileName": "test-small.bin",
+   	"fileSize": 5242880,
+   	"expiresAt": "..."
    }
    ```
 
 ### Test 2: Upload de gros fichier (> 10MB, chunked)
 
 1. Créer un gros fichier :
+
    ```bash
    dd if=/dev/zero of=test-large.bin bs=1M count=100
    ```
@@ -120,6 +126,7 @@ cat storage/metadata/[FILE_ID].json
 ### Test 4: Tester le nettoyage automatique
 
 1. Modifier `.env` pour tester rapidement :
+
    ```env
    DEFAULT_EXPIRATION_DAYS=0
    CLEANUP_INTERVAL_HOURS=0.01  # 36 secondes
@@ -239,13 +246,13 @@ storage/
 
 ```json
 {
-  "id": "abc123...",
-  "originalName": "document.pdf",
-  "size": 1234567,
-  "mimeType": "application/pdf",
-  "uploadedAt": "2025-11-29T12:00:00.000Z",
-  "expiresAt": "2025-12-06T12:00:00.000Z",
-  "path": "/app/storage/abc123..."
+	"id": "abc123...",
+	"originalName": "document.pdf",
+	"size": 1234567,
+	"mimeType": "application/pdf",
+	"uploadedAt": "2025-11-29T12:00:00.000Z",
+	"expiresAt": "2025-12-06T12:00:00.000Z",
+	"path": "/app/storage/abc123..."
 }
 ```
 
@@ -283,6 +290,7 @@ Voir [ROADMAP.md](ROADMAP.md) pour plus de détails.
 ## Support
 
 Pour les questions ou problèmes :
+
 - Consulter [README.md](README.md)
 - Vérifier [ROADMAP.md](ROADMAP.md)
 - Créer une issue GitHub (si applicable)

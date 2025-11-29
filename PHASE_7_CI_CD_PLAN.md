@@ -109,29 +109,23 @@ import { defineConfig } from 'vitest/config';
 import { sveltekit } from '@sveltejs/kit/vite';
 
 export default defineConfig({
-  plugins: [sveltekit()],
-  test: {
-    include: ['tests/**/*.test.ts'],
-    coverage: {
-      provider: 'v8',
-      reporter: ['text', 'json', 'html', 'lcov'],
-      exclude: [
-        'node_modules/',
-        'tests/',
-        '**/*.d.ts',
-        '**/*.config.*',
-        '**/mockData'
-      ],
-      thresholds: {
-        lines: 80,
-        functions: 80,
-        branches: 80,
-        statements: 80
-      }
-    },
-    globals: true,
-    environment: 'node'
-  }
+	plugins: [sveltekit()],
+	test: {
+		include: ['tests/**/*.test.ts'],
+		coverage: {
+			provider: 'v8',
+			reporter: ['text', 'json', 'html', 'lcov'],
+			exclude: ['node_modules/', 'tests/', '**/*.d.ts', '**/*.config.*', '**/mockData'],
+			thresholds: {
+				lines: 80,
+				functions: 80,
+				branches: 80,
+				statements: 80
+			}
+		},
+		globals: true,
+		environment: 'node'
+	}
 });
 ```
 
@@ -143,21 +137,21 @@ export default defineConfig({
 import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
-  testDir: './tests/e2e',
-  fullyParallel: true,
-  forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 2 : 0,
-  workers: process.env.CI ? 1 : undefined,
-  reporter: 'html',
-  use: {
-    baseURL: 'http://localhost:5173',
-    trace: 'on-first-retry',
-  },
-  webServer: {
-    command: 'npm run dev',
-    url: 'http://localhost:5173',
-    reuseExistingServer: !process.env.CI,
-  },
+	testDir: './tests/e2e',
+	fullyParallel: true,
+	forbidOnly: !!process.env.CI,
+	retries: process.env.CI ? 2 : 0,
+	workers: process.env.CI ? 1 : undefined,
+	reporter: 'html',
+	use: {
+		baseURL: 'http://localhost:5173',
+		trace: 'on-first-retry'
+	},
+	webServer: {
+		command: 'npm run dev',
+		url: 'http://localhost:5173',
+		reuseExistingServer: !process.env.CI
+	}
 });
 ```
 
@@ -252,7 +246,7 @@ on:
   pull_request:
     branches: [main]
   schedule:
-    - cron: '0 0 * * 0'  # Weekly
+    - cron: '0 0 * * 0' # Weekly
 
 jobs:
   trivy:
@@ -318,8 +312,8 @@ jobs:
 
 ```yaml
 ignored:
-  - DL3008  # Pin versions in apt-get install
-  - DL3018  # Pin versions in apk add
+  - DL3008 # Pin versions in apt-get install
+  - DL3018 # Pin versions in apk add
 
 trustedRegistries:
   - docker.io
@@ -355,7 +349,7 @@ coverage:
         target: 80%
 
 comment:
-  layout: "reach,diff,flags,tree,footer"
+  layout: 'reach,diff,flags,tree,footer'
   behavior: default
   require_changes: false
 ```
@@ -434,41 +428,44 @@ jobs:
 
 ```json
 {
-  "devDependencies": {
-    "@playwright/test": "^1.40.0",
-    "@testing-library/svelte": "^4.0.0",
-    "@vitest/coverage-v8": "^1.0.0",
-    "eslint": "^8.55.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-svelte": "^2.35.0",
-    "prettier": "^3.1.0",
-    "prettier-plugin-svelte": "^3.1.0",
-    "vitest": "^1.0.0"
-  },
-  "scripts": {
-    "test": "vitest",
-    "test:coverage": "vitest run --coverage",
-    "test:e2e": "playwright test",
-    "lint": "eslint src --ext .ts,.js,.svelte",
-    "format": "prettier --write 'src/**/*.{js,ts,svelte,json,css}'",
-    "format:check": "prettier --check 'src/**/*.{js,ts,svelte,json,css}'"
-  }
+	"devDependencies": {
+		"@playwright/test": "^1.40.0",
+		"@testing-library/svelte": "^4.0.0",
+		"@vitest/coverage-v8": "^1.0.0",
+		"eslint": "^8.55.0",
+		"eslint-config-prettier": "^9.1.0",
+		"eslint-plugin-svelte": "^2.35.0",
+		"prettier": "^3.1.0",
+		"prettier-plugin-svelte": "^3.1.0",
+		"vitest": "^1.0.0"
+	},
+	"scripts": {
+		"test": "vitest",
+		"test:coverage": "vitest run --coverage",
+		"test:e2e": "playwright test",
+		"lint": "eslint src --ext .ts,.js,.svelte",
+		"format": "prettier --write 'src/**/*.{js,ts,svelte,json,css}'",
+		"format:check": "prettier --check 'src/**/*.{js,ts,svelte,json,css}'"
+	}
 }
 ```
 
 ## Calendrier d'Implémentation
 
 ### Semaine 1 : CI & Tests
+
 - **Jour 1-2** : Configuration GitHub Actions basique
 - **Jour 3-4** : Mise en place des tests unitaires
 - **Jour 5** : Intégration Codecov
 
 ### Semaine 2 : Docker & Sécurité
+
 - **Jour 1-2** : Workflow Docker + GHCR
 - **Jour 3** : Trivy + Hadolint
 - **Jour 4-5** : CodeQL + npm audit
 
 ### Semaine 3 : CD & Finalisation (optionnel)
+
 - **Jour 1-2** : Workflow déploiement
 - **Jour 3** : Health checks + rollback
 - **Jour 4-5** : Documentation + badges

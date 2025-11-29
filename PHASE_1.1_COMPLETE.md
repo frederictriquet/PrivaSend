@@ -93,6 +93,7 @@ src/
 ## Fichiers Créés
 
 ### Configuration & Setup
+
 - ✅ `package.json` - Dépendances et scripts
 - ✅ `svelte.config.js` - Configuration SvelteKit
 - ✅ `vite.config.ts` - Configuration Vite
@@ -101,6 +102,7 @@ src/
 - ✅ `.gitignore` - Fichiers ignorés par Git
 
 ### Code Source
+
 - ✅ `src/app.html` - Template HTML
 - ✅ `src/app.d.ts` - Types TypeScript
 - ✅ `src/hooks.server.ts` - Hooks serveur
@@ -111,12 +113,14 @@ src/
 - ✅ `src/routes/api/upload/+server.ts` - API upload
 
 ### Documentation
+
 - ✅ `README.md` - Documentation principale
 - ✅ `ROADMAP.md` - Roadmap complète du projet
 - ✅ `SETUP.md` - Guide de démarrage rapide
 - ✅ `PHASE_1.1_COMPLETE.md` - Ce fichier
 
 ### Déploiement
+
 - ✅ `Dockerfile` - Image Docker
 - ✅ `docker-compose.yml` - Orchestration Docker
 - ✅ `.dockerignore` - Fichiers exclus du build Docker
@@ -140,6 +144,7 @@ npm run dev
 ### 3. Test via Interface Web
 
 Ouvrir `http://localhost:5173` et :
+
 - Glisser-déposer un fichier
 - Observer la progression
 - Noter le File ID retourné
@@ -179,6 +184,7 @@ Ces limitations sont **normales** et seront adressées dans les phases suivantes
 ## Métriques de Qualité
 
 ### Code
+
 - ✅ TypeScript strict activé
 - ✅ Pas de `any` types
 - ✅ Gestion d'erreurs complète
@@ -186,6 +192,7 @@ Ces limitations sont **normales** et seront adressées dans les phases suivantes
 - ✅ Code modulaire et réutilisable
 
 ### Sécurité (Niveau Phase 1.1)
+
 - ✅ Validation taille de fichiers
 - ✅ IDs cryptographiquement sûrs (nanoid)
 - ✅ Pas d'exécution de code arbitraire
@@ -194,6 +201,7 @@ Ces limitations sont **normales** et seront adressées dans les phases suivantes
 - ⚠️ Pas d'authentification (Phase 2)
 
 ### Performance
+
 - ✅ Streaming pour gros fichiers
 - ✅ Upload par chunks (mémoire constante)
 - ✅ Pas de buffering complet en mémoire
@@ -278,13 +286,13 @@ Format stocké :
 
 ```json
 {
-  "id": "unique-file-id-21chars",
-  "originalName": "document.pdf",
-  "size": 1234567,
-  "mimeType": "application/pdf",
-  "uploadedAt": "2025-11-29T12:00:00.000Z",
-  "expiresAt": "2025-12-06T12:00:00.000Z",
-  "path": "/app/storage/unique-file-id-21chars"
+	"id": "unique-file-id-21chars",
+	"originalName": "document.pdf",
+	"size": 1234567,
+	"mimeType": "application/pdf",
+	"uploadedAt": "2025-11-29T12:00:00.000Z",
+	"expiresAt": "2025-12-06T12:00:00.000Z",
+	"path": "/app/storage/unique-file-id-21chars"
 }
 ```
 

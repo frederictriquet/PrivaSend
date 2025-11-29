@@ -15,18 +15,21 @@ Exemples: `v1.0.0`, `v1.2.3`, `v2.0.0`
 ### Règles
 
 **MAJOR** (breaking changes):
+
 - Changements incompatibles dans l'API
 - Modifications du schéma de base de données incompatibles
 - Suppression de fonctionnalités
 - Changements dans la configuration qui cassent le backward compatibility
 
 **MINOR** (new features):
+
 - Nouvelles fonctionnalités (backward compatible)
 - Nouvelles phases du roadmap
 - Améliorations de fonctionnalités existantes
 - Nouvelles API endpoints
 
 **PATCH** (bug fixes):
+
 - Corrections de bugs
 - Patches de sécurité
 - Optimisations de performance
@@ -35,6 +38,7 @@ Exemples: `v1.0.0`, `v1.2.3`, `v2.0.0`
 ### Pre-releases
 
 Pour les versions en développement:
+
 - `v1.0.0-alpha.1` - Phase alpha
 - `v1.0.0-beta.1` - Phase beta
 - `v1.0.0-rc.1` - Release candidate
@@ -49,6 +53,7 @@ Pour les versions en développement:
 - `v0.4.0` - Phase 2 (CI/CD & Quality) **← Actuel**
 
 **Prochaine version**: `v1.0.0` (First stable release)
+
 - Sera créée après Phase 3 (Security Avancée)
 
 ## Workflow de Release
@@ -113,6 +118,7 @@ npm version 1.0.0
 ### 4. Release Automatique
 
 Le workflow Docker détecte les tags `v*` et:
+
 - Build l'image Docker
 - Tag avec multiples versions:
   ```
@@ -126,17 +132,17 @@ Le workflow Docker détecte les tags `v*` et:
 
 ## Mapping Phase → Version
 
-| Phase | Version | Description |
-|-------|---------|-------------|
-| Phase 1.1 | v0.1.0 | MVP Upload & Storage |
-| Phase 1.2 | v0.2.0 | Links & Download |
-| Phase 1.4 | v0.3.0 | Security Basics |
-| Phase 2 | v0.4.0 | CI/CD & Quality |
-| Phase 3 | v1.0.0 | First Stable (avec auth & encryption) |
-| Phase 4 | v1.1.0 | UX Enhancements |
-| Phase 5 | v1.2.0 | Admin Dashboard |
-| Phase 6 | v2.0.0 | API (breaking change si besoin) |
-| Phase 7 | v2.x.0 | Advanced Features |
+| Phase     | Version | Description                           |
+| --------- | ------- | ------------------------------------- |
+| Phase 1.1 | v0.1.0  | MVP Upload & Storage                  |
+| Phase 1.2 | v0.2.0  | Links & Download                      |
+| Phase 1.4 | v0.3.0  | Security Basics                       |
+| Phase 2   | v0.4.0  | CI/CD & Quality                       |
+| Phase 3   | v1.0.0  | First Stable (avec auth & encryption) |
+| Phase 4   | v1.1.0  | UX Enhancements                       |
+| Phase 5   | v1.2.0  | Admin Dashboard                       |
+| Phase 6   | v2.0.0  | API (breaking change si besoin)       |
+| Phase 7   | v2.x.0  | Advanced Features                     |
 
 ## Docker Images
 
@@ -200,22 +206,27 @@ gh release create v1.0.0 \
 ## v1.2.0 - Phase 4 Complete
 
 ### ✨ New Features
+
 - Admin dashboard
 - User management
 - Storage statistics
 
 ### 🐛 Bug Fixes
+
 - Fixed upload timeout on slow connections
 - Corrected file size display
 
 ### 🔒 Security
+
 - Updated dependencies
 - Fixed XSS vulnerability
 
 ### 📦 Docker
+
 ghcr.io/USER/privasend:v1.2.0
 
 ### 📝 Full Changelog
+
 https://github.com/USER/privasend/compare/v1.1.0...v1.2.0
 ```
 
@@ -270,7 +281,7 @@ Maintenir `CHANGELOG.md` manuellement (approche actuelle).
 
 ```json
 {
-  "version": "0.4.0"
+	"version": "0.4.0"
 }
 ```
 
@@ -293,15 +304,16 @@ import type { RequestHandler } from './$types';
 import packageJson from '../../../../package.json';
 
 export const GET: RequestHandler = async () => {
-  return json({
-    version: packageJson.version,
-    name: packageJson.name,
-    nodeVersion: process.version
-  });
+	return json({
+		version: packageJson.version,
+		name: packageJson.name,
+		nodeVersion: process.version
+	});
 };
 ```
 
 Usage:
+
 ```bash
 curl http://localhost:5173/api/version
 # {"version":"0.4.0","name":"privasend","nodeVersion":"v20.10.0"}
@@ -353,6 +365,7 @@ git merge hotfix/security-patch
 ### Actuellement (v0.x.x)
 
 En phase de développement actif, version `0.x.x`:
+
 - Changements rapides acceptables
 - Breaking changes OK
 - Pas de garantie de stabilité
@@ -360,6 +373,7 @@ En phase de développement actif, version `0.x.x`:
 ### Version 1.0.0
 
 Créer v1.0.0 quand:
+
 - ✅ Phase 1 complète (MVP)
 - ✅ Phase 2 complète (CI/CD)
 - ✅ Phase 3 complète (Security)
@@ -372,6 +386,7 @@ Créer v1.0.0 quand:
 ### Post-1.0.0
 
 Après v1.0.0:
+
 - Stabilité garantie
 - Backward compatibility respectée
 - Deprecation warnings avant breaking changes
@@ -385,7 +400,7 @@ Mettre à jour pour refléter Phase 2:
 
 ```json
 {
-  "version": "0.4.0"
+	"version": "0.4.0"
 }
 ```
 
@@ -443,6 +458,7 @@ echo "📦 Check: https://github.com/USER/privasend/actions"
 ```
 
 Usage:
+
 ```bash
 chmod +x scripts/release.sh
 ./scripts/release.sh minor  # 0.4.0 → 0.5.0

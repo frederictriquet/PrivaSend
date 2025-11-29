@@ -1,5 +1,9 @@
 import { describe, it, expect } from 'vitest';
-import { sanitizeFilename, hasDangerousExtension, isValidMimeType } from '../../../src/lib/server/security';
+import {
+	sanitizeFilename,
+	hasDangerousExtension,
+	isValidMimeType
+} from '../../../src/lib/server/security';
 
 describe('Security Utils', () => {
 	describe('sanitizeFilename', () => {

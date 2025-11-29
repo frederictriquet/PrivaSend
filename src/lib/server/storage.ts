@@ -62,7 +62,9 @@ export class StorageService {
 			size: buffer.length,
 			mimeType,
 			uploadedAt: new Date(),
-			expiresAt: new Date(Date.now() + config.retention.defaultExpirationDays * 24 * 60 * 60 * 1000),
+			expiresAt: new Date(
+				Date.now() + config.retention.defaultExpirationDays * 24 * 60 * 60 * 1000
+			),
 			path: filePath
 		};
 
@@ -130,7 +132,9 @@ export class StorageService {
 			size: totalSize,
 			mimeType,
 			uploadedAt: new Date(),
-			expiresAt: new Date(Date.now() + config.retention.defaultExpirationDays * 24 * 60 * 60 * 1000),
+			expiresAt: new Date(
+				Date.now() + config.retention.defaultExpirationDays * 24 * 60 * 60 * 1000
+			),
 			path: finalPath
 		};
 

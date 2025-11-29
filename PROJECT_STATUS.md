@@ -16,24 +16,25 @@ PrivaSend est une application de partage de fichiers sécurisée pour VPC et ré
 
 ## Phase Completion Status
 
-| Phase | Status | Completion Date | Features |
-|-------|--------|-----------------|----------|
-| **Phase 1.1** | ✅ Complete | 2025-11-29 | Upload, Storage, Cleanup |
-| **Phase 1.2** | ✅ Complete | 2025-11-29 | Links, Download, Copy-to-Clipboard |
-| **Phase 1.3** | ✅ Complete | 2025-11-29 | (Included in 1.2) |
-| **Phase 1.4** | ✅ Complete | 2025-11-29 | HTTPS, Security Headers, Rate Limiting |
-| **Phase 2** | ✅ Complete | 2025-11-29 | CI/CD, Tests, Docker, Security Scans |
-| **Phase 3** | ⏳ Pending | - | Advanced Security (Auth, Encryption) |
-| **Phase 4** | ⏳ Pending | - | UX Enhancements |
-| **Phase 5** | ⏳ Pending | - | Admin Dashboard |
-| **Phase 6** | ⏳ Pending | - | API & Integrations |
-| **Phase 7** | ⏳ Pending | - | Advanced Features |
+| Phase         | Status      | Completion Date | Features                               |
+| ------------- | ----------- | --------------- | -------------------------------------- |
+| **Phase 1.1** | ✅ Complete | 2025-11-29      | Upload, Storage, Cleanup               |
+| **Phase 1.2** | ✅ Complete | 2025-11-29      | Links, Download, Copy-to-Clipboard     |
+| **Phase 1.3** | ✅ Complete | 2025-11-29      | (Included in 1.2)                      |
+| **Phase 1.4** | ✅ Complete | 2025-11-29      | HTTPS, Security Headers, Rate Limiting |
+| **Phase 2**   | ✅ Complete | 2025-11-29      | CI/CD, Tests, Docker, Security Scans   |
+| **Phase 3**   | ⏳ Pending  | -               | Advanced Security (Auth, Encryption)   |
+| **Phase 4**   | ⏳ Pending  | -               | UX Enhancements                        |
+| **Phase 5**   | ⏳ Pending  | -               | Admin Dashboard                        |
+| **Phase 6**   | ⏳ Pending  | -               | API & Integrations                     |
+| **Phase 7**   | ⏳ Pending  | -               | Advanced Features                      |
 
 ---
 
 ## Current Features (Phases 1.1 - 1.4)
 
 ### ✅ File Upload
+
 - Drag & drop interface
 - Large file support (up to 5GB)
 - Chunked upload (5MB chunks)
@@ -41,6 +42,7 @@ PrivaSend est une application de partage de fichiers sécurisée pour VPC et ré
 - File validation
 
 ### ✅ File Storage
+
 - Local filesystem storage
 - Automatic expiration (7 days default)
 - Background cleanup service
@@ -48,6 +50,7 @@ PrivaSend est une application de partage de fichiers sécurisée pour VPC et ré
 - Unique file IDs (nanoid)
 
 ### ✅ Share Links
+
 - Automatic link generation
 - Secure tokens (32 chars)
 - Copy-to-clipboard
@@ -55,6 +58,7 @@ PrivaSend est une application de partage de fichiers sécurisée pour VPC et ré
 - Download counting
 
 ### ✅ File Download
+
 - Clean download page
 - File information display
 - Progress bar
@@ -62,12 +66,14 @@ PrivaSend est une application de partage de fichiers sécurisée pour VPC et ré
 - Range requests support (resume)
 
 ### ✅ Database
+
 - SQLite with WAL mode
 - Share links tracking
 - Download statistics
 - Automatic cleanup
 
 ### ✅ Security (Phase 1.4)
+
 - HTTPS enforcement (production)
 - Security headers (CSP, HSTS, X-Frame-Options, etc.)
 - Filename sanitization
@@ -111,6 +117,7 @@ PrivaSend/
 ## Quick Start
 
 ### Prerequisites
+
 - Node.js 18+ or 20+
 - npm or pnpm
 
@@ -191,6 +198,7 @@ GET  /download/[token]          # Download file (streaming)
 ## Feature Checklist
 
 ### Phase 1 - MVP ✅
+
 - [x] File upload (drag & drop + button)
 - [x] Large file support (chunked)
 - [x] Local storage
@@ -201,6 +209,7 @@ GET  /download/[token]          # Download file (streaming)
 - [x] Range requests support
 
 ### Phase 2 - Security 🔜
+
 - [ ] Password protection
 - [ ] Download limits (UI)
 - [ ] Authentication system
@@ -209,6 +218,7 @@ GET  /download/[token]          # Download file (streaming)
 - [ ] Audit logs
 
 ### Phase 3 - UX ⏳
+
 - [ ] Multi-file uploads
 - [ ] ZIP archives
 - [ ] File previews
@@ -217,6 +227,7 @@ GET  /download/[token]          # Download file (streaming)
 - [ ] Custom messages
 
 ### Phase 4 - Admin ⏳
+
 - [ ] Admin dashboard
 - [ ] User management
 - [ ] Statistics
@@ -224,6 +235,7 @@ GET  /download/[token]          # Download file (streaming)
 - [ ] Monitoring
 
 ### Phase 5 - API ⏳
+
 - [ ] REST API
 - [ ] CLI tool
 - [ ] Webhooks
@@ -231,6 +243,7 @@ GET  /download/[token]          # Download file (streaming)
 - [ ] Browser extension
 
 ### Phase 6 - Advanced ⏳
+
 - [ ] Collaboration features
 - [ ] GDPR compliance
 - [ ] Multi-server support
@@ -242,6 +255,7 @@ GET  /download/[token]          # Download file (streaming)
 ## Security Status
 
 ### Current (Phase 1.2)
+
 - ✅ Secure tokens (nanoid 32 chars)
 - ✅ Automatic expiration
 - ✅ Server-side validation
@@ -250,6 +264,7 @@ GET  /download/[token]          # Download file (streaming)
 - ✅ Streaming (no full buffering)
 
 ### Missing (Coming in Phase 2)
+
 - ⚠️ No authentication
 - ⚠️ No password protection
 - ⚠️ No encryption at rest
@@ -264,18 +279,21 @@ GET  /download/[token]          # Download file (streaming)
 ## Performance Metrics
 
 ### File Handling
+
 - ✅ Streaming uploads/downloads (constant memory)
 - ✅ Chunked transfers (5MB chunks)
 - ✅ Range requests (resume support)
 - ✅ No memory leaks
 
 ### Database
+
 - ✅ SQLite WAL mode
 - ✅ Indexed queries
 - ✅ Prepared statements
 - ✅ Background cleanup
 
 ### Limitations
+
 - ⚠️ Single-server only (no horizontal scaling yet)
 - ⚠️ Filesystem storage (no S3 yet)
 - ⚠️ No CDN integration
@@ -285,17 +303,20 @@ GET  /download/[token]          # Download file (streaming)
 ## Deployment Options
 
 ### 1. Docker (Recommended)
+
 ```bash
 docker-compose up -d
 ```
 
 ### 2. Direct Node.js
+
 ```bash
 npm run build
 NODE_ENV=production node build
 ```
 
 ### 3. Reverse Proxy (Caddy)
+
 ```caddyfile
 privasend.local {
     reverse_proxy localhost:3000
@@ -303,6 +324,7 @@ privasend.local {
 ```
 
 ### 4. VPC/Internal Network
+
 - Configure firewall rules
 - Use internal DNS
 - Set up SSL/TLS certificates
@@ -323,6 +345,7 @@ privasend.local {
 ## Testing
 
 ### Manual Testing
+
 ```bash
 # Upload test
 ./test-upload.sh test.pdf
@@ -336,6 +359,7 @@ curl -H "Range: bytes=0-1023" \
 ```
 
 ### Database Inspection
+
 ```bash
 sqlite3 storage/privasend.db "SELECT * FROM share_links;"
 ```
@@ -347,22 +371,23 @@ sqlite3 storage/privasend.db "SELECT * FROM share_links;"
 ### None Currently 🎉
 
 Previous issues resolved:
+
 - ✅ ALLOWED_MIME_TYPES empty string parsing (fixed Phase 1.2)
 
 ---
 
 ## Roadmap Timeline (Estimated)
 
-| Phase | Estimated Time | Status |
-|-------|---------------|--------|
-| Phase 1.1 | 2-3 weeks | ✅ Done |
-| Phase 1.2 | 2-3 days | ✅ Done |
-| Phase 2.1 | 3-4 days | 🔜 Next |
-| Phase 2.2 | 1 week | ⏳ Pending |
-| Phase 3 | 1-2 weeks | ⏳ Pending |
-| Phase 4 | 1 week | ⏳ Pending |
-| Phase 5 | 2 weeks | ⏳ Pending |
-| Phase 6 | Ongoing | ⏳ Pending |
+| Phase     | Estimated Time | Status     |
+| --------- | -------------- | ---------- |
+| Phase 1.1 | 2-3 weeks      | ✅ Done    |
+| Phase 1.2 | 2-3 days       | ✅ Done    |
+| Phase 2.1 | 3-4 days       | 🔜 Next    |
+| Phase 2.2 | 1 week         | ⏳ Pending |
+| Phase 3   | 1-2 weeks      | ⏳ Pending |
+| Phase 4   | 1 week         | ⏳ Pending |
+| Phase 5   | 2 weeks        | ⏳ Pending |
+| Phase 6   | Ongoing        | ⏳ Pending |
 
 ---
 
@@ -381,6 +406,7 @@ MIT (or your preferred license)
 ## Support & Contact
 
 For questions, issues, or feature requests:
+
 - Check documentation files
 - Review ROADMAP.md
 - Create GitHub issue (if applicable)
@@ -390,6 +416,7 @@ For questions, issues, or feature requests:
 ## Changelog
 
 ### v0.2.0 - 2025-11-29 (Phase 1.2)
+
 - ✅ Added SQLite database
 - ✅ Automatic share link generation
 - ✅ Download page with file info
@@ -398,6 +425,7 @@ For questions, issues, or feature requests:
 - ✅ Download tracking
 
 ### v0.1.0 - 2025-11-29 (Phase 1.1)
+
 - ✅ Initial release
 - ✅ File upload (drag & drop)
 - ✅ Large file support (chunked)

@@ -19,13 +19,15 @@
 ### 2. Configuration
 
 **`.release-please-manifest.json`**:
+
 ```json
 {
-  ".": "0.4.0"
+	".": "0.4.0"
 }
 ```
 
 **`release-please-config.json`**:
+
 - Type: node
 - Package: privasend
 - Changelog: CHANGELOG.md
@@ -55,6 +57,7 @@ git push origin master
 #### 2. Release-Please Action
 
 Après push sur master, release-please:
+
 - Analyse les commits depuis dernière release
 - Détermine le type de version bump
 - Crée/Met à jour une PR de release
@@ -85,6 +88,7 @@ Commits inclus:
 #### 5. Automatique
 
 Dès le merge:
+
 - ✅ Tag `v0.5.0` créé
 - ✅ GitHub Release créée avec notes
 - ✅ Docker workflow triggered
@@ -117,12 +121,12 @@ git push origin master
 
 ## Types de Commits et Version Bump
 
-| Commits | Version Bump | Exemple |
-|---------|--------------|---------|
-| `fix:` seulement | PATCH | 0.4.0 → 0.4.1 |
-| `feat:` présent | MINOR | 0.4.0 → 0.5.0 |
-| `feat!:` ou `BREAKING CHANGE:` | MAJOR | 0.4.0 → 1.0.0 |
-| `docs:`, `chore:`, `ci:` | Aucun | PR mise à jour, pas de release |
+| Commits                        | Version Bump | Exemple                        |
+| ------------------------------ | ------------ | ------------------------------ |
+| `fix:` seulement               | PATCH        | 0.4.0 → 0.4.1                  |
+| `feat:` présent                | MINOR        | 0.4.0 → 0.5.0                  |
+| `feat!:` ou `BREAKING CHANGE:` | MAJOR        | 0.4.0 → 1.0.0                  |
+| `docs:`, `chore:`, `ci:`       | Aucun        | PR mise à jour, pas de release |
 
 ## Forcer une Release
 
@@ -157,15 +161,15 @@ Modifier `release-please-config.json`:
 
 ```json
 {
-  "packages": {
-    ".": {
-      "changelog-sections": [
-        {"type": "feat", "section": "✨ Features"},
-        {"type": "fix", "section": "🐛 Bug Fixes"},
-        {"type": "security", "section": "🔒 Security"}
-      ]
-    }
-  }
+	"packages": {
+		".": {
+			"changelog-sections": [
+				{ "type": "feat", "section": "✨ Features" },
+				{ "type": "fix", "section": "🐛 Bug Fixes" },
+				{ "type": "security", "section": "🔒 Security" }
+			]
+		}
+	}
 }
 ```
 
@@ -180,6 +184,7 @@ Pour changer: modifier le workflow.
 Si vous voulez partir de v0.4.0 actuel:
 
 1. Créer tag manuel:
+
 ```bash
 git tag -a v0.4.0 -m "Phase 2 - CI/CD Complete"
 git push origin v0.4.0
@@ -192,11 +197,13 @@ git push origin v0.4.0
 ### PR de release pas créée
 
 **Causes possibles:**
+
 - Aucun commit feat/fix depuis dernière release
 - Seulement des commits docs/chore/ci
 - Tag de release existe déjà
 
 **Solution:**
+
 ```bash
 # Commit vide pour forcer
 git commit --allow-empty -m "chore: prepare release"
@@ -206,6 +213,7 @@ git push origin master
 ### Version bump incorrect
 
 **Vérifier** vos types de commits:
+
 - `feat` → MINOR
 - `fix` → PATCH
 - `feat!` ou `BREAKING CHANGE` → MAJOR

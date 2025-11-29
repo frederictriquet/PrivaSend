@@ -105,6 +105,7 @@ Créer une PR sur GitHub vers `master`.
 ### 7. PR Review
 
 La PR déclenchera automatiquement:
+
 - ✅ Lint check
 - ✅ Type check
 - ✅ Tests (unit + E2E)
@@ -141,18 +142,20 @@ npx husky init
 ```
 
 `.husky/pre-commit`:
+
 ```bash
 #!/bin/sh
 npm run lint-staged
 ```
 
 `package.json`:
+
 ```json
 {
-  "lint-staged": {
-    "*.{js,ts,svelte}": ["eslint --fix", "prettier --write"],
-    "*.{json,md,yml,yaml}": ["prettier --write"]
-  }
+	"lint-staged": {
+		"*.{js,ts,svelte}": ["eslint --fix", "prettier --write"],
+		"*.{json,md,yml,yaml}": ["prettier --write"]
+	}
 }
 ```
 
@@ -168,13 +171,13 @@ import { describe, it, expect } from 'vitest';
 import { sanitizeFilename } from '$lib/server/security';
 
 describe('sanitizeFilename', () => {
-  it('should remove path traversal', () => {
-    expect(sanitizeFilename('../../../etc/passwd')).toBe('etcpasswd');
-  });
+	it('should remove path traversal', () => {
+		expect(sanitizeFilename('../../../etc/passwd')).toBe('etcpasswd');
+	});
 
-  it('should handle normal filenames', () => {
-    expect(sanitizeFilename('document.pdf')).toBe('document.pdf');
-  });
+	it('should handle normal filenames', () => {
+		expect(sanitizeFilename('document.pdf')).toBe('document.pdf');
+	});
 });
 ```
 
@@ -185,14 +188,14 @@ describe('sanitizeFilename', () => {
 import { test, expect } from '@playwright/test';
 
 test('should upload file successfully', async ({ page }) => {
-  await page.goto('/');
+	await page.goto('/');
 
-  // Upload file
-  const fileInput = page.locator('input[type="file"]');
-  await fileInput.setInputFiles('./test-fixtures/test.pdf');
+	// Upload file
+	const fileInput = page.locator('input[type="file"]');
+	await fileInput.setInputFiles('./test-fixtures/test.pdf');
 
-  // Check success message
-  await expect(page.locator('text=File uploaded successfully')).toBeVisible();
+	// Check success message
+	await expect(page.locator('text=File uploaded successfully')).toBeVisible();
 });
 ```
 
@@ -311,6 +314,7 @@ PrivaSend/
 ## Documentation
 
 Avant de contribuer, lire:
+
 - [README.md](README.md) - Documentation principale
 - [ROADMAP.md](ROADMAP.md) - Roadmap du projet
 - [VERSIONING.md](VERSIONING.md) - Stratégie de versioning
@@ -385,20 +389,24 @@ docs: Update API documentation
 
 ```markdown
 ## Description
+
 Brief description of changes
 
 ## Type of Change
+
 - [ ] Bug fix (patch)
 - [ ] New feature (minor)
 - [ ] Breaking change (major)
 - [ ] Documentation update
 
 ## Testing
+
 - [ ] Unit tests added/updated
 - [ ] E2E tests added/updated
 - [ ] Manual testing completed
 
 ## Checklist
+
 - [ ] Code follows project style
 - [ ] Tests pass locally
 - [ ] Documentation updated

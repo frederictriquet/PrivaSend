@@ -1,19 +1,19 @@
 {
-  "packages": {
-    ".": {
-      "release-type": "node",
-      "package-name": "privasend",
-      "changelog-path": "CHANGELOG.md",
-      "bump-minor-pre-major": true,
-      "bump-patch-for-minor-pre-major": true,
-      "versioning": "default",
-      "extra-files": [
-        {
-          "type": "json",
-          "path": "package.json",
-          "jsonpath": "$.version"
-        }
-      ]
-    }
-  }
+	"packages": {
+		".": {
+			"release-type": "node",
+			"package-name": "privasend",
+			"changelog-path": "CHANGELOG.md",
+			"bump-minor-pre-major": true,
+			"bump-patch-for-minor-pre-major": true,
+			"versioning": "default",
+			"extra-files": [
+				{
+					"type": "json",
+					"path": "package.json",
+					"jsonpath": "$.version"
+				}
+			]
+		}
+	}
 }

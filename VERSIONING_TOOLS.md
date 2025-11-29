@@ -18,15 +18,15 @@ npm install --save-dev semantic-release @semantic-release/git @semantic-release/
 
 ```json
 {
-  "branches": ["master"],
-  "plugins": [
-    "@semantic-release/commit-analyzer",
-    "@semantic-release/release-notes-generator",
-    "@semantic-release/changelog",
-    "@semantic-release/npm",
-    "@semantic-release/git",
-    "@semantic-release/github"
-  ]
+	"branches": ["master"],
+	"plugins": [
+		"@semantic-release/commit-analyzer",
+		"@semantic-release/release-notes-generator",
+		"@semantic-release/changelog",
+		"@semantic-release/npm",
+		"@semantic-release/git",
+		"@semantic-release/github"
+	]
 }
 ```
 
@@ -84,6 +84,7 @@ BREAKING CHANGE: Old auth tokens no longer valid
 ```
 
 #### Avantages
+
 - ✅ 100% automatique
 - ✅ CHANGELOG généré automatiquement
 - ✅ GitHub Release créée automatiquement
@@ -92,6 +93,7 @@ BREAKING CHANGE: Old auth tokens no longer valid
 - ✅ Support monorepo
 
 #### Inconvénients
+
 - ⚠️ Nécessite Conventional Commits strict
 - ⚠️ Courbe d'apprentissage
 
@@ -125,12 +127,14 @@ jobs:
 ```
 
 #### Avantages
+
 - ✅ Très simple à setup
 - ✅ Crée PR de release automatiquement
 - ✅ CHANGELOG généré
 - ✅ Pas de dépendances npm
 
 #### Inconvénients
+
 - ⚠️ Moins de plugins
 - ⚠️ Moins customizable
 
@@ -148,13 +152,14 @@ npm install --save-dev standard-version
 
 ```json
 {
-  "scripts": {
-    "release": "standard-version"
-  }
+	"scripts": {
+		"release": "standard-version"
+	}
 }
 ```
 
 Usage:
+
 ```bash
 npm run release        # Auto-détecte version
 npm run release -- --release-as minor
@@ -176,9 +181,9 @@ npm install --save-dev commit-and-tag-version
 
 ```json
 {
-  "scripts": {
-    "release": "commit-and-tag-version"
-  }
+	"scripts": {
+		"release": "commit-and-tag-version"
+	}
 }
 ```
 
@@ -196,11 +201,13 @@ npx changeset init
 ```
 
 #### Avantages
+
 - ✅ Parfait pour monorepos
 - ✅ Gestion de multiples packages
 - ✅ PR-based workflow
 
 #### Inconvénients
+
 - ⚠️ Complexe pour projet simple
 - ⚠️ Workflow manuel (créer changesets)
 
@@ -245,6 +252,7 @@ git push origin master
 Juste ajouter le workflow (voir ci-dessus), c'est tout !
 
 **Workflow:**
+
 1. Commits avec Conventional Commits
 2. Push sur master
 3. Bot crée PR "chore: release v1.2.0"
@@ -267,12 +275,14 @@ git push origin master --tags
 ```
 
 **Avantages:**
+
 - ✅ Contrôle total
 - ✅ Pas de dépendances
 - ✅ Simple à comprendre
 - ✅ Flexible
 
 **Inconvénients:**
+
 - ⚠️ CHANGELOG manuel
 - ⚠️ Commits non standardisés OK
 
@@ -283,6 +293,7 @@ git push origin master --tags
 ### Pour PrivaSend: **release-please** + Script Manuel
 
 **Pourquoi:**
+
 1. Projet solo/petit équipe → pas besoin de 100% auto
 2. release-please simple et sans deps npm
 3. Script manuel comme backup/override
@@ -315,6 +326,7 @@ jobs:
 ```
 
 **Workflow:**
+
 - Commits normaux → release-please surveille
 - Quand prêt → Merge PR auto-générée
 - Urgence → `./scripts/release.sh patch && git push --tags`
@@ -349,12 +361,12 @@ ci: Update GitHub Actions
 
 ## Comparaison Rapide
 
-| Tool | Auto | Deps | Conventional Commits | Complexité | Best For |
-|------|------|------|---------------------|-----------|----------|
-| **semantic-release** | 100% | Oui | Requis | Moyenne | Équipes, CI/CD strict |
-| **release-please** | PR-based | Non | Recommandé | Faible | Projets GitHub, contrôle |
-| **changesets** | PR-based | Oui | Non | Élevée | Monorepos |
-| **Script manuel** | 0% | Non | Non | Faible | Flexibilité maximale |
+| Tool                 | Auto     | Deps | Conventional Commits | Complexité | Best For                 |
+| -------------------- | -------- | ---- | -------------------- | ---------- | ------------------------ |
+| **semantic-release** | 100%     | Oui  | Requis               | Moyenne    | Équipes, CI/CD strict    |
+| **release-please**   | PR-based | Non  | Recommandé           | Faible     | Projets GitHub, contrôle |
+| **changesets**       | PR-based | Oui  | Non                  | Élevée     | Monorepos                |
+| **Script manuel**    | 0%       | Non  | Non                  | Faible     | Flexibilité maximale     |
 
 ---
 
@@ -363,6 +375,7 @@ ci: Update GitHub Actions
 Voulez-vous que j'implémente **release-please** pour PrivaSend ?
 
 Cela ajouterait:
+
 - 1 fichier: `.github/workflows/release-please.yml`
 - Changelog automatique
 - GitHub Releases automatiques

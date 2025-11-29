@@ -56,32 +56,39 @@ Phase 1.2 du projet PrivaSend est maintenant terminée ! Le système de généra
 ### Nouveaux Fichiers Créés
 
 **Database Layer:**
+
 - `src/lib/server/database.ts` - Service de gestion base de données SQLite
 
 **API Routes:**
+
 - `src/routes/api/links/+server.ts` - API génération et info liens
 - `src/routes/download/[token]/+server.ts` - API téléchargement avec streaming
 
 **Pages:**
+
 - `src/routes/download/[token]/+page.server.ts` - Server load pour page download
 - `src/routes/download/[token]/+page.svelte` - Interface de téléchargement
 
 **Configuration:**
+
 - Mise à jour de `src/lib/server/config.ts` - Ajout config database et links
 - Mise à jour de `src/lib/server/cleanup.ts` - Nettoyage des liens expirés
 
 ### Modifications Apportées
 
 **Upload API** (`src/routes/api/upload/+server.ts`):
+
 - Génération automatique de lien après upload
 - Retour du shareLink dans la réponse
 
 **Upload UI** (`src/routes/+page.svelte`):
+
 - Affichage du lien partageable
 - Bouton copy-to-clipboard
 - Informations d'expiration
 
 **Dependencies** (`package.json`):
+
 - `better-sqlite3` - Base de données SQLite
 - `@types/better-sqlite3` - Types TypeScript
 - `@types/node` - Types Node.js
@@ -145,17 +152,18 @@ curl -X POST http://localhost:5173/api/links \
 ```
 
 Response:
+
 ```json
 {
-  "success": true,
-  "link": {
-    "token": "xyz789...",
-    "url": "/download/xyz789...",
-    "expiresAt": "2025-12-06T12:00:00.000Z",
-    "maxDownloads": null,
-    "fileName": "document.pdf",
-    "fileSize": 1234567
-  }
+	"success": true,
+	"link": {
+		"token": "xyz789...",
+		"url": "/download/xyz789...",
+		"expiresAt": "2025-12-06T12:00:00.000Z",
+		"maxDownloads": null,
+		"fileName": "document.pdf",
+		"fileSize": 1234567
+	}
 }
 ```
 
@@ -168,18 +176,19 @@ curl http://localhost:5173/api/links?token=xyz789...
 ```
 
 Response:
+
 ```json
 {
-  "success": true,
-  "link": {
-    "token": "xyz789...",
-    "expiresAt": "2025-12-06T12:00:00.000Z",
-    "downloadCount": 3,
-    "maxDownloads": null,
-    "fileName": "document.pdf",
-    "fileSize": 1234567,
-    "mimeType": "application/pdf"
-  }
+	"success": true,
+	"link": {
+		"token": "xyz789...",
+		"expiresAt": "2025-12-06T12:00:00.000Z",
+		"downloadCount": 3,
+		"maxDownloads": null,
+		"fileName": "document.pdf",
+		"fileSize": 1234567,
+		"mimeType": "application/pdf"
+	}
 }
 ```
 
@@ -299,17 +308,17 @@ LINK_EXPIRATION_DAYS=0
 
 ## Comparaison avec Phase 1.1
 
-| Fonctionnalité | Phase 1.1 | Phase 1.2 |
-|----------------|-----------|-----------|
-| Upload de fichiers | ✅ | ✅ |
-| Stockage local | ✅ | ✅ |
-| Nettoyage auto fichiers | ✅ | ✅ |
-| **Liens partageables** | ❌ | ✅ |
-| **Page de téléchargement** | ❌ | ✅ |
-| **Copy-to-clipboard** | ❌ | ✅ |
-| **Range requests** | ❌ | ✅ |
-| **Base de données** | ❌ | ✅ |
-| **Suivi téléchargements** | ❌ | ✅ |
+| Fonctionnalité             | Phase 1.1 | Phase 1.2 |
+| -------------------------- | --------- | --------- |
+| Upload de fichiers         | ✅        | ✅        |
+| Stockage local             | ✅        | ✅        |
+| Nettoyage auto fichiers    | ✅        | ✅        |
+| **Liens partageables**     | ❌        | ✅        |
+| **Page de téléchargement** | ❌        | ✅        |
+| **Copy-to-clipboard**      | ❌        | ✅        |
+| **Range requests**         | ❌        | ✅        |
+| **Base de données**        | ❌        | ✅        |
+| **Suivi téléchargements**  | ❌        | ✅        |
 
 ## Limitations Connues (Phase 1.2)
 
@@ -328,13 +337,13 @@ Ces limitations seront adressées dans les phases suivantes :
 
 ```typescript
 interface ShareLink {
-  id: number;
-  token: string;                // Token unique (32 chars)
-  fileId: string;               // ID du fichier associé
-  expiresAt: string;            // Date d'expiration (ISO)
-  createdAt: string;            // Date de création (ISO)
-  downloadCount: number;        // Nombre de téléchargements
-  maxDownloads: number | null;  // Limite (null = illimité)
+	id: number;
+	token: string; // Token unique (32 chars)
+	fileId: string; // ID du fichier associé
+	expiresAt: string; // Date d'expiration (ISO)
+	createdAt: string; // Date de création (ISO)
+	downloadCount: number; // Nombre de téléchargements
+	maxDownloads: number | null; // Limite (null = illimité)
 }
 ```
 
@@ -358,6 +367,7 @@ interface ShareLink {
 ## Métriques de Qualité
 
 ### Code
+
 - ✅ TypeScript strict partout
 - ✅ Gestion d'erreurs complète
 - ✅ Validation des inputs
@@ -365,6 +375,7 @@ interface ShareLink {
 - ✅ Commentaires JSDoc
 
 ### Sécurité (Niveau Phase 1.2)
+
 - ✅ Tokens cryptographiquement sûrs
 - ✅ Validation serveur systématique
 - ✅ Expiration automatique
@@ -372,6 +383,7 @@ interface ShareLink {
 - ✅ Streaming (pas de chargement complet)
 
 ### Performance
+
 - ✅ Streaming de fichiers
 - ✅ Range requests support
 - ✅ Indexes database
@@ -379,6 +391,7 @@ interface ShareLink {
 - ✅ Pas de N+1 queries
 
 ### UX
+
 - ✅ Feedback immédiat
 - ✅ Copy-to-clipboard facile
 - ✅ Informations claires
@@ -438,6 +451,7 @@ docker-compose logs -f
 ### SQLite WAL Mode
 
 Le mode WAL (Write-Ahead Logging) permet:
+
 - Meilleures performances en lecture
 - Meilleure concurrence
 - Moins de blocages
@@ -445,6 +459,7 @@ Le mode WAL (Write-Ahead Logging) permet:
 ### Range Requests
 
 Permet:
+
 - Resume de téléchargements interrompus
 - Streaming vidéo/audio
 - Téléchargements partiels
@@ -453,6 +468,7 @@ Permet:
 ### Nanoid vs UUID
 
 Nanoid choisi pour:
+
 - Plus court (32 chars vs 36)
 - URL-safe par défaut
 - Même sécurité cryptographique
@@ -485,6 +501,7 @@ Nanoid choisi pour:
 Direction Phase 2.1 pour l'authentification et le contrôle d'accès avancé.
 
 **Fonctionnalités Core Complètes:**
+
 - ✅ Upload de fichiers (Phase 1.1)
 - ✅ Liens partageables (Phase 1.2)
 - ✅ Téléchargement avec streaming (Phase 1.2)

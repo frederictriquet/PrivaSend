@@ -5,16 +5,20 @@
 ### 1. Test Failures
 
 #### Symptôme
+
 ```
 Error: No test files found
 ```
 
 #### Solution
+
 ✅ **Déjà corrigé** : Tests de base ajoutés
+
 - `tests/unit/lib/security.test.ts` - Tests unitaires
 - `tests/e2e/homepage.spec.ts` - Test E2E
 
 #### Vérifier localement
+
 ```bash
 npm run test
 npm run test:e2e
@@ -23,12 +27,14 @@ npm run test:e2e
 ### 2. better-sqlite3 Compilation Errors
 
 #### Symptôme
+
 ```
 gyp ERR! build error
 Error: make failed with exit code: 2
 ```
 
 #### Solution
+
 Le workflow CI utilise déjà Node 20 et `npm ci` qui devrait compiler correctement.
 
 Si échec persiste, ajouter avant `npm ci` dans tous les workflows :
@@ -43,14 +49,17 @@ Si échec persiste, ajouter avant `npm ci` dans tous les workflows :
 ### 3. Codecov Upload Fails
 
 #### Symptôme
+
 ```
 Error uploading to codecov
 ```
 
 #### Solution
+
 ✅ **Déjà configuré** : `continue-on-error: true`
 
 Pour repository privé, ajouter token:
+
 1. Aller sur codecov.io
 2. Obtenir token
 3. GitHub → Settings → Secrets → `CODECOV_TOKEN`
@@ -58,53 +67,63 @@ Pour repository privé, ajouter token:
 ### 4. Docker Build Timeout
 
 #### Symptôme
+
 ```
 Error: buildx failed with: ERROR: failed to solve
 ```
 
 #### Causes possibles
+
 - Cache invalide
 - Network timeout
 - Platform build failure
 
 #### Solution
+
 Simplifier temporairement:
 
 ```yaml
-platforms: linux/amd64  # Au lieu de linux/amd64,linux/arm64
+platforms: linux/amd64 # Au lieu de linux/amd64,linux/arm64
 ```
 
 ### 5. Hadolint Warnings
 
 #### Symptôme
+
 ```
 Hadolint found issues in Dockerfile
 ```
 
 #### Solution
+
 ✅ **Déjà configuré** : `.hadolint.yaml` avec règles personnalisées et `no-fail: true`
 
 ### 6. CodeQL Analysis Fails
 
 #### Symptôme
+
 ```
 CodeQL analysis failed
 ```
 
 #### Solution
+
 Vérifier que le code TypeScript/JavaScript est valide. CodeQL nécessite code compilable.
 
 ### 7. Release-Please No PR Created
 
 #### Symptôme
+
 Pas de PR créée après push sur master
 
 #### Causes
+
 - Premier commit (normal, attendre le 2ème commit feat/fix)
 - Seulement commits docs/chore/ci
 - Manifest file manquant
 
 #### Solution
+
 ✅ **Manifest créé** : `.release-please-manifest.json`
 
 Le premier commit `feat:` créera la première PR.
@@ -184,6 +203,7 @@ git push --force
 ### Si tests échouent
 
 Vérifier les tests localement :
+
 ```bash
 npm run test -- --reporter=verbose
 ```
@@ -200,6 +220,7 @@ git push
 ### Si Docker échoue
 
 Tester localement :
+
 ```bash
 docker build -t privasend-test .
 ```
@@ -209,6 +230,7 @@ docker build -t privasend-test .
 ### CI Workflow
 
 **Jobs** :
+
 - lint (ESLint + Prettier)
 - typecheck (TypeScript)
 - test (Vitest)
@@ -216,37 +238,44 @@ docker build -t privasend-test .
 - e2e (Playwright)
 
 **Fixes communes** :
+
 - Ajouter `continue-on-error: true` pour jobs optionnels
 - Utiliser `if: always()` pour upload artifacts
 
 ### Docker Workflow
 
 **Jobs** :
+
 - build (Multi-arch build + push)
 
 **Fixes communes** :
+
 - Réduire platforms si timeout
 - Augmenter timeout avec `timeout-minutes: 30`
 
 ### Security Workflow
 
 **Jobs** :
+
 - npm-audit (déjà continue-on-error)
 - codeql (analyse statique)
 - trivy-fs (scan filesystem)
 - hadolint (lint Dockerfile, déjà no-fail)
 
 **Fixes communes** :
+
 - Tous ont continue-on-error ou no-fail
 - Ne devraient pas bloquer
 
 ## Current Status
 
 ### Tests Ajoutés ✅
+
 - `tests/unit/lib/security.test.ts` - 3 suites, 18 tests
 - `tests/e2e/homepage.spec.ts` - 3 tests E2E
 
 ### Workflows Configurés ✅
+
 - CI avec continue-on-error pour Codecov
 - Security avec continue-on-error pour npm audit
 - Hadolint avec no-fail

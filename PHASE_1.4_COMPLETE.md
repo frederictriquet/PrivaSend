@@ -34,7 +34,7 @@ Phase 1.4 du projet PrivaSend est maintenant terminée ! Toutes les mesures de s
 - **Validation stricte**
   - Détection d'extensions dangereuses (.exe, .bat, .sh, etc.)
   - Validation MIME types
-  - Support des wildcards (image/*)
+  - Support des wildcards (image/\*)
 
 - **Protection XSS**
   - Suppression de `<>` dans les inputs
@@ -75,10 +75,12 @@ Phase 1.4 du projet PrivaSend est maintenant terminée ! Toutes les mesures de s
 ### Nouveaux Fichiers
 
 **Security Layer:**
+
 - `src/lib/server/security.ts` - Middleware et fonctions de sécurité
 - `src/lib/server/ratelimit.ts` - Système de rate limiting
 
 **Modifications:**
+
 - `src/hooks.server.ts` - Intégration middleware sécurité
 - `src/routes/api/upload/+server.ts` - Validation et rate limit upload
 - `src/routes/download/[token]/+server.ts` - Rate limit download
@@ -129,40 +131,40 @@ form-action 'self'
 ### hasDangerousExtension(filename)
 
 ```typescript
-hasDangerousExtension('document.pdf')  // false
-hasDangerousExtension('malware.exe')   // true
-hasDangerousExtension('script.sh')     // true
+hasDangerousExtension('document.pdf'); // false
+hasDangerousExtension('malware.exe'); // true
+hasDangerousExtension('script.sh'); // true
 ```
 
 ### isValidMimeType(mimeType, allowedTypes)
 
 ```typescript
 // Si allowedTypes = []
-isValidMimeType('application/pdf', [])  // true (pas de restriction)
+isValidMimeType('application/pdf', []); // true (pas de restriction)
 
 // Si allowedTypes = ['image/*', 'application/pdf']
-isValidMimeType('image/jpeg', allowed)      // true (wildcard)
-isValidMimeType('application/pdf', allowed) // true (exact)
-isValidMimeType('video/mp4', allowed)       // false
+isValidMimeType('image/jpeg', allowed); // true (wildcard)
+isValidMimeType('application/pdf', allowed); // true (exact)
+isValidMimeType('video/mp4', allowed); // false
 ```
 
 ## Rate Limiting Configuration
 
 ```typescript
 rateLimitConfig = {
-  upload: {
-    maxRequests: 10,           // 10 uploads
-    windowMs: 60 * 60 * 1000   // par heure
-  },
-  download: {
-    maxRequests: 100,          // 100 downloads
-    windowMs: 60 * 60 * 1000   // par heure
-  },
-  api: {
-    maxRequests: 60,           // 60 requêtes
-    windowMs: 60 * 1000        // par minute
-  }
-}
+	upload: {
+		maxRequests: 10, // 10 uploads
+		windowMs: 60 * 60 * 1000 // par heure
+	},
+	download: {
+		maxRequests: 100, // 100 downloads
+		windowMs: 60 * 60 * 1000 // par heure
+	},
+	api: {
+		maxRequests: 60, // 60 requêtes
+		windowMs: 60 * 1000 // par minute
+	}
+};
 ```
 
 ## Tests de Sécurité
@@ -223,16 +225,16 @@ curl -I http://localhost:5173
 
 ## Comparaison Avant/Après
 
-| Vulnérabilité | Phase 1.3 | Phase 1.4 |
-|---------------|-----------|-----------|
-| Path Traversal | ⚠️ Vulnérable | ✅ Protégé |
-| XSS | ⚠️ Vulnérable | ✅ Protégé |
-| Clickjacking | ⚠️ Vulnérable | ✅ Protégé |
-| MIME Sniffing | ⚠️ Vulnérable | ✅ Protégé |
-| Malware Upload | ⚠️ Possible | ✅ Bloqué |
-| DoS (Upload Spam) | ⚠️ Vulnérable | ✅ Rate Limited |
+| Vulnérabilité       | Phase 1.3     | Phase 1.4       |
+| ------------------- | ------------- | --------------- |
+| Path Traversal      | ⚠️ Vulnérable | ✅ Protégé      |
+| XSS                 | ⚠️ Vulnérable | ✅ Protégé      |
+| Clickjacking        | ⚠️ Vulnérable | ✅ Protégé      |
+| MIME Sniffing       | ⚠️ Vulnérable | ✅ Protégé      |
+| Malware Upload      | ⚠️ Possible   | ✅ Bloqué       |
+| DoS (Upload Spam)   | ⚠️ Vulnérable | ✅ Rate Limited |
 | DoS (Download Spam) | ⚠️ Vulnérable | ✅ Rate Limited |
-| HTTPS Enforcement | ⚠️ Optionnel | ✅ Forcé (prod) |
+| HTTPS Enforcement   | ⚠️ Optionnel  | ✅ Forcé (prod) |
 
 ## Limitations Connues
 
@@ -262,21 +264,25 @@ ALLOWED_MIME_TYPES=
 ## Sécurité par Couches
 
 ### Couche 1: Network (Middleware)
+
 - HTTPS redirection
 - Security headers
 - CSP
 
 ### Couche 2: Application (Handlers)
+
 - Rate limiting
 - Input validation
 - Filename sanitization
 
 ### Couche 3: File System
+
 - Extension validation
 - MIME type validation
 - Size validation
 
 ### Couche 4: Storage
+
 - Unique file IDs
 - Metadata separation
 - Path restrictions
@@ -310,17 +316,20 @@ ALLOWED_MIME_TYPES=
 ### Phase 2 - Sécurité Avancée
 
 **Phase 2.1** - Authentification & Accès :
+
 - Protection par mot de passe des liens
 - Authentification utilisateur
 - Limite de téléchargements (UI)
 - Liste blanche IP
 
 **Phase 2.2** - Chiffrement :
+
 - Chiffrement des fichiers au repos (AES-256)
 - E2EE optionnel
 - Gestion sécurisée des clés
 
 **Phase 2.3** - Traçabilité :
+
 - Audit logs complets
 - Notifications de téléchargement
 - Alertes sécurité
@@ -374,11 +383,11 @@ Modifier `src/lib/server/ratelimit.ts`:
 
 ```typescript
 export const rateLimitConfig = {
-  upload: {
-    maxRequests: 50,  // Augmenter
-    windowMs: 60 * 60 * 1000
-  }
-}
+	upload: {
+		maxRequests: 50, // Augmenter
+		windowMs: 60 * 60 * 1000
+	}
+};
 ```
 
 ### Type MIME non détecté

@@ -232,25 +232,14 @@ npm install --save-dev @commitlint/cli @commitlint/config-conventional
 
 ```json
 {
-  "extends": ["@commitlint/config-conventional"],
-  "rules": {
-    "type-enum": [
-      2,
-      "always",
-      [
-        "feat",
-        "fix",
-        "docs",
-        "style",
-        "refactor",
-        "perf",
-        "test",
-        "chore",
-        "ci",
-        "security"
-      ]
-    ]
-  }
+	"extends": ["@commitlint/config-conventional"],
+	"rules": {
+		"type-enum": [
+			2,
+			"always",
+			["feat", "fix", "docs", "style", "refactor", "perf", "test", "chore", "ci", "security"]
+		]
+	}
 }
 ```
 
@@ -263,19 +252,19 @@ npx --no -- commitlint --edit $1
 
 ## Quick Reference
 
-| Commit Type | Version Bump | Description |
-|-------------|--------------|-------------|
-| `feat:` | MINOR (0.4.0 → 0.5.0) | New feature |
-| `fix:` | PATCH (0.4.0 → 0.4.1) | Bug fix |
-| `feat!:` | MAJOR (0.4.0 → 1.0.0) | Breaking change |
-| `BREAKING CHANGE:` | MAJOR | Breaking change (in footer) |
-| `docs:` | None | Documentation |
-| `chore:` | None | Maintenance |
-| `refactor:` | None | Refactoring |
-| `perf:` | PATCH | Performance |
-| `test:` | None | Tests |
-| `ci:` | None | CI/CD |
-| `security:` | PATCH | Security fix |
+| Commit Type        | Version Bump          | Description                 |
+| ------------------ | --------------------- | --------------------------- |
+| `feat:`            | MINOR (0.4.0 → 0.5.0) | New feature                 |
+| `fix:`             | PATCH (0.4.0 → 0.4.1) | Bug fix                     |
+| `feat!:`           | MAJOR (0.4.0 → 1.0.0) | Breaking change             |
+| `BREAKING CHANGE:` | MAJOR                 | Breaking change (in footer) |
+| `docs:`            | None                  | Documentation               |
+| `chore:`           | None                  | Maintenance                 |
+| `refactor:`        | None                  | Refactoring                 |
+| `perf:`            | PATCH                 | Performance                 |
+| `test:`            | None                  | Tests                       |
+| `ci:`              | None                  | CI/CD                       |
+| `security:`        | PATCH                 | Security fix                |
 
 ## Resources
 
