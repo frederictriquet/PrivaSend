@@ -53,6 +53,7 @@
 			const chunks: Uint8Array[] = [];
 			let received = 0;
 
+			// eslint-disable-next-line no-constant-condition
 			while (true) {
 				const { done, value } = await reader.read();
 
@@ -67,6 +68,7 @@
 			}
 
 			// Create blob and download
+			// eslint-disable-next-line no-undef
 			const blob = new Blob(chunks as BlobPart[]);
 			const url = window.URL.createObjectURL(blob);
 			const a = document.createElement('a');

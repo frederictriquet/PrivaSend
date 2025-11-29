@@ -80,7 +80,7 @@ export function sanitizeFilename(filename: string): string {
 	let sanitized = filename.replace(/\.\./g, '');
 
 	// Remove potentially dangerous characters
-	sanitized = sanitized.replace(/[\/\\]/g, '_');
+	sanitized = sanitized.replace(/[/\\]/g, '_');
 
 	// Limit length
 	if (sanitized.length > 255) {

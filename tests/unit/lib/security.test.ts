@@ -4,7 +4,7 @@ import { sanitizeFilename, hasDangerousExtension, isValidMimeType } from '../../
 describe('Security Utils', () => {
 	describe('sanitizeFilename', () => {
 		it('should remove path traversal attempts', () => {
-			expect(sanitizeFilename('../../../etc/passwd')).toBe('etcpasswd');
+			expect(sanitizeFilename('../../../etc/passwd')).toBe('___etc_passwd');
 		});
 
 		it('should remove forward slashes', () => {
