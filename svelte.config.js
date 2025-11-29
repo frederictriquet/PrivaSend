@@ -8,6 +8,9 @@ const config = {
 		adapter: adapter({
 			out: 'build'
 		})
+	},
+	compilerOptions: {
+		runes: true
 	}
 };
 

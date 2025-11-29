@@ -18,7 +18,7 @@
 		shareLink: ShareLink | null;
 	}
 
-	let state = $state<UploadState>({
+	let state: UploadState = $state({
 		uploading: false,
 		progress: 0,
 		fileName: '',
@@ -29,10 +29,10 @@
 		shareLink: null
 	});
 
-	let copied = $state(false);
+	let copied: boolean = $state(false);
 
-	let isDragging = $state(false);
-	let fileInput: HTMLInputElement;
+	let isDragging: boolean = $state(false);
+	let fileInput: HTMLInputElement | undefined = $state(undefined);
 
 	const CHUNK_SIZE = 5 * 1024 * 1024; // 5MB chunks
 	const MAX_FILE_SIZE = 5 * 1024 * 1024 * 1024; // 5GB
@@ -683,35 +683,6 @@
 		font-size: 0.75rem;
 		color: #718096;
 		text-align: center;
-	}
-
-	.file-id {
-		background: #f7fafc;
-		padding: 1rem;
-		border-radius: 0.5rem;
-		margin: 1.5rem 0;
-		text-align: left;
-	}
-
-	.file-id label {
-		display: block;
-		font-size: 0.75rem;
-		text-transform: uppercase;
-		letter-spacing: 0.05em;
-		color: #718096;
-		margin-bottom: 0.5rem;
-	}
-
-	.file-id code {
-		display: block;
-		font-family: 'Monaco', 'Courier New', monospace;
-		font-size: 0.875rem;
-		color: #2d3748;
-		word-break: break-all;
-		background: white;
-		padding: 0.5rem;
-		border-radius: 0.25rem;
-		border: 1px solid #e2e8f0;
 	}
 
 	.error-text {
