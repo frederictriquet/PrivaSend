@@ -21,6 +21,7 @@
 		"@sveltejs/adapter-node": "^5.0.0",
 		"@sveltejs/kit": "^2.5.0",
 		"@sveltejs/vite-plugin-svelte": "^4.0.0",
+		"@types/bcrypt": "^5.0.0",
 		"@types/better-sqlite3": "^7.6.0",
 		"@types/node": "^20.0.0",
 		"@typescript-eslint/eslint-plugin": "^6.0.0",
@@ -40,6 +41,7 @@
 	"type": "module",
 	"dependencies": {
 		"nanoid": "^5.0.0",
-		"better-sqlite3": "^11.7.0"
+		"better-sqlite3": "^11.7.0",
+		"bcrypt": "^5.1.1"
 	}
 }

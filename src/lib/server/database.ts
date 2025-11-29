@@ -11,6 +11,9 @@ export interface ShareLink {
 	createdAt: string; // ISO date string
 	downloadCount: number;
 	maxDownloads: number | null; // null = unlimited
+	passwordHash: string | null; // bcrypt hash, null = no password
+	pin: string | null; // 6-digit PIN (hashed), null = no PIN
+	allowedIps: string | null; // Comma-separated IPs, null = all IPs allowed
 }
 
 class DatabaseService {
@@ -54,7 +57,10 @@ class DatabaseService {
 				expiresAt TEXT NOT NULL,
 				createdAt TEXT NOT NULL,
 				downloadCount INTEGER DEFAULT 0,
-				maxDownloads INTEGER
+				maxDownloads INTEGER,
+				passwordHash TEXT,
+				pin TEXT,
+				allowedIps TEXT
 			);
 
 			CREATE INDEX IF NOT EXISTS idx_token ON share_links(token);
