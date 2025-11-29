@@ -4,6 +4,17 @@
 
 Application de partage de fichiers privée et sécurisée, alternative à WeTransfer pour VPC ou réseau local.
 
+**Version Actuelle** : v0.4.0
+**Status** : ✅ MVP Complet + CI/CD Opérationnel
+**Dernière Mise à Jour** : 2025-11-29
+
+### Progression Globale
+
+- ✅ **Phase 1** : MVP (Core Features) - 100% Complete
+- ✅ **Phase 2** : CI/CD & Qualité - 95% Complete (CD partiel)
+- 🔜 **Phase 3** : Sécurité Avancée - Prochaine
+- ⏳ **Phases 4-7** : En attente
+
 ---
 
 ## Phase 1 : MVP (Core Features) ✅ TERMINÉE
@@ -79,7 +90,8 @@ Application de partage de fichiers privée et sécurisée, alternative à WeTran
 - [x] Rapports d'audit de sécurité (GitHub Security tab)
 - [x] Génération de badges (coverage, build status, security)
 - [x] Dashboard de qualité du code (Codecov)
-- [ ] Changelog automatique (à implémenter si besoin)
+- [x] Changelog automatique (release-please configuré)
+- [x] Versioning automatique (release-please + semantic versioning)
 
 ### 2.6 Déploiement Continu (CD) 🔜
 
@@ -90,6 +102,14 @@ Application de partage de fichiers privée et sécurisée, alternative à WeTran
 - [ ] Notifications Slack/Discord
 
 **Note**: Section 2.6 (CD) laissée pour Phase 7, focalisée sur CI pour l'instant
+
+**⚠️ Configuration GitHub Requise** :
+
+Pour activer release-please et uploads Security tab, configurer dans GitHub :
+**Settings → Actions → General → Workflow permissions** :
+
+- ☑ Read and write permissions
+- ☑ Allow GitHub Actions to create and approve pull requests
 
 ---
 
@@ -228,26 +248,40 @@ Application de partage de fichiers privée et sécurisée, alternative à WeTran
 
 ---
 
-## Architecture Technique Suggérée
+## Architecture Technique Implémentée ✅
 
-### Backend
+### Stack Actuel
 
-- **Framework**: Node.js (Express/Fastify) ou Go (Fiber/Gin) ou Python (FastAPI)
-- **Base de données**: PostgreSQL ou SQLite (pour petit déploiement)
-- **Stockage**: Système de fichiers local ou S3-compatible
-- **Cache**: Redis (optionnel, pour sessions et rate limiting)
+**Backend & Frontend** :
 
-### Frontend
+- ✅ **Framework**: SvelteKit 2.x (full-stack)
+- ✅ **Langage**: TypeScript (strict mode désactivé pour Svelte 5 compat)
+- ✅ **Base de données**: SQLite (better-sqlite3 avec mode WAL)
+- ✅ **Stockage**: Filesystem local avec métadonnées JSON
+- ✅ **Runtime**: Node.js 20 LTS
+- ✅ **Build**: Vite
+- ✅ **Adapter**: @sveltejs/adapter-node
 
-- **Framework**: React/Vue.js/Svelte avec TypeScript
-- **Styling**: TailwindCSS
-- **Upload**: Uppy ou FilePond pour gestion avancée
+**Sécurité** :
 
-### Sécurité
+- ✅ **HTTPS**: Redirection forcée en production
+- ✅ **Headers**: CSP, HSTS, X-Frame-Options, etc.
+- ✅ **Validation**: Sanitization, MIME types, extensions dangereuses
+- ✅ **Rate Limiting**: In-memory (10 uploads/h, 100 downloads/h)
+- ⏳ **Chiffrement**: À implémenter (Phase 3)
+- ⏳ **Authentification**: À implémenter (Phase 3)
 
-- **HTTPS**: Let's Encrypt/Caddy auto-SSL
-- **Authentification**: JWT ou sessions
-- **Chiffrement**: Crypto natives (Web Crypto API, Node crypto)
+**CI/CD** :
+
+- ✅ **GitHub Actions**: CI, Docker, Security, Release-Please
+- ✅ **Tests**: Vitest (unitaires) + Playwright (E2E)
+- ✅ **Qualité**: ESLint, Prettier, TypeScript
+- ✅ **Scans**: Trivy, Hadolint, CodeQL, npm audit
+- ✅ **Docker**: Multi-arch (amd64, arm64)
+- ✅ **Registry**: GitHub Container Registry (ghcr.io)
+- ✅ **Versioning**: Semantic versioning avec release-please
+
+### Architecture Technique Suggérée (Pour Évolution)
 
 ### Déploiement
 
@@ -266,6 +300,33 @@ Application de partage de fichiers privée et sécurisée, alternative à WeTran
 5. **Administration** (Phase 5) - 1 semaine
 6. **API & Intégrations** (Phase 6) - 2 semaines
 7. **Fonctionnalités Avancées** (Phase 7) - évolutif
+
+---
+
+## Métriques Actuelles (v0.4.0)
+
+### Code
+
+- **Fichiers source** : ~70 fichiers
+- **Lignes de code** : ~12,000 lignes
+- **Langage** : TypeScript + Svelte
+- **Tests** : 16 tests unitaires + 3 tests E2E
+- **Coverage** : ~3.42% (infrastructure en place, tests à écrire)
+
+### Infrastructure
+
+- **CI/CD** : 4 workflows GitHub Actions opérationnels
+- **Docker** : Image multi-arch publiée sur ghcr.io
+- **Security** : 4 types de scans automatiques
+- **Documentation** : 15+ fichiers de documentation
+
+### Fonctionnalités
+
+- **Upload** : Fichiers jusqu'à 5GB avec chunking
+- **Download** : Streaming avec Range requests
+- **Links** : Génération automatique sécurisée (32 chars)
+- **Security** : Rate limiting, validation, headers
+- **Database** : SQLite avec tracking des liens
 
 ---
 
