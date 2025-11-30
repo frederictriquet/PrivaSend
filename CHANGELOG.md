@@ -5,6 +5,19 @@ All notable changes to PrivaSend will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.3](https://github.com/frederictriquet/PrivaSend/compare/privasend-v0.4.2...privasend-v0.4.3) (2025-11-30)
+
+
+### Features
+
+* **phase-1.6:** Implement upload disable mode - Backend complete ([66d118d](https://github.com/frederictriquet/PrivaSend/commit/66d118d15aaef5a4908573dd3274e4e54deb33fe))
+* **roadmap:** Add Phase 1.6 - Upload Disable Mode (Shared-Only) ([4853cd9](https://github.com/frederictriquet/PrivaSend/commit/4853cd9f6859f1174e5f2230da1fda0c72ee8357))
+
+
+### Bug Fixes
+
+* **docker:** Skip prepare scripts to avoid Husky errors in Docker build ([c7d93c6](https://github.com/frederictriquet/PrivaSend/commit/c7d93c69bf3d49da21902370a0f2f4bbab311498))
+
 ## [0.4.2](https://github.com/frederictriquet/PrivaSend/compare/privasend-v0.4.1...privasend-v0.4.2) (2025-11-30)
 
 
