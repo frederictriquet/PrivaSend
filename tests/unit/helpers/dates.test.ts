@@ -3,11 +3,11 @@ import { describe, it, expect } from 'vitest';
 describe('Date Helpers', () => {
 	describe('expiration calculations', () => {
 		it('should add days to date', () => {
-			const now = new Date('2025-11-30T00:00:00Z');
+			const now = new Date('2025-11-15T00:00:00Z'); // Mid-month to avoid boundary
 			const future = new Date(now);
 			future.setDate(future.getDate() + 7);
 
-			expect(future.getDate()).toBe(now.getDate() + 7);
+			expect(future.getDate()).toBe(22); // 15 + 7 = 22
 		});
 
 		it('should handle month boundary', () => {

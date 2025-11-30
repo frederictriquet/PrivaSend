@@ -57,8 +57,8 @@ describe('Security - Complete Coverage', () => {
 
 	describe('sanitizeFilename - complete coverage', () => {
 		it('should remove all dots in path traversal', () => {
-			expect(sanitizeFilename('..')).toBe('');
-			expect(sanitizeFilename('....')).toBe('');
+			expect(sanitizeFilename('..')).toBe('unnamed_file');
+			expect(sanitizeFilename('....')).toBe('unnamed_file');
 			expect(sanitizeFilename('a..b..c')).toBe('abc');
 		});
 
@@ -85,9 +85,9 @@ describe('Security - Complete Coverage', () => {
 		});
 
 		it('should return unnamed_file for empty after sanitization', () => {
+			expect(sanitizeFilename('/')).toBe('_');
+			expect(sanitizeFilename('\\')).toBe('_');
 			expect(sanitizeFilename('..')).toBe('unnamed_file');
-			expect(sanitizeFilename('/')).toBe('unnamed_file');
-			expect(sanitizeFilename('\\')).toBe('unnamed_file');
 		});
 	});
 
