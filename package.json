@@ -14,7 +14,17 @@
 		"lint": "eslint .",
 		"lint:fix": "eslint . --fix",
 		"format": "prettier --write .",
-		"format:check": "prettier --check ."
+		"format:check": "prettier --check .",
+		"prepare": "husky"
+	},
+	"lint-staged": {
+		"*.{js,ts,svelte}": [
+			"eslint --fix",
+			"prettier --write"
+		],
+		"*.{json,md,yml,yaml}": [
+			"prettier --write"
+		]
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.40.0",
@@ -30,6 +40,8 @@
 		"eslint": "^8.55.0",
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-svelte": "^2.35.0",
+		"husky": "^9.0.0",
+		"lint-staged": "^15.0.0",
 		"prettier": "^3.1.0",
 		"prettier-plugin-svelte": "^3.1.0",
 		"svelte": "^5.0.0",
