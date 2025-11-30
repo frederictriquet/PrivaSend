@@ -8,8 +8,9 @@ RUN apk add --no-cache python3 make g++
 # Copy package files
 COPY package*.json ./
 
-# Install dependencies (skip prepare scripts to avoid husky in Docker)
-RUN npm ci --ignore-scripts
+# Install dependencies
+# HUSKY=0 disables husky prepare script, but allows native module compilation
+RUN HUSKY=0 npm ci
 
 # Copy source code
 COPY . .
@@ -28,8 +29,9 @@ RUN apk add --no-cache python3 make g++
 # Copy package files
 COPY package*.json ./
 
-# Install production dependencies only (skip prepare scripts)
-RUN npm ci --production --ignore-scripts
+# Install production dependencies only
+# HUSKY=0 disables husky, but allows native module compilation
+RUN HUSKY=0 npm ci --production --omit=dev
 
 # Copy built application
 COPY --from=builder /app/build ./build
