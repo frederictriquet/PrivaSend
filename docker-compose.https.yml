@@ -1,0 +1,70 @@
+version: '3.8'
+
+services:
+  # Main PrivaSend application
+  privasend:
+    build: .
+    expose:
+      - '3000'
+    volumes:
+      - ./storage:/app/storage
+      - ./shared:/app/shared:ro # Shared volume (optional, for Phase 1.5)
+    environment:
+      - NODE_ENV=production
+      - STORAGE_PATH=/app/storage
+      - MAX_FILE_SIZE=5368709120
+      - CHUNK_SIZE=5242880
+      - DEFAULT_EXPIRATION_DAYS=7
+      - CLEANUP_INTERVAL_HOURS=1
+      # Shared volume config (optional)
+      - SHARED_VOLUME_ENABLED=false
+      - SHARED_VOLUME_PATH=/app/shared
+      - SHARED_VOLUME_READ_ONLY=true
+    restart: unless-stopped
+    networks:
+      - privasend-network
+    healthcheck:
+      test: ['CMD', 'wget', '--quiet', '--tries=1', '--spider', 'http://localhost:3000']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # HTTPS reverse proxy with automatic Let's Encrypt certificates
+  https-portal:
+    image: steveltn/https-portal:1
+    ports:
+      - '80:80'
+      - '443:443'
+    environment:
+      # Replace with your domain
+      DOMAINS: 'privasend.example.com -> http://privasend:3000'
+
+      # Staging for testing, production for real certificates
+      # Use 'local' for self-signed certs (development)
+      # Use 'staging' for Let's Encrypt staging (testing)
+      # Use 'production' for real Let's Encrypt certificates
+      STAGE: 'local'
+
+      # Force renewal of certificates
+      # FORCE_RENEW: 'true'
+
+      # Additional SSL settings
+      # WEBSOCKET: 'true'  # Enable if using WebSockets
+      # CLIENT_MAX_BODY_SIZE: '5G'  # Max upload size
+
+    volumes:
+      - https-portal-data:/var/lib/https-portal
+    restart: unless-stopped
+    networks:
+      - privasend-network
+    depends_on:
+      - privasend
+
+networks:
+  privasend-network:
+    driver: bridge
+
+volumes:
+  https-portal-data:
+    driver: local
