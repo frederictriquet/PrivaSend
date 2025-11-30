@@ -14,6 +14,8 @@ export interface ShareLink {
 	passwordHash: string | null; // bcrypt hash, null = no password
 	pin: string | null; // 6-digit PIN (hashed), null = no PIN
 	allowedIps: string | null; // Comma-separated IPs, null = all IPs allowed
+	sourceType: 'upload' | 'shared'; // Source of the file
+	sharedPath: string | null; // Relative path in shared volume (if sourceType='shared')
 }
 
 class DatabaseService {
@@ -60,12 +62,15 @@ class DatabaseService {
 				maxDownloads INTEGER,
 				passwordHash TEXT,
 				pin TEXT,
-				allowedIps TEXT
+				allowedIps TEXT,
+				sourceType TEXT DEFAULT 'upload',
+				sharedPath TEXT
 			);
 
 			CREATE INDEX IF NOT EXISTS idx_token ON share_links(token);
 			CREATE INDEX IF NOT EXISTS idx_fileId ON share_links(fileId);
 			CREATE INDEX IF NOT EXISTS idx_expiresAt ON share_links(expiresAt);
+			CREATE INDEX IF NOT EXISTS idx_sourceType ON share_links(sourceType);
 		`);
 	}
 
@@ -108,7 +113,9 @@ class DatabaseService {
 			maxDownloads,
 			passwordHash: null,
 			pin: null,
-			allowedIps: null
+			allowedIps: null,
+			sourceType: 'upload',
+			sharedPath: null
 		};
 	}
 

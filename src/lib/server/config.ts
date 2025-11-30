@@ -25,6 +25,14 @@ export const config = {
 	links: {
 		defaultExpirationDays: parseInt(env.LINK_EXPIRATION_DAYS || '7'),
 		tokenLength: 32 // Length of share tokens
+	},
+
+	// Shared volume configuration (for sharing files already on server)
+	sharedVolume: {
+		enabled: env.SHARED_VOLUME_ENABLED?.toLowerCase() === 'true' || false,
+		path: env.SHARED_VOLUME_PATH || path.join(process.cwd(), 'shared'),
+		readOnly: env.SHARED_VOLUME_READ_ONLY?.toLowerCase() !== 'false', // Default true
+		maxDepth: parseInt(env.SHARED_VOLUME_MAX_DEPTH || '10')
 	}
 } as const;
 
