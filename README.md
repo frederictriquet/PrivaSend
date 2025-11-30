@@ -2,10 +2,9 @@
 
 Secure file sharing application for VPC and local networks - An open-source alternative to WeTransfer for private infrastructure.
 
-[![CI](https://github.com/USER/privasend/workflows/CI/badge.svg)](https://github.com/USER/privasend/actions/workflows/ci.yml)
-[![Docker](https://github.com/USER/privasend/workflows/Docker/badge.svg)](https://github.com/USER/privasend/actions/workflows/docker.yml)
-[![Security](https://github.com/USER/privasend/workflows/Security%20Scan/badge.svg)](https://github.com/USER/privasend/actions/workflows/security.yml)
-[![codecov](https://codecov.io/gh/USER/privasend/branch/master/graph/badge.svg)](https://codecov.io/gh/USER/privasend)
+[![CI](https://github.com/frederictriquet/PrivaSend/workflows/CI/badge.svg)](https://github.com/frederictriquet/PrivaSend/actions/workflows/ci.yml)
+[![Docker](https://github.com/frederictriquet/PrivaSend/workflows/Docker/badge.svg)](https://github.com/frederictriquet/PrivaSend/actions/workflows/docker.yml)
+[![Security](https://github.com/frederictriquet/PrivaSend/workflows/Security%20Scan/badge.svg)](https://github.com/frederictriquet/PrivaSend/actions/workflows/security.yml)
 
 **Version**: v0.4.0 | **Status**: Production Ready with CI/CD
 

@@ -62,16 +62,33 @@ jobs:
       - name: Run tests with coverage
         run: npm run test:coverage
 
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
+      - name: Generate coverage summary
         if: always()
-        continue-on-error: true
+        run: |
+          echo "## Test Coverage Report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ -f coverage/lcov-report/index.html ]; then
+            # Extract coverage percentages from HTML report
+            LINES=$(grep -o "fraction\">[0-9.]*" coverage/lcov-report/index.html | head -1 | grep -o "[0-9.]*" || echo "0")
+            FUNCS=$(grep -o "fraction\">[0-9.]*" coverage/lcov-report/index.html | sed -n 2p | grep -o "[0-9.]*" || echo "0")
+            BRANCH=$(grep -o "fraction\">[0-9.]*" coverage/lcov-report/index.html | sed -n 3p | grep -o "[0-9.]*" || echo "0")
+
+            echo "| Metric | Coverage |" >> $GITHUB_STEP_SUMMARY
+            echo "|--------|----------|" >> $GITHUB_STEP_SUMMARY
+            echo "| Lines | ${LINES}% |" >> $GITHUB_STEP_SUMMARY
+            echo "| Functions | ${FUNCS}% |" >> $GITHUB_STEP_SUMMARY
+            echo "| Branches | ${BRANCH}% |" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "📊 Full report available in artifacts" >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: Upload coverage HTML report
+        uses: actions/upload-artifact@v4
+        if: always()
         with:
-          files: ./coverage/lcov.info
-          token: ${{ secrets.CODECOV_TOKEN }}
-          flags: unittests
-          name: codecov-privasend
-          fail_ci_if_error: false
+          name: coverage-report
+          path: coverage/
+          retention-days: 30
 
   build:
     name: Build
