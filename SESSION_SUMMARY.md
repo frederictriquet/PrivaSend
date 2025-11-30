@@ -7,6 +7,7 @@
 ## 🎯 Objectifs Atteints
 
 ### Phase 1 - MVP ✅ COMPLETE
+
 - File upload/download (5GB max, chunked)
 - Secure share links (32-char tokens)
 - SQLite database
@@ -14,6 +15,7 @@
 - Basic security (HTTPS, headers, rate limiting)
 
 ### Phase 2 - CI/CD ✅ COMPLETE
+
 - GitHub Actions (4 workflows)
 - 200+ tests (unit + E2E)
 - Coverage reporting (GitHub native, free)
@@ -22,6 +24,7 @@
 - Semantic versioning (release-please)
 
 ### Phase 1.5 - Shared Volume 🔄 IN PROGRESS (70%)
+
 - ✅ Backend foundation (config, database, service)
 - ✅ API endpoints (browse, create link)
 - ⏳ Download handler update (TODO)
@@ -29,6 +32,7 @@
 - ⏳ Tests (TODO)
 
 ### Phase 3.1 - Auth 📋 PLANNED
+
 - Database schema ready (password, PIN, IP whitelist)
 - bcrypt dependency added
 - Implementation plan created
@@ -46,6 +50,7 @@
 ## 🚀 Infrastructure CI/CD
 
 ### Workflows
+
 1. **CI** (4 jobs):
    - Lint & Format Check
    - Unit Tests (with coverage summary)
@@ -69,6 +74,7 @@
    - Changelog generation
 
 ### GitHub Summary Reporting
+
 - Coverage table (Lines, Functions, Branches)
 - Module breakdown
 - E2E test listing (all 18 tests)
@@ -77,6 +83,7 @@
 ## 🔒 Sécurité
 
 ### Implemented
+
 - HTTPS enforcement
 - Security headers (CSP, HSTS, X-Frame-Options, etc.)
 - XSS protection (recursive sanitization)
@@ -87,6 +94,7 @@
 - SQL injection protection (prepared statements)
 
 ### CodeQL Alerts
+
 - 2 alerts fixed (incomplete sanitization)
 - 10 false positives (deleted coverage files)
 - SECURITY.md policy added
@@ -94,18 +102,22 @@
 ## 📦 Deliverables
 
 ### Code
+
 - SvelteKit 2.x full-stack app
 - TypeScript (Svelte 5 runes)
 - SQLite with WAL mode
 - bcrypt for passwords (ready)
 
 ### Docker
+
 - Dockerfile with multi-stage build
 - docker-compose.yml
 - Published on ghcr.io/frederictriquet/privasend
 
 ### Documentation
+
 Key files:
+
 - README.md (with badges)
 - ROADMAP.md (phases, progress)
 - CONTRIBUTING.md (conventional commits)
@@ -113,9 +125,10 @@ Key files:
 - SECURITY.md (security policy)
 - QUICK_START.md
 - CI_TROUBLESHOOTING.md
-- Multiple PHASE_*.md files
+- Multiple PHASE\_\*.md files
 
 ### Configuration
+
 - .env.example (all variables)
 - .nvmrc (Node 20)
 - ESLint, Prettier
@@ -125,6 +138,7 @@ Key files:
 ## 🎓 Lessons Learned
 
 ### Technical Decisions
+
 1. **SvelteKit full-stack**: Faster development, single codebase
 2. **GitHub-native coverage**: Avoided Codecov costs
 3. **release-please**: Automated versioning
@@ -132,6 +146,7 @@ Key files:
 5. **Conventional Commits**: Clean history
 
 ### Challenges Solved
+
 1. Node 25 incompatibility → Downgraded to Node 20
 2. Codecov rate limits → GitHub native solution
 3. better-sqlite3 compilation → Proper Node version
@@ -143,6 +158,7 @@ Key files:
 ## 🔮 Next Steps
 
 ### Immediate (High Priority)
+
 1. Complete Phase 1.5:
    - Update download handler for shared files
    - Create frontend UI for browsing/sharing
@@ -154,6 +170,7 @@ Key files:
    - Docker image auto-published
 
 ### Short Term
+
 3. Phase 3.1 - Authentication:
    - Password protection for links
    - Download limits UI
@@ -167,6 +184,7 @@ Key files:
    - Target: 30-50%
 
 ### Medium Term
+
 5. Phase 3.2 - Encryption
 6. Phase 4 - UX Improvements
 7. Phase 5 - Admin Dashboard
@@ -193,6 +211,7 @@ Key files:
 ## 🙏 Acknowledgments
 
 Built with Claude Code using:
+
 - svelte-specialist agent
 - github-ci-specialist agent
 - tech-stack-advisor agent

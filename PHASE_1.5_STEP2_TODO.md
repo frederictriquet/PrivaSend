@@ -3,6 +3,7 @@
 ## Ce qui a été fait (Step 1)
 
 ✅ Backend foundation complete:
+
 - config.ts with sharedVolume section
 - database.ts with sourceType and sharedPath fields
 - sharedvolume.ts service with security
@@ -21,16 +22,16 @@ Needs modification to handle `sourceType`:
 ```typescript
 // After getting shareLink:
 if (shareLink.sourceType === 'shared') {
-  // Get file from shared volume
-  const service = new SharedVolumeService();
-  const fullPath = service.validatePath(shareLink.sharedPath!);
+	// Get file from shared volume
+	const service = new SharedVolumeService();
+	const fullPath = service.validatePath(shareLink.sharedPath!);
 
-  // Use fullPath instead of metadata.path
-  const stat = statSync(fullPath);
-  const stream = createReadStream(fullPath);
-  // ... rest of streaming logic
+	// Use fullPath instead of metadata.path
+	const stat = statSync(fullPath);
+	const stream = createReadStream(fullPath);
+	// ... rest of streaming logic
 } else {
-  // Existing logic for uploaded files
+	// Existing logic for uploaded files
 }
 ```
 

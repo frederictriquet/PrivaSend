@@ -12,17 +12,20 @@ Phase 1.5 permet de partager des fichiers déjà présents sur le serveur (mont�
 ### Backend (100%)
 
 **Configuration** (`src/lib/server/config.ts`):
+
 - ✅ Section `sharedVolume` ajoutée
 - ✅ 4 variables d'environnement
 - ✅ Defaults sensibles (disabled, read-only, depth 10)
 
 **Database** (`src/lib/server/database.ts`):
+
 - ✅ Champ `sourceType`: 'upload' | 'shared'
 - ✅ Champ `sharedPath`: string | null
 - ✅ Index sur `sourceType`
 - ✅ Backward compatible (default 'upload')
 
 **SharedVolumeService** (`src/lib/server/sharedvolume.ts`):
+
 - ✅ Path validation avec protection traversal
 - ✅ `listFiles()`: Browse directories
 - ✅ `getFileInfo()`: File metadata
@@ -32,6 +35,7 @@ Phase 1.5 permet de partager des fichiers déjà présents sur le serveur (mont�
 - ✅ Security: Rejects `..`, validates boundaries
 
 **API Endpoints**:
+
 - ✅ `GET /api/shared/browse?path=xxx`: Liste fichiers
 - ✅ `POST /api/shared/link`: Crée share link
 - ✅ Download handler mis à jour: Support sourceType
@@ -44,7 +48,7 @@ Phase 1.5 permet de partager des fichiers déjà présents sur le serveur (mont�
 services:
   privasend:
     volumes:
-      - ./storage:/app/storage        # Uploads
+      - ./storage:/app/storage # Uploads
       - ./shared-files:/app/shared:ro # Shared volume (read-only)
     environment:
       - SHARED_VOLUME_ENABLED=true
@@ -78,6 +82,7 @@ curl http://localhost:3000/download/[token]
 ### Frontend UI
 
 **Page `/share-existing`** (à créer):
+
 - Liste des fichiers du volume
 - Navigation dans sous-répertoires
 - Bouton "Share" par fichier
@@ -85,18 +90,21 @@ curl http://localhost:3000/download/[token]
 - Copie dans presse-papier
 
 **Intégration dans page principale**:
+
 - Toggle "Upload file" vs "Share existing file"
 - Navigation entre les deux modes
 
 ### Tests
 
 **Tests E2E** (à ajouter):
+
 - Browse shared volume
 - Create share link
 - Download shared file
 - Path traversal attempts
 
 **Tests d'intégration** (à ajouter):
+
 - API browse avec filesystem réel
 - API link creation
 - Download flow complet
@@ -129,6 +137,7 @@ curl http://localhost:3000/download/[token]
 ## 📝 Fichiers Créés/Modifiés
 
 ### Créés (Step 1-2):
+
 - `src/lib/server/sharedvolume.ts` (165 lines)
 - `src/routes/api/shared/browse/+server.ts` (33 lines)
 - `src/routes/api/shared/link/+server.ts` (88 lines)
@@ -136,6 +145,7 @@ curl http://localhost:3000/download/[token]
 - `PHASE_1.5_STEP2_TODO.md` (TODO list)
 
 ### Modifiés:
+
 - `src/lib/server/config.ts` (added sharedVolume)
 - `src/lib/server/database.ts` (added sourceType, sharedPath)
 - `src/routes/download/[token]/+server.ts` (handle shared files)
@@ -148,6 +158,7 @@ curl http://localhost:3000/download/[token]
 ### Pour Compléter Phase 1.5 (30% restant)
 
 **Step 3 - Frontend UI**:
+
 1. Créer page `/share-existing`
 2. Composant file browser
 3. Intégration mode hybride

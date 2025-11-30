@@ -52,8 +52,8 @@ SHARED_VOLUME_MAX_DEPTH=3  # Profondeur max sous-répertoires
 services:
   privasend:
     volumes:
-      - ./storage:/app/storage  # Uploads
-      - ./shared-files:/app/shared-files:ro  # Read-only shared volume
+      - ./storage:/app/storage # Uploads
+      - ./shared-files:/app/shared-files:ro # Read-only shared volume
 ```
 
 ### Database Schema Extension
@@ -78,98 +78,95 @@ import path from 'path';
 import { config } from './config';
 
 export class SharedVolumeService {
-  private basePath: string;
-  private enabled: boolean;
+	private basePath: string;
+	private enabled: boolean;
 
-  constructor() {
-    this.basePath = config.sharedVolume.path;
-    this.enabled = config.sharedVolume.enabled;
-  }
+	constructor() {
+		this.basePath = config.sharedVolume.path;
+		this.enabled = config.sharedVolume.enabled;
+	}
 
-  /**
-   * List files in shared volume
-   */
-  async listFiles(relativePath: string = ''): Promise<FileEntry[]> {
-    if (!this.enabled) throw new Error('Shared volume not enabled');
+	/**
+	 * List files in shared volume
+	 */
+	async listFiles(relativePath: string = ''): Promise<FileEntry[]> {
+		if (!this.enabled) throw new Error('Shared volume not enabled');
 
-    const fullPath = this.resolvePath(relativePath);
+		const fullPath = this.resolvePath(relativePath);
 
-    // Security: Ensure path is within basePath
-    if (!fullPath.startsWith(this.basePath)) {
-      throw new Error('Path traversal detected');
-    }
+		// Security: Ensure path is within basePath
+		if (!fullPath.startsWith(this.basePath)) {
+			throw new Error('Path traversal detected');
+		}
 
-    const entries = await fs.readdir(fullPath, { withFileTypes: true });
-    const files: FileEntry[] = [];
+		const entries = await fs.readdir(fullPath, { withFileTypes: true });
+		const files: FileEntry[] = [];
 
-    for (const entry of entries) {
-      const stats = await fs.stat(path.join(fullPath, entry.name));
-      files.push({
-        name: entry.name,
-        path: path.relative(this.basePath, path.join(fullPath, entry.name)),
-        isDirectory: entry.isDirectory(),
-        size: stats.size,
-        mtime: stats.mtime
-      });
-    }
+		for (const entry of entries) {
+			const stats = await fs.stat(path.join(fullPath, entry.name));
+			files.push({
+				name: entry.name,
+				path: path.relative(this.basePath, path.join(fullPath, entry.name)),
+				isDirectory: entry.isDirectory(),
+				size: stats.size,
+				mtime: stats.mtime
+			});
+		}
 
-    return files;
-  }
+		return files;
+	}
 
-  /**
-   * Get file metadata from shared volume
-   */
-  async getFileInfo(relativePath: string): Promise<FileInfo> {
-    const fullPath = this.resolvePath(relativePath);
+	/**
+	 * Get file metadata from shared volume
+	 */
+	async getFileInfo(relativePath: string): Promise<FileInfo> {
+		const fullPath = this.resolvePath(relativePath);
 
-    if (!fullPath.startsWith(this.basePath)) {
-      throw new Error('Path traversal detected');
-    }
+		if (!fullPath.startsWith(this.basePath)) {
+			throw new Error('Path traversal detected');
+		}
 
-    const stats = await fs.stat(fullPath);
+		const stats = await fs.stat(fullPath);
 
-    return {
-      name: path.basename(fullPath),
-      path: relativePath,
-      size: stats.size,
-      mtime: stats.mtime,
-      isFile: stats.isFile()
-    };
-  }
+		return {
+			name: path.basename(fullPath),
+			path: relativePath,
+			size: stats.size,
+			mtime: stats.mtime,
+			isFile: stats.isFile()
+		};
+	}
 
-  /**
-   * Create share link for existing file
-   */
-  async createShareLinkForSharedFile(
-    relativePath: string,
-    token: string
-  ): Promise<ShareLink> {
-    const fileInfo = await this.getFileInfo(relativePath);
+	/**
+	 * Create share link for existing file
+	 */
+	async createShareLinkForSharedFile(relativePath: string, token: string): Promise<ShareLink> {
+		const fileInfo = await this.getFileInfo(relativePath);
 
-    if (!fileInfo.isFile) {
-      throw new Error('Only files can be shared');
-    }
+		if (!fileInfo.isFile) {
+			throw new Error('Only files can be shared');
+		}
 
-    // Store in database with sourceType='shared'
-    return database.createShareLink(token, relativePath, {
-      sourceType: 'shared',
-      sharedPath: relativePath
-    });
-  }
+		// Store in database with sourceType='shared'
+		return database.createShareLink(token, relativePath, {
+			sourceType: 'shared',
+			sharedPath: relativePath
+		});
+	}
 
-  /**
-   * Resolve and validate path
-   */
-  private resolvePath(relativePath: string): string {
-    const resolved = path.resolve(this.basePath, relativePath);
+	/**
+	 * Resolve and validate path
+	 */
+	private resolvePath(relativePath: string): string {
+		const resolved = path.resolve(this.basePath, relativePath);
 
-    // Security check
-    if (!resolved.startsWith(this.basePath)) {
-      throw new Error('Invalid path');
-    }
+		// Security check
+		if (!resolved.startsWith(this.basePath)) {
+			throw new Error('Invalid path');
+		}
 
-    return resolved;
-  }
+		return resolved;
+	}
 }
 
 export const sharedVolume = new SharedVolumeService();
@@ -182,15 +179,15 @@ export const sharedVolume = new SharedVolumeService();
 ```typescript
 // src/routes/api/shared/files/+server.ts
 export const GET: RequestHandler = async ({ url }) => {
-  const path = url.searchParams.get('path') || '';
+	const path = url.searchParams.get('path') || '';
 
-  const files = await sharedVolume.listFiles(path);
+	const files = await sharedVolume.listFiles(path);
 
-  return json({
-    files,
-    path: path || '/',
-    enabled: config.sharedVolume.enabled
-  });
+	return json({
+		files,
+		path: path || '/',
+		enabled: config.sharedVolume.enabled
+	});
 };
 ```
 
@@ -199,15 +196,12 @@ export const GET: RequestHandler = async ({ url }) => {
 ```typescript
 // src/routes/api/shared/share/+server.ts
 export const POST: RequestHandler = async ({ request }) => {
-  const { filePath } = await request.json();
+	const { filePath } = await request.json();
 
-  const token = nanoid(32);
-  const shareLink = await sharedVolume.createShareLinkForSharedFile(
-    filePath,
-    token
-  );
+	const token = nanoid(32);
+	const shareLink = await sharedVolume.createShareLinkForSharedFile(filePath, token);
 
-  return json({ shareLink });
+	return json({ shareLink });
 };
 ```
 
@@ -218,47 +212,43 @@ export const POST: RequestHandler = async ({ request }) => {
 ```svelte
 <!-- src/routes/share-existing/+page.svelte -->
 <script lang="ts">
-  let files = $state([]);
-  let currentPath = $state('');
-  let selectedFile = $state(null);
+	let files = $state([]);
+	let currentPath = $state('');
+	let selectedFile = $state(null);
 
-  async function loadFiles(path = '') {
-    const res = await fetch(`/api/shared/files?path=${path}`);
-    const data = await res.json();
-    files = data.files;
-    currentPath = data.path;
-  }
+	async function loadFiles(path = '') {
+		const res = await fetch(`/api/shared/files?path=${path}`);
+		const data = await res.json();
+		files = data.files;
+		currentPath = data.path;
+	}
 
-  async function shareFile(file) {
-    const res = await fetch('/api/shared/share', {
-      method: 'POST',
-      body: JSON.stringify({ filePath: file.path })
-    });
-    const data = await res.json();
-    // Show share link
-  }
+	async function shareFile(file) {
+		const res = await fetch('/api/shared/share', {
+			method: 'POST',
+			body: JSON.stringify({ filePath: file.path })
+		});
+		const data = await res.json();
+		// Show share link
+	}
 </script>
 
 <main>
-  <h1>Share Existing Files</h1>
+	<h1>Share Existing Files</h1>
 
-  <div class="file-browser">
-    {#each files as file}
-      <div class="file-item">
-        <span>{file.isDirectory ? '📁' : '📄'} {file.name}</span>
-        <span>{formatBytes(file.size)}</span>
-        {#if !file.isDirectory}
-          <button onclick={() => shareFile(file)}>
-            Share this file
-          </button>
-        {:else}
-          <button onclick={() => loadFiles(file.path)}>
-            Open folder
-          </button>
-        {/if}
-      </div>
-    {/each}
-  </div>
+	<div class="file-browser">
+		{#each files as file}
+			<div class="file-item">
+				<span>{file.isDirectory ? '📁' : '📄'} {file.name}</span>
+				<span>{formatBytes(file.size)}</span>
+				{#if !file.isDirectory}
+					<button onclick={() => shareFile(file)}> Share this file </button>
+				{:else}
+					<button onclick={() => loadFiles(file.path)}> Open folder </button>
+				{/if}
+			</div>
+		{/each}
+	</div>
 </main>
 ```
 
@@ -266,8 +256,8 @@ export const POST: RequestHandler = async ({ request }) => {
 
 ```svelte
 <nav>
-  <a href="/">Upload File</a>
-  <a href="/share-existing">Share Existing File</a>
+	<a href="/">Upload File</a>
+	<a href="/share-existing">Share Existing File</a>
 </nav>
 ```
 
@@ -300,23 +290,23 @@ export const POST: RequestHandler = async ({ request }) => {
 ```typescript
 // Validation stricte
 function validatePath(userPath: string, basePath: string): string {
-  // Normaliser le path
-  const normalized = path.normalize(userPath);
+	// Normaliser le path
+	const normalized = path.normalize(userPath);
 
-  // Interdire path traversal
-  if (normalized.includes('..')) {
-    throw new Error('Path traversal not allowed');
-  }
+	// Interdire path traversal
+	if (normalized.includes('..')) {
+		throw new Error('Path traversal not allowed');
+	}
 
-  // Résoudre le path complet
-  const resolved = path.resolve(basePath, normalized);
+	// Résoudre le path complet
+	const resolved = path.resolve(basePath, normalized);
 
-  // Vérifier qu'on reste dans basePath
-  if (!resolved.startsWith(basePath)) {
-    throw new Error('Access denied: outside shared volume');
-  }
+	// Vérifier qu'on reste dans basePath
+	if (!resolved.startsWith(basePath)) {
+		throw new Error('Access denied: outside shared volume');
+	}
 
-  return resolved;
+	return resolved;
 }
 ```
 
@@ -329,7 +319,7 @@ services:
   privasend:
     image: ghcr.io/frederictriquet/privasend:latest
     ports:
-      - "3000:3000"
+      - '3000:3000'
     volumes:
       # Storage normal (uploads)
       - ./storage:/app/storage
@@ -362,14 +352,14 @@ docker-compose up -d
 
 ## Différences Upload vs Shared
 
-| Feature | Upload | Shared Volume |
-|---------|--------|---------------|
-| Source | Client upload | Fichier serveur |
-| Network | Oui (upload) | Non |
-| Storage | Dupliqué dans storage/ | Référence (symlink ou path) |
-| Expiration | Fichier supprimé | Lien expire, fichier reste |
-| Taille limite | 5GB (config) | Illimitée (déjà sur serveur) |
-| Modification | Immutable | Immutable (read-only) |
+| Feature       | Upload                 | Shared Volume                |
+| ------------- | ---------------------- | ---------------------------- |
+| Source        | Client upload          | Fichier serveur              |
+| Network       | Oui (upload)           | Non                          |
+| Storage       | Dupliqué dans storage/ | Référence (symlink ou path)  |
+| Expiration    | Fichier supprimé       | Lien expire, fichier reste   |
+| Taille limite | 5GB (config)           | Illimitée (déjà sur serveur) |
+| Modification  | Immutable              | Immutable (read-only)        |
 
 ## Base de Données
 
@@ -377,9 +367,9 @@ docker-compose up -d
 
 ```typescript
 interface ShareLink {
-  // ... existing fields
-  sourceType: 'upload' | 'shared';  // Type de source
-  sharedPath: string | null;        // Path si sourceType='shared'
+	// ... existing fields
+	sourceType: 'upload' | 'shared'; // Type de source
+	sharedPath: string | null; // Path si sourceType='shared'
 }
 ```
 
@@ -389,13 +379,13 @@ Pour fichiers partagés, stocker :
 
 ```json
 {
-  "linkId": "abc123",
-  "sourceType": "shared",
-  "sharedPath": "builds/app-v1.0.0.zip",
-  "fileName": "app-v1.0.0.zip",
-  "fileSize": 52428800,
-  "createdAt": "2025-11-30T12:00:00Z",
-  "expiresAt": "2025-12-07T12:00:00Z"
+	"linkId": "abc123",
+	"sourceType": "shared",
+	"sharedPath": "builds/app-v1.0.0.zip",
+	"fileName": "app-v1.0.0.zip",
+	"fileSize": 52428800,
+	"createdAt": "2025-11-30T12:00:00Z",
+	"expiresAt": "2025-12-07T12:00:00Z"
 }
 ```
 
@@ -407,20 +397,20 @@ Modifier `/download/[token]` pour gérer les 2 sources :
 const link = database.getShareLink(token);
 
 if (link.sourceType === 'upload') {
-  // Logique actuelle (fichier dans storage/)
-  const filePath = path.join(config.storage.path, link.fileId);
-  // ...
+	// Logique actuelle (fichier dans storage/)
+	const filePath = path.join(config.storage.path, link.fileId);
+	// ...
 } else if (link.sourceType === 'shared') {
-  // Nouveau: fichier dans shared volume
-  const filePath = path.join(config.sharedVolume.path, link.sharedPath);
+	// Nouveau: fichier dans shared volume
+	const filePath = path.join(config.sharedVolume.path, link.sharedPath);
 
-  // Security check
-  if (!filePath.startsWith(config.sharedVolume.path)) {
-    throw error(403, 'Access denied');
-  }
+	// Security check
+	if (!filePath.startsWith(config.sharedVolume.path)) {
+		throw error(403, 'Access denied');
+	}
 
-  // Stream file
-  // ...
+	// Stream file
+	// ...
 }
 ```
 
