@@ -16,7 +16,7 @@ Application de partage de fichiers privée et sécurisée, alternative à WeTran
   - ✅ Phase 1.6 : Upload Disable Mode (Terminée)
   - 🔜 Phase 1.7 : Authentification Admin (Prochaine - HAUTE PRIORITÉ)
 - ✅ **Phase 2** : CI/CD & Qualité - 95% Complete (CD partiel)
-- ⏳ **Phase 3** : Sécurité Avancée (Auth destinataires, encryption)
+- ⏳ **Phase 3** : Audit & Traçabilité
 - ⏳ **Phases 4-7** : En attente
 
 ---
@@ -239,28 +239,7 @@ Pour activer release-please et uploads Security tab, configurer dans GitHub :
 
 ---
 
-## Phase 3 : Sécurité Avancée
-
-**Note** : La Phase 1.7 (Authentification Admin) est désormais la priorité principale pour la sécurité.
-
-### 3.1 Protection Avancée des Liens
-
-- [ ] Protection par mot de passe optionnelle (par lien individuel)
-- [ ] Code PIN à usage unique (par lien)
-- [ ] Limite du nombre de téléchargements configurables (1x, 5x, illimité)
-- [ ] Liste blanche d'adresses IP (par lien)
-- [ ] Date d'expiration personnalisée par lien
-- [ ] Notification email au créateur lors du téléchargement
-
-### 3.2 Chiffrement des Fichiers
-
-- [ ] Chiffrement des fichiers au repos (AES-256)
-- [ ] Chiffrement de bout en bout optionnel (client-side)
-- [ ] Gestion sécurisée des clés de chiffrement
-- [ ] Déchiffrement côté client pour E2EE
-- [ ] Rotation automatique des clés
-
-### 3.3 Audit & Traçabilité
+## Phase 3 : Audit & Traçabilité
 
 - [ ] Logs d'accès (qui, quand, depuis où)
 - [ ] Notifications de téléchargement
@@ -399,8 +378,6 @@ Pour activer release-please et uploads Security tab, configurer dans GitHub :
 - ✅ **Validation**: Sanitization, MIME types, extensions dangereuses
 - ✅ **Rate Limiting**: In-memory (10 uploads/h, 100 downloads/h)
 - 🔜 **Authentification Admin**: À implémenter (Phase 1.7 - PRIORITÉ HAUTE)
-- ⏳ **Chiffrement**: À implémenter (Phase 3.2)
-- ⏳ **Protection des liens**: À implémenter (Phase 3.1)
 
 **CI/CD** :
 
@@ -427,7 +404,7 @@ Pour activer release-please et uploads Security tab, configurer dans GitHub :
 1. **MVP fonctionnel** (Phase 1.1-1.6) - ✅ TERMINÉ (2025-11-30)
 2. **CI/CD & Qualité** (Phase 2) - ✅ TERMINÉ (2025-11-29)
 3. **🔥 Authentification Admin** (Phase 1.7) - 1-2 jours - 🔜 **PROCHAINE (HAUTE PRIORITÉ)**
-4. **Sécurité Avancée** (Phase 3) - 1-2 semaines
+4. **Audit & Traçabilité** (Phase 3) - 1 semaine
 5. **UX Améliorée** (Phase 4) - 1-2 semaines
 6. **Administration** (Phase 5) - 1 semaine
 7. **API & Intégrations** (Phase 6) - 2 semaines
