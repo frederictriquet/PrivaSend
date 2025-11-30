@@ -31,7 +31,7 @@ COPY package*.json ./
 
 # Install production dependencies only
 # HUSKY=0 disables husky, but allows native module compilation
-RUN HUSKY=0 npm ci --production --omit=dev
+RUN HUSKY=0 npm ci --production
 
 # Copy built application
 COPY --from=builder /app/build ./build
