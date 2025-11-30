@@ -1,6 +1,9 @@
 <script lang="ts">
 	import { nanoid } from 'nanoid';
 	import { buildInfo } from '$lib/buildInfo';
+	import type { PageData } from './$types';
+
+	let { data }: { data: PageData } = $props();
 
 	interface ShareLink {
 		token: string;

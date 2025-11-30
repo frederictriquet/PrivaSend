@@ -27,6 +27,11 @@ export const config = {
 		tokenLength: 32 // Length of share tokens
 	},
 
+	// Upload configuration (Phase 1.6)
+	upload: {
+		enabled: env.UPLOAD_ENABLED?.toLowerCase() !== 'false' // Default true
+	},
+
 	// Shared volume configuration (for sharing files already on server)
 	sharedVolume: {
 		enabled: env.SHARED_VOLUME_ENABLED?.toLowerCase() === 'true' || false,

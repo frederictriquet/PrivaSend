@@ -14,6 +14,11 @@ import { sanitizeFilename, isValidMimeType, hasDangerousExtension } from '$lib/s
 export const POST: RequestHandler = async (event) => {
 	const { request } = event;
 
+	// SECURITY: Check if upload is enabled (Phase 1.6)
+	if (!config.upload.enabled) {
+		throw error(403, 'File upload is disabled on this server');
+	}
+
 	// Rate limiting
 	const rateLimit = checkRateLimit(event, 'upload');
 	if (!rateLimit.allowed) {
