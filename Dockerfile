@@ -8,8 +8,8 @@ RUN apk add --no-cache python3 make g++
 # Copy package files
 COPY package*.json ./
 
-# Install dependencies
-RUN npm ci
+# Install dependencies (skip prepare scripts to avoid husky in Docker)
+RUN npm ci --ignore-scripts
 
 # Copy source code
 COPY . .
@@ -28,8 +28,8 @@ RUN apk add --no-cache python3 make g++
 # Copy package files
 COPY package*.json ./
 
-# Install production dependencies only
-RUN npm ci --production
+# Install production dependencies only (skip prepare scripts)
+RUN npm ci --production --ignore-scripts
 
 # Copy built application
 COPY --from=builder /app/build ./build
