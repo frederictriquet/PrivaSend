@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { nanoid } from 'nanoid';
+	import { buildInfo } from '$lib/buildInfo';
 
 	interface ShareLink {
 		token: string;
@@ -407,7 +408,11 @@
 		</div>
 
 		<footer>
-			<p>Phase 1.1 MVP - File Upload & Storage</p>
+			<p>
+				PrivaSend v{buildInfo.version} • Built on {new Date(
+					buildInfo.buildDate
+				).toLocaleDateString()} at {new Date(buildInfo.buildDate).toLocaleTimeString()}
+			</p>
 		</footer>
 	</div>
 </main>

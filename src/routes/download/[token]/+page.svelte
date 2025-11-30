@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { PageData } from './$types';
+	import { buildInfo } from '$lib/buildInfo';
 
 	let { data }: { data: PageData } = $props();
 
@@ -187,6 +188,9 @@
 
 		<footer>
 			<a href="/">Upload a file</a>
+			<p style="margin-top: 1rem; font-size: 0.75rem; opacity: 0.8;">
+				v{buildInfo.version} • {new Date(buildInfo.buildDate).toLocaleDateString()}
+			</p>
 		</footer>
 	</div>
 </main>

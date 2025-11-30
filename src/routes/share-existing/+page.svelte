@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { buildInfo } from '$lib/buildInfo';
+
 	interface FileEntry {
 		name: string;
 		relativePath: string;
@@ -265,7 +267,11 @@
 		</div>
 
 		<footer>
-			<p>Phase 1.5 - Shared Volume File Sharing</p>
+			<p>
+				PrivaSend v{buildInfo.version} • Built on {new Date(
+					buildInfo.buildDate
+				).toLocaleDateString()} at {new Date(buildInfo.buildDate).toLocaleTimeString()}
+			</p>
 		</footer>
 	</div>
 </main>
