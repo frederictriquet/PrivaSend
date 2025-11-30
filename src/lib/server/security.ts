@@ -64,12 +64,21 @@ export const httpsRedirect: Handle = async ({ event, resolve }) => {
  * Sanitize user input to prevent XSS
  */
 export function sanitizeInput(input: string): string {
-	// Remove dangerous characters
-	return input
-		.replace(/[<>]/g, '') // Remove < and >
-		.replace(/javascript:/gi, '') // Remove javascript: protocol
-		.replace(/on\w+=/gi, '') // Remove event handlers
-		.trim();
+	let sanitized = input;
+
+	// Remove dangerous characters - loop to handle nested attempts
+	while (sanitized !== (sanitized = sanitized.replace(/[<>]/g, '')));
+
+	// Remove javascript: protocol - loop to handle obfuscation like jajavascript:vascript:
+	while (sanitized !== (sanitized = sanitized.replace(/javascript:/gi, '')));
+
+	// Remove all URL schemes that could be dangerous
+	sanitized = sanitized.replace(/\b(javascript|data|vbscript|about):/gi, '');
+
+	// Remove event handlers - more comprehensive
+	sanitized = sanitized.replace(/\s*on\w+\s*=/gi, '');
+
+	return sanitized.trim();
 }
 
 /**
