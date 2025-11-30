@@ -1,0 +1,70 @@
+# Docker Compose - Secure Mode with Admin Authentication
+# Phase 1.7 - Production deployment with authentication enabled
+#
+# Usage:
+#   1. Copy this file: cp docker-compose.secure.yml docker-compose.override.yml
+#   2. Edit ADMIN_PASSWORD in docker-compose.override.yml
+#   3. Run: docker-compose up -d
+#
+# IMPORTANT: Change ADMIN_PASSWORD before deploying to production!
+
+version: '3.8'
+
+services:
+  privasend:
+    build: .
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./storage:/app/storage
+      - ./shared:/app/shared:ro # Shared volume (optional)
+    environment:
+      - NODE_ENV=production
+      - STORAGE_PATH=/app/storage
+      - MAX_FILE_SIZE=5368709120
+      - CHUNK_SIZE=5242880
+      - DEFAULT_EXPIRATION_DAYS=7
+      - CLEANUP_INTERVAL_HOURS=1
+      # Upload config (Phase 1.6)
+      - UPLOAD_ENABLED=true
+      # Shared volume config (Phase 1.5)
+      - SHARED_VOLUME_ENABLED=false
+      - SHARED_VOLUME_PATH=/app/shared
+      - SHARED_VOLUME_READ_ONLY=true
+      # Authentication config (Phase 1.7) - ENABLED
+      # ⚠️ CRITICAL: Change ADMIN_PASSWORD before production deployment!
+      - AUTH_ENABLED=true
+      - ADMIN_PASSWORD=CHANGE_ME_IN_PRODUCTION_123!
+      - SESSION_TIMEOUT_HOURS=24
+      - LOGIN_RATE_LIMIT=3
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'wget', '--quiet', '--tries=1', '--spider', 'http://localhost:3000']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+# Example configurations for different use cases:
+#
+# 1. Secure Upload-Only Mode:
+#    AUTH_ENABLED=true
+#    UPLOAD_ENABLED=true
+#    SHARED_VOLUME_ENABLED=false
+#
+# 2. Secure Shared-Only Mode (NAS):
+#    AUTH_ENABLED=true
+#    UPLOAD_ENABLED=false
+#    SHARED_VOLUME_ENABLED=true
+#    Volumes: ./nas:/app/shared:ro
+#
+# 3. Secure Hybrid Mode:
+#    AUTH_ENABLED=true
+#    UPLOAD_ENABLED=true
+#    SHARED_VOLUME_ENABLED=true
+#
+# Security Notes:
+# - Admin must login at /login before accessing upload/share features
+# - Public can still download via /download/[token] links (no auth)
+# - Sessions expire after SESSION_TIMEOUT_HOURS (default: 24h)
+# - Login rate limited to LOGIN_RATE_LIMIT attempts/minute (default: 3)

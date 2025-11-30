@@ -7,6 +7,7 @@ services:
       - '3000:3000'
     volumes:
       - ./storage:/app/storage
+      - ./shared:/app/shared:ro # Shared volume (optional, for Phase 1.5)
     environment:
       - NODE_ENV=production
       - STORAGE_PATH=/app/storage
@@ -14,6 +15,18 @@ services:
       - CHUNK_SIZE=5242880
       - DEFAULT_EXPIRATION_DAYS=7
       - CLEANUP_INTERVAL_HOURS=1
+      # Upload config (Phase 1.6)
+      - UPLOAD_ENABLED=true
+      # Shared volume config (Phase 1.5)
+      - SHARED_VOLUME_ENABLED=false
+      - SHARED_VOLUME_PATH=/app/shared
+      - SHARED_VOLUME_READ_ONLY=true
+      # Authentication config (Phase 1.7)
+      # IMPORTANT: Change ADMIN_PASSWORD in production!
+      - AUTH_ENABLED=false
+      - ADMIN_PASSWORD=changeme123
+      - SESSION_TIMEOUT_HOURS=24
+      - LOGIN_RATE_LIMIT=3
     restart: unless-stopped
     healthcheck:
       test: ['CMD', 'wget', '--quiet', '--tries=1', '--spider', 'http://localhost:3000']
