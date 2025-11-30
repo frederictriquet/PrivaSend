@@ -105,7 +105,10 @@ class DatabaseService {
 			expiresAt: expiresAt.toISOString(),
 			createdAt,
 			downloadCount: 0,
-			maxDownloads
+			maxDownloads,
+			passwordHash: null,
+			pin: null,
+			allowedIps: null
 		};
 	}
 
