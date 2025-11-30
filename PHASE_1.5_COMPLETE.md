@@ -1,13 +1,13 @@
 # Phase 1.5 - Shared Volume File Sharing - STATUS
 
-**Status**: 🔄 70% Complete (Backend Done)
+**Status**: ✅ 95% Complete (Backend + UI Done)
 **Date**: 2025-11-30
 
 ## Résumé
 
 Phase 1.5 permet de partager des fichiers déjà présents sur le serveur (montés via volume Docker) sans avoir à les uploader.
 
-## ✅ Implémenté (70%)
+## ✅ Implémenté (95%)
 
 ### Backend (100%)
 
@@ -77,37 +77,40 @@ curl -X POST http://localhost:3000/api/shared/link \
 curl http://localhost:3000/download/[token]
 ```
 
-## ⏳ Reste à Faire (30%)
+### Frontend UI (100%) ✅
 
-### Frontend UI
+**Page `/share-existing`** :
 
-**Page `/share-existing`** (à créer):
+- ✅ Liste des fichiers du volume
+- ✅ Navigation dans sous-répertoires
+- ✅ Bouton "Share" par fichier
+- ✅ Génération et affichage du lien
+- ✅ Copie dans presse-papier
+- ✅ File browser avec icônes
+- ✅ Breadcrumb navigation
+- ✅ États loading/error/empty
+- ✅ Design cohérent avec upload page
 
-- Liste des fichiers du volume
-- Navigation dans sous-répertoires
-- Bouton "Share" par fichier
-- Génération et affichage du lien
-- Copie dans presse-papier
+**Intégration dans page principale** :
 
-**Intégration dans page principale**:
+- ✅ Toggle "Upload file" vs "Share existing file"
+- ✅ Navigation tabs entre les deux modes
+- ✅ Style unifié
 
-- Toggle "Upload file" vs "Share existing file"
-- Navigation entre les deux modes
+## ⏳ Reste à Faire (5%)
 
-### Tests
+### Tests E2E (à ajouter)
 
-**Tests E2E** (à ajouter):
+**Tests manquants** :
 
-- Browse shared volume
-- Create share link
-- Download shared file
-- Path traversal attempts
+- [ ] Browse shared volume
+- [ ] Navigate subdirectories
+- [ ] Create share link from shared file
+- [ ] Download shared file
+- [ ] Path traversal security tests
+- [ ] Error handling (disabled feature)
 
-**Tests d'intégration** (à ajouter):
-
-- API browse avec filesystem réel
-- API link creation
-- Download flow complet
+**Estimation** : 2-3 heures pour tests E2E complets
 
 ## 🔒 Sécurité
 
