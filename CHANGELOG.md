@@ -5,6 +5,22 @@ All notable changes to PrivaSend will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.4](https://github.com/frederictriquet/PrivaSend/compare/privasend-v0.4.3...privasend-v0.4.4) (2025-11-30)
+
+
+### Features
+
+* **docker:** Add Phase 1.7 auth config to docker-compose files ([f5613c3](https://github.com/frederictriquet/PrivaSend/commit/f5613c3ca50655ce35402d4488b0055b38205181))
+* **phase-1.7:** Implement admin authentication ([fe1e496](https://github.com/frederictriquet/PrivaSend/commit/fe1e496fa451a29ddf407a79a2b94d00d2418e97))
+
+
+### Bug Fixes
+
+* **docker:** Fix better-sqlite3 compilation in Docker ([24ee714](https://github.com/frederictriquet/PrivaSend/commit/24ee71470c6b1d9d336cc7801f520a0828d203d8))
+* **docker:** Remove redundant --omit=dev flag ([d1e88e3](https://github.com/frederictriquet/PrivaSend/commit/d1e88e3b37a5fb04fd3cf1075a6630944f20e3f0))
+* **docker:** Use builder node_modules with npm prune for production ([9d966ee](https://github.com/frederictriquet/PrivaSend/commit/9d966eeef7008ff8bb77c161428b79f37fe0b5c3))
+* **ui:** Don't show file browser when upload is disabled on homepage ([a18e1fc](https://github.com/frederictriquet/PrivaSend/commit/a18e1fcc88c512e7bc5217a7ddc9b5c4fe14ca9d))
+
 ## [0.4.3](https://github.com/frederictriquet/PrivaSend/compare/privasend-v0.4.2...privasend-v0.4.3) (2025-11-30)
 
 
