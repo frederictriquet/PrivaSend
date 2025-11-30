@@ -21,16 +21,19 @@
 ### 3.1.1 Protection par Mot de Passe
 
 **Backend** :
+
 - Créer `src/lib/server/auth.ts` avec fonctions bcrypt
 - Mettre à jour `createShareLink()` pour accepter password optionnel
 - Créer API `POST /api/verify-password` pour vérification
 
 **Frontend** :
+
 - Ajouter champ password dans upload page (section "Advanced Options")
 - Créer page/modal de vérification password avant download
 - Mettre à jour download flow
 
 **Fichiers à créer/modifier** :
+
 - `src/lib/server/auth.ts` - NEW
 - `src/routes/api/verify-password/+server.ts` - NEW
 - `src/routes/download/[token]/+page.svelte` - MODIFY (add password input)
@@ -42,36 +45,43 @@
 **Note**: Logique backend déjà en place (maxDownloads field exists)
 
 **Frontend seulement** :
+
 - Ajouter dropdown/radio dans upload page (1x, 5x, 10x, unlimited)
 - Afficher downloads restants sur download page
 - Message d'erreur si limite atteinte
 
 **Fichiers à modifier** :
+
 - `src/routes/+page.svelte` - Add maxDownloads selector
 - `src/routes/download/[token]/+page.svelte` - Display remaining
 
 ### 3.1.3 PIN Code
 
 **Backend** :
+
 - Générer PIN 6 chiffres
 - Hasher avec bcrypt
 - Vérification similaire au password
 
 **Frontend** :
+
 - Toggle PIN dans upload
 - Input PIN avant download
 
 **Fichiers** :
+
 - Utiliser même système que password
 
 ### 3.1.4 IP Whitelist
 
 **Backend** :
+
 - Parser allowedIps (comma-separated)
 - Vérifier IP client
 - Bloquer si non dans la liste
 
 **Frontend** :
+
 - Input textarea pour IPs
 - Affichage des restrictions
 
@@ -85,18 +95,15 @@ import bcrypt from 'bcrypt';
 const SALT_ROUNDS = 10;
 
 export async function hashPassword(password: string): Promise<string> {
-  return bcrypt.hash(password, SALT_ROUNDS);
+	return bcrypt.hash(password, SALT_ROUNDS);
 }
 
-export async function verifyPassword(
-  password: string,
-  hash: string
-): Promise<boolean> {
-  return bcrypt.compare(password, hash);
+export async function verifyPassword(password: string, hash: string): Promise<boolean> {
+	return bcrypt.compare(password, hash);
 }
 
 export function generatePIN(): string {
-  return Math.floor(100000 + Math.random() * 900000).toString();
+	return Math.floor(100000 + Math.random() * 900000).toString();
 }
 ```
 
@@ -122,24 +129,24 @@ createShareLink(
 
 ```svelte
 <details class="advanced-options">
-  <summary>Advanced Options</summary>
+	<summary>Advanced Options</summary>
 
-  <label>
-    <input type="checkbox" bind:checked={usePassword} />
-    Protect with password
-  </label>
+	<label>
+		<input type="checkbox" bind:checked={usePassword} />
+		Protect with password
+	</label>
 
-  {#if usePassword}
-    <input type="password" bind:value={password} placeholder="Enter password" />
-  {/if}
+	{#if usePassword}
+		<input type="password" bind:value={password} placeholder="Enter password" />
+	{/if}
 
-  <label>Download limit:</label>
-  <select bind:value={maxDownloads}>
-    <option value={null}>Unlimited</option>
-    <option value={1}>1 download</option>
-    <option value={5}>5 downloads</option>
-    <option value={10}>10 downloads</option>
-  </select>
+	<label>Download limit:</label>
+	<select bind:value={maxDownloads}>
+		<option value={null}>Unlimited</option>
+		<option value={1}>1 download</option>
+		<option value={5}>5 downloads</option>
+		<option value={10}>10 downloads</option>
+	</select>
 </details>
 ```
 
@@ -147,17 +154,11 @@ createShareLink(
 
 ```svelte
 {#if requiresPassword && !passwordVerified}
-  <div class="password-modal">
-    <h3>Password Required</h3>
-    <input
-      type="password"
-      bind:value={enteredPassword}
-      placeholder="Enter password"
-    />
-    <button onclick={verifyPasswordAndDownload}>
-      Unlock
-    </button>
-  </div>
+	<div class="password-modal">
+		<h3>Password Required</h3>
+		<input type="password" bind:value={enteredPassword} placeholder="Enter password" />
+		<button onclick={verifyPasswordAndDownload}> Unlock </button>
+	</div>
 {/if}
 ```
 
@@ -166,16 +167,16 @@ createShareLink(
 ```typescript
 // tests/unit/lib/auth.test.ts
 describe('auth', () => {
-  it('should hash password', async () => {
-    const hash = await hashPassword('test123');
-    expect(hash).not.toBe('test123');
-  });
+	it('should hash password', async () => {
+		const hash = await hashPassword('test123');
+		expect(hash).not.toBe('test123');
+	});
 
-  it('should verify correct password', async () => {
-    const hash = await hashPassword('test123');
-    const valid = await verifyPassword('test123', hash);
-    expect(valid).toBe(true);
-  });
+	it('should verify correct password', async () => {
+		const hash = await hashPassword('test123');
+		const valid = await verifyPassword('test123', hash);
+		expect(valid).toBe(true);
+	});
 });
 ```
 
