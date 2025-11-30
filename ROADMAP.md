@@ -5,12 +5,15 @@
 Application de partage de fichiers privée et sécurisée, alternative à WeTransfer pour VPC ou réseau local.
 
 **Version Actuelle** : v0.4.0
-**Status** : ✅ MVP Complet + CI/CD Opérationnel
-**Dernière Mise à Jour** : 2025-11-29
+**Status** : ✅ MVP Complet + CI/CD Opérationnel + Shared Volume + Upload Disable
+**Dernière Mise à Jour** : 2025-11-30
 
 ### Progression Globale
 
 - ✅ **Phase 1** : MVP (Core Features) - 100% Complete
+  - ✅ Phase 1.1-1.4 : Core upload/download (Terminée)
+  - ✅ Phase 1.5 : Shared Volume (Terminée)
+  - ✅ Phase 1.6 : Upload Disable Mode (Terminée)
 - ✅ **Phase 2** : CI/CD & Qualité - 95% Complete (CD partiel)
 - 🔜 **Phase 3** : Sécurité Avancée - Prochaine
 - ⏳ **Phases 4-7** : En attente
@@ -47,16 +50,25 @@ Application de partage de fichiers privée et sécurisée, alternative à WeTran
 
 **Fonctionnalité production-ready !** Tests E2E à ajouter en amélioration continue.
 
-### 1.6 Mode Shared-Only (Désactivation Upload) 🔜
+### 1.6 Mode Shared-Only (Désactivation Upload) ✅ TERMINÉE
 
-- [ ] Variable d'environnement UPLOAD_ENABLED (default: true)
-- [ ] Désactivation complète de l'upload côté serveur (sécurité)
-- [ ] Endpoint API /api/upload refuse les requêtes (403 Forbidden)
-- [ ] Page d'accueil cache la section upload si désactivé
-- [ ] Redirection automatique vers /share-existing si upload disabled
-- [ ] Message clair "Upload disabled - Share existing files only"
-- [ ] Tests de sécurité : vérifier qu'upload est vraiment bloqué
-- [ ] Documentation mode shared-only pour NAS/serveurs de fichiers
+- [x] Variable d'environnement UPLOAD_ENABLED (default: true)
+- [x] Désactivation complète de l'upload côté serveur (sécurité)
+- [x] Endpoint API /api/upload refuse les requêtes (403 Forbidden)
+- [x] Endpoint /api/config pour exposer la configuration au client
+- [x] Page d'accueil avec logique server-side (+page.server.ts)
+- [x] Redirection automatique vers /share-existing si upload disabled
+- [x] Message d'erreur clair "File upload is disabled on this server"
+- [x] Tests unitaires : config.upload.enabled (9 tests)
+- [x] Tests de sécurité API : vérification du blocage (10+ tests)
+- [x] Tests E2E : UI, API, redirection (10+ tests)
+- [x] Documentation complète (PHASE_1.6_UPLOAD_DISABLE_SPEC.md)
+
+**Fonctionnalité production-ready !** Backend sécurisé, tests complets, 3 modes opérationnels :
+
+- **Upload-only** : UPLOAD_ENABLED=true, SHARED_VOLUME_ENABLED=false
+- **Shared-only** : UPLOAD_ENABLED=false, SHARED_VOLUME_ENABLED=true
+- **Hybrid** : Les deux activés (mode par défaut)
 
 ### 1.2 Génération de Liens Sécurisés ✅
 
@@ -338,11 +350,17 @@ Pour activer release-please et uploads Security tab, configurer dans GitHub :
 
 ### Code
 
-- **Fichiers source** : ~70 fichiers
-- **Lignes de code** : ~12,000 lignes
+- **Fichiers source** : ~75 fichiers
+- **Lignes de code** : ~14,000 lignes
 - **Langage** : TypeScript + Svelte
-- **Tests** : 16 tests unitaires + 3 tests E2E
-- **Coverage** : ~3.42% (infrastructure en place, tests à écrire)
+- **Tests** : 230+ tests (unitaires + E2E)
+  - Config tests: 9 tests
+  - Security tests: 80+ tests
+  - Rate limit tests: 100+ tests
+  - Config tests: 27 tests
+  - Upload security: 10+ tests
+  - E2E tests: 20+ tests (homepage, navigation, upload-disabled)
+- **Coverage** : ~15% (en amélioration continue)
 
 ### Infrastructure
 

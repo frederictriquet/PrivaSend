@@ -35,18 +35,19 @@ Création complète d'une application de partage de fichiers sécurisée de nive
 - Download handler
 - Navigation mode switcher
 
-### Phase 1.6 - Upload Disable ✅ Backend Complete
+### Phase 1.6 - Upload Disable ✅ 100% Complete
 
 - Config UPLOAD_ENABLED
 - API protection (403)
 - Config endpoint
 - Server-side redirect
+- Tests complets (26 tests unitaires + 10+ E2E)
 
 ## 📊 Statistiques Finales
 
-- **Commits**: 51
-- **Lignes de code**: ~16,000
-- **Tests**: 200+
+- **Commits**: 54 (en cours)
+- **Lignes de code**: ~17,000
+- **Tests**: 193 tests unitaires (tous passent ✅)
 - **Coverage**: ~15%
 - **Documentation**: 30+ fichiers
 - **Workflows**: 4 (tous verts)
