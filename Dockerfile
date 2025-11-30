@@ -23,19 +23,18 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-# Install build tools for native dependencies (bcrypt, better-sqlite3)
-RUN apk add --no-cache python3 make g++
-
 # Copy package files
 COPY package*.json ./
 
-# Install production dependencies only
-# HUSKY=0 disables husky, but allows native module compilation
-RUN HUSKY=0 npm ci --production
-
-# Copy built application
+# Copy built application and package.json
 COPY --from=builder /app/build ./build
 COPY --from=builder /app/package.json ./
+
+# Copy node_modules from builder (includes compiled native modules)
+COPY --from=builder /app/node_modules ./node_modules
+
+# Prune dev dependencies (but keep native bindings)
+RUN npm prune --production
 
 # Create storage directory
 RUN mkdir -p /app/storage/metadata
