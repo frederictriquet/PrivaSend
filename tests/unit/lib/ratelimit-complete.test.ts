@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { describe, it, expect, beforeEach } from 'vitest';
 import { rateLimiter, getClientId } from '../../../src/lib/server/ratelimit';
 
@@ -91,6 +92,7 @@ describe('RateLimiter - Complete Coverage', () => {
 
 	describe('getClientId', () => {
 		it('should extract IP from x-forwarded-for', () => {
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			const mockEvent = {
 				request: {
 					headers: {
@@ -101,7 +103,7 @@ describe('RateLimiter - Complete Coverage', () => {
 					}
 				},
 				getClientAddress: () => '127.0.0.1'
-			} as any;
+			} as any; // Test mock
 
 			const ip = getClientId(mockEvent);
 			expect(ip).toBe('192.168.1.1');
@@ -118,7 +120,7 @@ describe('RateLimiter - Complete Coverage', () => {
 					}
 				},
 				getClientAddress: () => '127.0.0.1'
-			} as any;
+			} as any; // Test mock
 
 			const ip = getClientId(mockEvent);
 			expect(ip).toBe('192.168.1.100');
@@ -132,7 +134,7 @@ describe('RateLimiter - Complete Coverage', () => {
 					}
 				},
 				getClientAddress: () => '127.0.0.1'
-			} as any;
+			} as any; // Test mock
 
 			const ip = getClientId(mockEvent);
 			expect(ip).toBe('127.0.0.1');
@@ -149,7 +151,7 @@ describe('RateLimiter - Complete Coverage', () => {
 					}
 				},
 				getClientAddress: () => '127.0.0.1'
-			} as any;
+			} as any; // Test mock
 
 			const ip = getClientId(mockEvent);
 			expect(ip).toBe('192.168.1.1');
