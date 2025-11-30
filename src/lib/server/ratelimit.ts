@@ -113,6 +113,10 @@ export const rateLimitConfig = {
 	api: {
 		maxRequests: 60, // 60 requests
 		windowMs: 60 * 1000 // per minute
+	},
+	login: {
+		maxRequests: 3, // 3 login attempts
+		windowMs: 60 * 1000 // per minute
 	}
 };
 

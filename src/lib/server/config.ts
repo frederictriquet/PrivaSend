@@ -38,6 +38,15 @@ export const config = {
 		path: env.SHARED_VOLUME_PATH || path.join(process.cwd(), 'shared'),
 		readOnly: env.SHARED_VOLUME_READ_ONLY?.toLowerCase() !== 'false', // Default true
 		maxDepth: parseInt(env.SHARED_VOLUME_MAX_DEPTH || '10')
+	},
+
+	// Authentication configuration (Phase 1.7)
+	auth: {
+		enabled: env.AUTH_ENABLED?.toLowerCase() === 'true' || false, // Default false for backward compat
+		adminPassword: env.ADMIN_PASSWORD || '',
+		sessionSecret: env.SESSION_SECRET || '', // Auto-generated if empty
+		sessionTimeoutHours: parseInt(env.SESSION_TIMEOUT_HOURS || '24'),
+		loginRateLimit: parseInt(env.LOGIN_RATE_LIMIT || '3') // attempts per minute
 	}
 } as const;
 
