@@ -238,57 +238,51 @@
 			<p class="subtitle">Secure File Sharing for Your Private Network</p>
 		</header>
 
-		<nav class="mode-nav">
-			<a href="/" class="nav-link active">📤 Upload File</a>
-			<a href="/share-existing" class="nav-link">📂 Share Existing</a>
-		</nav>
+		{#if data.sharedVolumeEnabled}
+			<nav class="mode-nav">
+				<a href="/" class="nav-link active">📤 Upload File</a>
+				<a href="/share-existing" class="nav-link">📂 Share Existing</a>
+			</nav>
+		{/if}
 
-		<div class="upload-section">
-			{#if !state.uploading && !state.success && !state.error}
-				<div
-					class="dropzone"
-					class:dragging={isDragging}
-					ondragover={handleDragOver}
-					ondragleave={handleDragLeave}
-					ondrop={handleDrop}
-					role="button"
-					tabindex="0"
-					onclick={openFileDialog}
-					onkeydown={(e) => e.key === 'Enter' && openFileDialog()}
+		{#if !data.uploadEnabled}
+			<div class="upload-disabled">
+				<svg
+					class="disabled-icon"
+					xmlns="http://www.w3.org/2000/svg"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke="currentColor"
 				>
-					<svg
-						class="upload-icon"
-						xmlns="http://www.w3.org/2000/svg"
-						fill="none"
-						viewBox="0 0 24 24"
-						stroke="currentColor"
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="2"
+						d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"
+					/>
+				</svg>
+				<h2>Upload Disabled</h2>
+				<p>File upload is disabled on this server.</p>
+				{#if data.sharedVolumeEnabled}
+					<a href="/share-existing" class="button">Browse Shared Files →</a>
+				{/if}
+			</div>
+		{:else}
+			<div class="upload-section">
+				{#if !state.uploading && !state.success && !state.error}
+					<div
+						class="dropzone"
+						class:dragging={isDragging}
+						ondragover={handleDragOver}
+						ondragleave={handleDragLeave}
+						ondrop={handleDrop}
+						role="button"
+						tabindex="0"
+						onclick={openFileDialog}
+						onkeydown={(e) => e.key === 'Enter' && openFileDialog()}
 					>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-						/>
-					</svg>
-					<h2>Drop your file here</h2>
-					<p>or click to browse</p>
-					<p class="size-limit">Maximum file size: 5 GB</p>
-				</div>
-
-				<input
-					bind:this={fileInput}
-					type="file"
-					onchange={handleFileSelect}
-					style="display: none;"
-					aria-label="File input"
-				/>
-			{/if}
-
-			{#if state.uploading}
-				<div class="upload-progress">
-					<div class="file-info">
 						<svg
-							class="file-icon"
+							class="upload-icon"
 							xmlns="http://www.w3.org/2000/svg"
 							fill="none"
 							viewBox="0 0 24 24"
@@ -298,117 +292,149 @@
 								stroke-linecap="round"
 								stroke-linejoin="round"
 								stroke-width="2"
-								d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+								d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
 							/>
 						</svg>
-						<div class="file-details">
-							<h3>{state.fileName}</h3>
-							<p>{formatBytes(state.fileSize)}</p>
+						<h2>Drop your file here</h2>
+						<p>or click to browse</p>
+						<p class="size-limit">Maximum file size: 5 GB</p>
+					</div>
+
+					<input
+						bind:this={fileInput}
+						type="file"
+						onchange={handleFileSelect}
+						style="display: none;"
+						aria-label="File input"
+					/>
+				{/if}
+
+				{#if state.uploading}
+					<div class="upload-progress">
+						<div class="file-info">
+							<svg
+								class="file-icon"
+								xmlns="http://www.w3.org/2000/svg"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+								/>
+							</svg>
+							<div class="file-details">
+								<h3>{state.fileName}</h3>
+								<p>{formatBytes(state.fileSize)}</p>
+							</div>
 						</div>
+
+						<div class="progress-bar">
+							<div class="progress-fill" style="width: {state.progress}%"></div>
+						</div>
+						<p class="progress-text">{state.progress}% uploaded</p>
 					</div>
+				{/if}
 
-					<div class="progress-bar">
-						<div class="progress-fill" style="width: {state.progress}%"></div>
-					</div>
-					<p class="progress-text">{state.progress}% uploaded</p>
-				</div>
-			{/if}
-
-			{#if state.success && state.fileId && state.shareLink}
-				<div class="success-message">
-					<svg
-						class="success-icon"
-						xmlns="http://www.w3.org/2000/svg"
-						fill="none"
-						viewBox="0 0 24 24"
-						stroke="currentColor"
-					>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-						/>
-					</svg>
-					<h2>File uploaded successfully!</h2>
-					<p class="file-name">{state.fileName}</p>
-					<p class="file-size">{formatBytes(state.fileSize)}</p>
-
-					<div class="share-link-box">
-						<label for="shareLink">Share this link:</label>
-						<div class="link-input-group">
-							<input
-								type="text"
-								id="shareLink"
-								readonly
-								value="{window.location.origin}{state.shareLink.url}"
-								onclick={(e) => e.currentTarget.select()}
+				{#if state.success && state.fileId && state.shareLink}
+					<div class="success-message">
+						<svg
+							class="success-icon"
+							xmlns="http://www.w3.org/2000/svg"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
 							/>
-							<button class="copy-button" onclick={copyToClipboard} title="Copy to clipboard">
-								{#if copied}
-									<svg
-										xmlns="http://www.w3.org/2000/svg"
-										fill="none"
-										viewBox="0 0 24 24"
-										stroke="currentColor"
-									>
-										<path
-											stroke-linecap="round"
-											stroke-linejoin="round"
-											stroke-width="2"
-											d="M5 13l4 4L19 7"
-										/>
-									</svg>
-									Copied!
-								{:else}
-									<svg
-										xmlns="http://www.w3.org/2000/svg"
-										fill="none"
-										viewBox="0 0 24 24"
-										stroke="currentColor"
-									>
-										<path
-											stroke-linecap="round"
-											stroke-linejoin="round"
-											stroke-width="2"
-											d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
-										/>
-									</svg>
-									Copy
-								{/if}
-							</button>
+						</svg>
+						<h2>File uploaded successfully!</h2>
+						<p class="file-name">{state.fileName}</p>
+						<p class="file-size">{formatBytes(state.fileSize)}</p>
+
+						<div class="share-link-box">
+							<label for="shareLink">Share this link:</label>
+							<div class="link-input-group">
+								<input
+									type="text"
+									id="shareLink"
+									readonly
+									value="{window.location.origin}{state.shareLink.url}"
+									onclick={(e) => e.currentTarget.select()}
+								/>
+								<button class="copy-button" onclick={copyToClipboard} title="Copy to clipboard">
+									{#if copied}
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											fill="none"
+											viewBox="0 0 24 24"
+											stroke="currentColor"
+										>
+											<path
+												stroke-linecap="round"
+												stroke-linejoin="round"
+												stroke-width="2"
+												d="M5 13l4 4L19 7"
+											/>
+										</svg>
+										Copied!
+									{:else}
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											fill="none"
+											viewBox="0 0 24 24"
+											stroke="currentColor"
+										>
+											<path
+												stroke-linecap="round"
+												stroke-linejoin="round"
+												stroke-width="2"
+												d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+											/>
+										</svg>
+										Copy
+									{/if}
+								</button>
+							</div>
+							<p class="link-info">
+								Link expires in 7 days • Anyone with this link can download the file
+							</p>
 						</div>
-						<p class="link-info">
-							Link expires in 7 days • Anyone with this link can download the file
-						</p>
+
+						<button class="button-secondary" onclick={resetUpload}>Upload another file</button>
 					</div>
+				{/if}
 
-					<button class="button-secondary" onclick={resetUpload}>Upload another file</button>
-				</div>
-			{/if}
-
-			{#if state.error}
-				<div class="error-message">
-					<svg
-						class="error-icon"
-						xmlns="http://www.w3.org/2000/svg"
-						fill="none"
-						viewBox="0 0 24 24"
-						stroke="currentColor"
-					>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-						/>
-					</svg>
-					<h2>Upload failed</h2>
-					<p class="error-text">{state.error}</p>
-					<button class="button-secondary" onclick={resetUpload}>Try again</button>
-				</div>
-			{/if}
-		</div>
+				{#if state.error}
+					<div class="error-message">
+						<svg
+							class="error-icon"
+							xmlns="http://www.w3.org/2000/svg"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+							/>
+						</svg>
+						<h2>Upload failed</h2>
+						<p class="error-text">{state.error}</p>
+						<button class="button-secondary" onclick={resetUpload}>Try again</button>
+					</div>
+				{/if}
+			</div>
+		{/if}
 
 		<footer>
 			<p>
@@ -496,6 +522,46 @@
 		border-radius: 1rem;
 		padding: 2rem;
 		box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+	}
+
+	.upload-disabled {
+		background: white;
+		border-radius: 1rem;
+		padding: 3rem 2rem;
+		box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+		text-align: center;
+	}
+
+	.disabled-icon {
+		width: 80px;
+		height: 80px;
+		color: #cbd5e0;
+		margin: 0 auto 1.5rem;
+	}
+
+	.upload-disabled h2 {
+		color: #333;
+		margin-bottom: 1rem;
+	}
+
+	.upload-disabled p {
+		color: #666;
+		margin-bottom: 2rem;
+	}
+
+	.upload-disabled .button {
+		display: inline-block;
+		padding: 0.75rem 2rem;
+		background: #667eea;
+		color: white;
+		text-decoration: none;
+		border-radius: 0.5rem;
+		font-weight: 500;
+		transition: background 0.2s;
+	}
+
+	.upload-disabled .button:hover {
+		background: #5568d3;
 	}
 
 	.dropzone {
