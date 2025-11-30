@@ -42,6 +42,17 @@ Application de partage de fichiers privée et sécurisée, alternative à WeTran
 - [ ] Tests E2E pour shared volume
 - [ ] Page UI de navigation /share-existing
 
+### 1.6 Mode Shared-Only (Désactivation Upload) 🔜
+
+- [ ] Variable d'environnement UPLOAD_ENABLED (default: true)
+- [ ] Désactivation complète de l'upload côté serveur (sécurité)
+- [ ] Endpoint API /api/upload refuse les requêtes (403 Forbidden)
+- [ ] Page d'accueil cache la section upload si désactivé
+- [ ] Redirection automatique vers /share-existing si upload disabled
+- [ ] Message clair "Upload disabled - Share existing files only"
+- [ ] Tests de sécurité : vérifier qu'upload est vraiment bloqué
+- [ ] Documentation mode shared-only pour NAS/serveurs de fichiers
+
 ### 1.2 Génération de Liens Sécurisés ✅
 
 - [x] Génération d'URLs HTTPS uniques et aléatoires
