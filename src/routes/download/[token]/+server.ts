@@ -2,6 +2,7 @@ import { error } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { database } from '$lib/server/database';
 import { storage } from '$lib/server/storage';
+import { SharedVolumeService } from '$lib/server/sharedvolume';
 import { createReadStream, statSync } from 'fs';
 import { Readable } from 'stream';
 import { checkRateLimit } from '$lib/server/ratelimit';
@@ -32,24 +33,49 @@ export const GET: RequestHandler = async (event) => {
 		throw error(410, 'Link has expired or reached download limit');
 	}
 
-	// Get file metadata
-	const metadata = await storage.getMetadata(shareLink.fileId);
+	// Determine file path based on source type
+	let filePath: string;
+	let fileName: string;
+	let mimeType: string;
+	let fileSize: number;
 
-	if (!metadata) {
-		throw error(404, 'File not found');
-	}
+	if (shareLink.sourceType === 'shared') {
+		// File from shared volume
+		if (!shareLink.sharedPath) {
+			throw error(500, 'Invalid share link: missing shared path');
+		}
 
-	// Verify file still exists
-	if (!storage.fileExists(shareLink.fileId)) {
-		throw error(404, 'File not found on disk');
+		const sharedService = new SharedVolumeService();
+		const fullPath = sharedService.validatePath(shareLink.sharedPath);
+
+		const stat = statSync(fullPath);
+		filePath = fullPath;
+		fileName = shareLink.fileId; // fileId contains the filename for shared files
+		mimeType = sharedService.getFileInfo(shareLink.sharedPath).mimeType;
+		fileSize = stat.size;
+	} else {
+		// File from uploads (existing logic)
+		const metadata = await storage.getMetadata(shareLink.fileId);
+
+		if (!metadata) {
+			throw error(404, 'File not found');
+		}
+
+		if (!storage.fileExists(shareLink.fileId)) {
+			throw error(404, 'File not found on disk');
+		}
+
+		filePath = metadata.path;
+		fileName = metadata.originalName;
+		mimeType = metadata.mimeType;
+		fileSize = metadata.size;
 	}
 
 	// Increment download count
 	database.incrementDownloadCount(token);
 
-	// Get file stats
-	const stat = statSync(metadata.path);
-	const fileSize = stat.size;
+	// Get file stats (already have fileSize)
+	const stat = statSync(filePath);
 
 	// Check for Range header (for resume/partial downloads)
 	const rangeHeader = request.headers.get('range');
@@ -66,7 +92,7 @@ export const GET: RequestHandler = async (event) => {
 		}
 
 		const chunkSize = end - start + 1;
-		const stream = createReadStream(metadata.path, { start, end });
+		const stream = createReadStream(filePath, { start, end });
 
 		return new Response(Readable.toWeb(stream) as ReadableStream, {
 			status: 206,
@@ -74,22 +100,22 @@ export const GET: RequestHandler = async (event) => {
 				'Content-Range': `bytes ${start}-${end}/${fileSize}`,
 				'Accept-Ranges': 'bytes',
 				'Content-Length': chunkSize.toString(),
-				'Content-Type': metadata.mimeType,
-				'Content-Disposition': `attachment; filename="${encodeURIComponent(metadata.originalName)}"`,
+				'Content-Type': mimeType,
+				'Content-Disposition': `attachment; filename="${encodeURIComponent(fileName)}"`,
 				'Cache-Control': 'no-cache'
 			}
 		});
 	}
 
 	// Full file download
-	const stream = createReadStream(metadata.path);
+	const stream = createReadStream(filePath);
 
 	return new Response(Readable.toWeb(stream) as ReadableStream, {
 		status: 200,
 		headers: {
-			'Content-Type': metadata.mimeType,
+			'Content-Type': mimeType,
 			'Content-Length': fileSize.toString(),
-			'Content-Disposition': `attachment; filename="${encodeURIComponent(metadata.originalName)}"`,
+			'Content-Disposition': `attachment; filename="${encodeURIComponent(fileName)}"`,
 			'Accept-Ranges': 'bytes',
 			'Cache-Control': 'no-cache'
 		}

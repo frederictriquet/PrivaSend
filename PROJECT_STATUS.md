@@ -1,8 +1,8 @@
 # PrivaSend - Project Status
 
-**Last Updated:** 2025-11-29
-**Current Status:** Phase 2 Complete ✅
-**MVP Status:** Production Ready with CI/CD
+**Last Updated:** 2025-11-30
+**Current Status:** Phase 2 Complete + Phase 1.5 (70%) ✅
+**MVP Status:** Production Ready with CI/CD + Shared Volume (Backend)
 
 ---
 
@@ -16,18 +16,20 @@ PrivaSend est une application de partage de fichiers sécurisée pour VPC et ré
 
 ## Phase Completion Status
 
-| Phase         | Status      | Completion Date | Features                               |
-| ------------- | ----------- | --------------- | -------------------------------------- |
-| **Phase 1.1** | ✅ Complete | 2025-11-29      | Upload, Storage, Cleanup               |
-| **Phase 1.2** | ✅ Complete | 2025-11-29      | Links, Download, Copy-to-Clipboard     |
-| **Phase 1.3** | ✅ Complete | 2025-11-29      | (Included in 1.2)                      |
-| **Phase 1.4** | ✅ Complete | 2025-11-29      | HTTPS, Security Headers, Rate Limiting |
-| **Phase 2**   | ✅ Complete | 2025-11-29      | CI/CD, Tests, Docker, Security Scans   |
-| **Phase 3**   | ⏳ Pending  | -               | Advanced Security (Auth, Encryption)   |
-| **Phase 4**   | ⏳ Pending  | -               | UX Enhancements                        |
-| **Phase 5**   | ⏳ Pending  | -               | Admin Dashboard                        |
-| **Phase 6**   | ⏳ Pending  | -               | API & Integrations                     |
-| **Phase 7**   | ⏳ Pending  | -               | Advanced Features                      |
+| Phase | Status | Completion Date | Features |
+|-------|--------|-----------------|----------|
+| **Phase 1.1** | ✅ Complete | 2025-11-29 | Upload, Storage, Cleanup |
+| **Phase 1.2** | ✅ Complete | 2025-11-29 | Links, Download, Copy-to-Clipboard |
+| **Phase 1.3** | ✅ Complete | 2025-11-29 | (Included in 1.2) |
+| **Phase 1.4** | ✅ Complete | 2025-11-29 | HTTPS, Security Headers, Rate Limiting |
+| **Phase 1.5** | 🔄 70% | 2025-11-30 | Shared Volume (Backend + APIs) |
+| **Phase 2** | ✅ Complete | 2025-11-30 | CI/CD, Tests, Docker, Security Scans |
+| **Phase 3.1** | 📋 Schema Ready | 2025-11-30 | Auth (DB schema + bcrypt) |
+| **Phase 3** | ⏳ Pending | - | Advanced Security (Auth, Encryption) |
+| **Phase 4** | ⏳ Pending | - | UX Enhancements |
+| **Phase 5** | ⏳ Pending | - | Admin Dashboard |
+| **Phase 6** | ⏳ Pending | - | API & Integrations |
+| **Phase 7** | ⏳ Pending | - | Advanced Features |
 
 ---
 

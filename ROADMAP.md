@@ -27,17 +27,20 @@ Application de partage de fichiers privée et sécurisée, alternative à WeTran
 - [x] Suppression automatique après expiration
 - [x] Limite de taille configurable par fichier/upload
 
-### 1.5 Partage de Fichiers Existants (Volume Mount) 🔜
+### 1.5 Partage de Fichiers Existants (Volume Mount) 🔄 70% Complete
 
-- [ ] Configuration d'un répertoire de partage (volume Docker)
-- [ ] Liste des fichiers disponibles dans le répertoire
-- [ ] Sélection de fichier(s) à partager (sans upload)
-- [ ] Génération de liens pour fichiers existants
-- [ ] Isolation sécurisée (seuls les fichiers explicitement partagés sont accessibles)
-- [ ] Support de sous-répertoires (optionnel)
-- [ ] Permissions de lecture seule sur le volume
-- [ ] Preview des fichiers disponibles (nom, taille, type)
-- [ ] Mode hybride : upload OU sélection de fichier existant
+- [x] Configuration d'un répertoire de partage (volume Docker)
+- [x] Liste des fichiers disponibles dans le répertoire (API)
+- [ ] Sélection de fichier(s) à partager (sans upload) - UI manquante
+- [x] Génération de liens pour fichiers existants (API)
+- [x] Isolation sécurisée (seuls les fichiers explicitement partagés sont accessibles)
+- [x] Support de sous-répertoires (API implémentée)
+- [x] Permissions de lecture seule sur le volume
+- [x] Preview des fichiers disponibles (nom, taille, type) - API
+- [x] Téléchargement de fichiers partagés (download handler mis à jour)
+- [ ] Mode hybride : upload OU sélection de fichier existant - UI manquante
+- [ ] Tests E2E pour shared volume
+- [ ] Page UI de navigation /share-existing
 
 ### 1.2 Génération de Liens Sécurisés ✅
 
