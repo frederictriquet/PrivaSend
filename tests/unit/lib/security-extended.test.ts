@@ -1,5 +1,10 @@
 import { describe, it, expect } from 'vitest';
-import { sanitizeInput } from '../../../src/lib/server/security';
+import {
+	sanitizeInput,
+	sanitizeFilename,
+	hasDangerousExtension,
+	isValidMimeType
+} from '../../../src/lib/server/security';
 
 describe('Security Extended Tests', () => {
 	describe('sanitizeInput', () => {
@@ -49,7 +54,6 @@ describe('Security Extended Tests', () => {
 
 	describe('filename edge cases', () => {
 		it('should handle very long filenames', () => {
-			const { sanitizeFilename } = require('../../../src/lib/server/security');
 			const longName = 'a'.repeat(300) + '.txt';
 			const result = sanitizeFilename(longName);
 			expect(result.length).toBeLessThanOrEqual(255);
@@ -57,59 +61,55 @@ describe('Security Extended Tests', () => {
 		});
 
 		it('should handle multiple dots', () => {
-			const { sanitizeFilename } = require('../../../src/lib/server/security');
 			expect(sanitizeFilename('file.tar.gz')).toBe('file.tar.gz');
 		});
 
 		it('should handle unicode characters', () => {
-			const { sanitizeFilename } = require('../../../src/lib/server/security');
 			expect(sanitizeFilename('文件.pdf')).toBe('文件.pdf');
 		});
 
 		it('should handle spaces', () => {
-			const { sanitizeFilename } = require('../../../src/lib/server/security');
 			expect(sanitizeFilename('my file.txt')).toBe('my file.txt');
 		});
 	});
 
 	describe('dangerous extensions edge cases', () => {
 		it('should detect uppercase extensions', () => {
-			const { hasDangerousExtension } = require('../../../src/lib/server/security');
 			expect(hasDangerousExtension('FILE.EXE')).toBe(true);
 		});
 
 		it('should detect mixed case', () => {
-			const { hasDangerousExtension } = require('../../../src/lib/server/security');
+			// Function already imported
 			expect(hasDangerousExtension('script.Sh')).toBe(true);
 		});
 
 		it('should handle multiple extensions', () => {
-			const { hasDangerousExtension } = require('../../../src/lib/server/security');
+			// Function already imported
 			expect(hasDangerousExtension('file.tar.sh')).toBe(true);
 		});
 
 		it('should allow safe image formats', () => {
-			const { hasDangerousExtension } = require('../../../src/lib/server/security');
+			// Function already imported
 			expect(hasDangerousExtension('photo.png')).toBe(false);
 			expect(hasDangerousExtension('image.gif')).toBe(false);
 			expect(hasDangerousExtension('pic.webp')).toBe(false);
 		});
 
 		it('should allow safe document formats', () => {
-			const { hasDangerousExtension } = require('../../../src/lib/server/security');
+			// Function already imported
 			expect(hasDangerousExtension('document.docx')).toBe(false);
 			expect(hasDangerousExtension('sheet.xlsx')).toBe(false);
 			expect(hasDangerousExtension('presentation.pptx')).toBe(false);
 		});
 
 		it('should allow safe archive formats', () => {
-			const { hasDangerousExtension } = require('../../../src/lib/server/security');
+			// Function already imported
 			expect(hasDangerousExtension('archive.7z')).toBe(false);
 			expect(hasDangerousExtension('files.rar')).toBe(false);
 		});
 
 		it('should detect all dangerous script extensions', () => {
-			const { hasDangerousExtension } = require('../../../src/lib/server/security');
+			// Function already imported
 			const dangerous = [
 				'malware.exe',
 				'script.bat',
@@ -133,7 +133,7 @@ describe('Security Extended Tests', () => {
 
 	describe('MIME type validation edge cases', () => {
 		it('should handle multiple wildcards', () => {
-			const { isValidMimeType } = require('../../../src/lib/server/security');
+			// Function already imported
 			const allowed = ['image/*', 'video/*', 'audio/*'];
 
 			expect(isValidMimeType('image/jpeg', allowed)).toBe(true);
@@ -143,7 +143,7 @@ describe('Security Extended Tests', () => {
 		});
 
 		it('should handle mixed exact and wildcard', () => {
-			const { isValidMimeType } = require('../../../src/lib/server/security');
+			// Function already imported
 			const allowed = ['image/*', 'application/pdf', 'text/plain'];
 
 			expect(isValidMimeType('image/png', allowed)).toBe(true);
@@ -153,18 +153,18 @@ describe('Security Extended Tests', () => {
 		});
 
 		it('should handle empty MIME type', () => {
-			const { isValidMimeType } = require('../../../src/lib/server/security');
+			// Function already imported
 			expect(isValidMimeType('', [])).toBe(true);
 			expect(isValidMimeType('', ['image/*'])).toBe(false);
 		});
 
 		it('should handle invalid MIME format', () => {
-			const { isValidMimeType } = require('../../../src/lib/server/security');
+			// Function already imported
 			expect(isValidMimeType('invalid', ['image/*'])).toBe(false);
 		});
 
 		it('should be case sensitive', () => {
-			const { isValidMimeType } = require('../../../src/lib/server/security');
+			// Function already imported
 			const allowed = ['image/jpeg'];
 			expect(isValidMimeType('image/JPEG', allowed)).toBe(false);
 			expect(isValidMimeType('IMAGE/jpeg', allowed)).toBe(false);

@@ -1,4 +1,5 @@
 import { describe, it, expect } from 'vitest';
+import { nanoid } from 'nanoid';
 
 describe('Utility Functions', () => {
 	describe('formatBytes', () => {
@@ -67,7 +68,6 @@ describe('Utility Functions', () => {
 
 	describe('token generation', () => {
 		it('should generate unique tokens', () => {
-			const { nanoid } = require('nanoid');
 			const token1 = nanoid(32);
 			const token2 = nanoid(32);
 
@@ -77,7 +77,6 @@ describe('Utility Functions', () => {
 		});
 
 		it('should generate URL-safe tokens', () => {
-			const { nanoid } = require('nanoid');
 			const token = nanoid(32);
 
 			// Should only contain URL-safe characters
