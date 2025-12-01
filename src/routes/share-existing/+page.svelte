@@ -40,14 +40,42 @@
 			}
 
 			const data = await response.json();
-			files = (data.files || []).map((f: FileEntry) => ({
-				...f,
-				isShared: false,
-				shareLink: null,
-				shareToken: null,
-				loading: false,
-				copied: false
-			}));
+
+			// Map files and check if they already have share links
+			files = await Promise.all(
+				(data.files || []).map(async (f: FileEntry) => {
+					// Check if file already has a share link
+					let existingLink = null;
+					let existingToken = null;
+
+					if (!f.isDirectory) {
+						try {
+							const linkResp = await fetch(
+								`/api/shared/check-link?path=${encodeURIComponent(f.relativePath)}`
+							);
+							if (linkResp.ok) {
+								const linkData = await linkResp.json();
+								if (linkData.hasLink) {
+									existingToken = linkData.token;
+									existingLink = `${window.location.origin}/download/${linkData.token}`;
+								}
+							}
+						} catch {
+							// Ignore errors
+						}
+					}
+
+					return {
+						...f,
+						isShared: !!existingLink,
+						shareLink: existingLink,
+						shareToken: existingToken,
+						loading: false,
+						copied: false
+					};
+				})
+			);
+
 			currentPath = path;
 		} catch (err) {
 			error = err instanceof Error ? err.message : 'Failed to load files';
