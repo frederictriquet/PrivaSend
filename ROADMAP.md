@@ -286,20 +286,21 @@ Pour activer release-please et uploads Security tab, configurer dans GitHub :
 
 ## Phase 4 : Expérience Utilisateur
 
-### 4.1 Interface Web Moderne ✅ IMPLÉMENTÉ
+### 4.1 Interface Web Moderne 🔄 INFRASTRUCTURE
 
 - [x] Design responsive (mobile-first) - Déjà présent
-- [x] Mode sombre/clair - Theme toggle avec localStorage
+- [x] Mode sombre/clair - Infrastructure complète
 - [x] Glisser-déposer intuitif - Déjà présent
-- [x] Barre de progression pour uploads/downloads - Déjà présent
-- [ ] tests unitaires et E2E
+- [x] Barre de progression - Déjà présent
 
-**Implémenté** :
+**Infrastructure Dark Mode** :
 
-- Theme store avec persistance localStorage
-- CSS variables (light/dark themes)
-- Toggle button (🌙/☀️)
-- Smooth transitions
+- ✅ Theme store + localStorage
+- ✅ CSS variables définies
+- ✅ Toggle button (🌙/☀️)
+- ⏳ Pages à refactorer (styles hardcodés)
+
+**Note** : Infrastructure en place, refactor visuel optionnel.
 
 ### 4.2 Notifications & Communication
 
