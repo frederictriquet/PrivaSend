@@ -6,6 +6,7 @@ import { config } from '$lib/server/config';
 import { nanoid } from 'nanoid';
 import { checkRateLimit } from '$lib/server/ratelimit';
 import { sanitizeFilename, isValidMimeType, hasDangerousExtension } from '$lib/server/security';
+import { AuditService } from '$lib/server/audit';
 
 /**
  * Handle file upload
@@ -92,6 +93,12 @@ async function handleMultipartUpload(request: Request) {
 	linkExpiresAt.setDate(linkExpiresAt.getDate() + config.links.defaultExpirationDays);
 
 	const shareLink = database.createShareLink(token, metadata.id, linkExpiresAt);
+
+	// Log upload success
+	AuditService.logUpload('create', 'success', metadata.id, '127.0.0.1', undefined, {
+		fileName: metadata.originalName,
+		fileSize: metadata.size
+	});
 
 	return json({
 		success: true,

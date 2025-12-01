@@ -4,13 +4,15 @@ import { SharedVolumeService } from '$lib/server/sharedvolume';
 import { database } from '$lib/server/database';
 import { nanoid } from 'nanoid';
 import { config } from '$lib/server/config';
+import { AuditService } from '$lib/server/audit';
 
 /**
  * Create share link for a file in shared volume
  * POST /api/shared/link
  * Body: { relativePath: string, expirationDays?: number, maxDownloads?: number }
  */
-export const POST: RequestHandler = async ({ request }) => {
+export const POST: RequestHandler = async (event) => {
+	const { request } = event;
 	if (!SharedVolumeService.isEnabled()) {
 		throw error(404, 'Shared volume feature is not enabled');
 	}
@@ -65,6 +67,12 @@ export const POST: RequestHandler = async ({ request }) => {
 			null,
 			null
 		);
+
+		// Log link creation
+		AuditService.logLinkCreation('success', token, 'shared', event.getClientAddress(), {
+			fileName: fileInfo.name,
+			relativePath
+		});
 
 		return json({
 			success: true,

@@ -6,6 +6,7 @@ import { SharedVolumeService } from '$lib/server/sharedvolume';
 import { createReadStream, statSync } from 'fs';
 import { Readable } from 'stream';
 import { checkRateLimit } from '$lib/server/ratelimit';
+import { AuditService } from '$lib/server/audit';
 
 /**
  * Handle file download with Range support
@@ -73,6 +74,16 @@ export const GET: RequestHandler = async (event) => {
 
 	// Increment download count
 	database.incrementDownloadCount(token);
+
+	// Log download
+	AuditService.logDownload(
+		'read',
+		'success',
+		token,
+		event.getClientAddress(),
+		request.headers.get('user-agent') || undefined,
+		{ fileName }
+	);
 
 	// Get file stats (already have fileSize)
 	const stat = statSync(filePath);
