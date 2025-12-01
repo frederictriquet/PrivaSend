@@ -292,20 +292,15 @@ Pour activer release-please et uploads Security tab, configurer dans GitHub :
 - [ ] Mode sombre/clair
 - [ ] Glisser-déposer intuitif
 - [ ] Barre de progression pour uploads/downloads
-- [ ] Prévisualisation des fichiers (images, PDF, vidéos)
+- [ ] tests unitaires et E2E
 
-### 4.2 Gestion Multi-fichiers
-
-- [ ] Upload de dossiers complets
-- [ ] Archive automatique (ZIP) pour multiple files
-- [ ] Téléchargement en batch
-- [ ] Organisation par collections/dossiers
-
-### 4.3 Notifications & Communication
+### 4.2 Notifications & Communication
 
 - [ ] Notification de téléchargement au partageur
+- [ ] Compteur de téléchargement pour chaque fichier partagé
 - [ ] Message personnalisé avec le partage
 - [ ] QR Code pour partage facile
+- [ ] tests unitaires et E2E
 
 ---
 

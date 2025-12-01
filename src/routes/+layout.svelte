@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { auth } from '$lib/stores/auth';
+	import { theme } from '$lib/stores/theme';
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
 
@@ -13,26 +14,37 @@
 		auth.logout();
 	}
 
+	function toggleTheme() {
+		theme.toggle();
+	}
+
 	// Don't show logout button on login page
 	let isLoginPage = $derived($page.url.pathname === '/login');
 </script>
 
-{#if $auth.authEnabled && $auth.isAuthenticated && !isLoginPage}
-	<div class="logout-container">
+<div class="controls-container">
+	<button class="theme-toggle" onclick={toggleTheme} title="Toggle dark mode">
+		{$theme === 'light' ? '🌙' : '☀️'}
+	</button>
+
+	{#if $auth.authEnabled && $auth.isAuthenticated && !isLoginPage}
 		<button class="logout-button" onclick={handleLogout}>Logout</button>
-	</div>
-{/if}
+	{/if}
+</div>
 
 {@render children()}
 
 <style>
-	.logout-container {
+	.controls-container {
 		position: fixed;
 		top: 1rem;
 		right: 1rem;
 		z-index: 1000;
+		display: flex;
+		gap: 0.5rem;
 	}
 
+	.theme-toggle,
 	.logout-button {
 		padding: 0.5rem 1rem;
 		background: white;
@@ -46,10 +58,16 @@
 		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 	}
 
+	.theme-toggle {
+		font-size: 1.2rem;
+		padding: 0.5rem 0.75rem;
+	}
+
+	.theme-toggle:hover,
 	.logout-button:hover {
 		background: #f5f5f5;
 		border-color: #667eea;
-		color: #667eea;
+		transform: translateY(-2px);
 		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 	}
 </style>
