@@ -1,6 +1,7 @@
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { SessionService } from '$lib/server/session';
+import { AuditService } from '$lib/server/audit';
 
 /**
  * Logout endpoint
@@ -11,7 +12,10 @@ export const POST: RequestHandler = async (event) => {
 
 	if (session) {
 		SessionService.destroySession(session.id);
-		console.log(`User logged out from ${event.getClientAddress()}`);
+		// Log logout
+		AuditService.logAuth('logout', 'success', event.getClientAddress(), {
+			sessionId: session.id
+		});
 	}
 
 	SessionService.clearSessionCookie(event);

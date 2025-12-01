@@ -3,6 +3,7 @@ import type { RequestHandler } from './$types';
 import { AuthService } from '$lib/server/auth';
 import { SessionService } from '$lib/server/session';
 import { checkRateLimit } from '$lib/server/ratelimit';
+import { AuditService } from '$lib/server/audit';
 
 /**
  * Login endpoint
@@ -26,7 +27,8 @@ export const POST: RequestHandler = async (event) => {
 		const isValid = await AuthService.verifyPassword(password);
 
 		if (!isValid) {
-			console.log(`Failed login attempt from ${event.getClientAddress()}`);
+			// Log failed login attempt
+			AuditService.logAuth('login', 'failure', event.getClientAddress());
 			throw error(401, 'Invalid password');
 		}
 
@@ -34,7 +36,10 @@ export const POST: RequestHandler = async (event) => {
 		const session = SessionService.createSession();
 		SessionService.setSessionCookie(event, session.id);
 
-		console.log(`Successful login from ${event.getClientAddress()}`);
+		// Log successful login
+		AuditService.logAuth('login', 'success', event.getClientAddress(), {
+			sessionId: session.id
+		});
 
 		return json({
 			success: true,

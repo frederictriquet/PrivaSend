@@ -71,6 +71,26 @@ class DatabaseService {
 			CREATE INDEX IF NOT EXISTS idx_fileId ON share_links(fileId);
 			CREATE INDEX IF NOT EXISTS idx_expiresAt ON share_links(expiresAt);
 			CREATE INDEX IF NOT EXISTS idx_sourceType ON share_links(sourceType);
+
+			CREATE TABLE IF NOT EXISTS audit_logs (
+				id INTEGER PRIMARY KEY AUTOINCREMENT,
+				timestamp INTEGER NOT NULL,
+				event_type TEXT NOT NULL,
+				user_type TEXT NOT NULL,
+				ip_address TEXT NOT NULL,
+				user_agent TEXT,
+				resource_type TEXT,
+				resource_id TEXT,
+				action TEXT NOT NULL,
+				status TEXT NOT NULL,
+				details TEXT,
+				created_at INTEGER NOT NULL
+			);
+
+			CREATE INDEX IF NOT EXISTS idx_audit_timestamp ON audit_logs(timestamp);
+			CREATE INDEX IF NOT EXISTS idx_audit_event_type ON audit_logs(event_type);
+			CREATE INDEX IF NOT EXISTS idx_audit_ip ON audit_logs(ip_address);
+			CREATE INDEX IF NOT EXISTS idx_audit_resource ON audit_logs(resource_type, resource_id);
 		`);
 	}
 
@@ -234,6 +254,113 @@ class DatabaseService {
 		`);
 
 		return stmt.all() as ShareLink[];
+	}
+
+	/**
+	 * Create audit log entry
+	 */
+	createAuditLog(log: {
+		timestamp: number;
+		eventType: string;
+		userType: string;
+		ipAddress: string;
+		userAgent?: string;
+		resourceType?: string;
+		resourceId?: string;
+		action: string;
+		status: string;
+		details?: string;
+		createdAt: number;
+	}): void {
+		const db = this.getDb();
+		const stmt = db.prepare(`
+			INSERT INTO audit_logs (
+				timestamp, event_type, user_type, ip_address, user_agent,
+				resource_type, resource_id, action, status, details, created_at
+			) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+		`);
+
+		stmt.run(
+			log.timestamp,
+			log.eventType,
+			log.userType,
+			log.ipAddress,
+			log.userAgent || null,
+			log.resourceType || null,
+			log.resourceId || null,
+			log.action,
+			log.status,
+			log.details || null,
+			log.createdAt
+		);
+	}
+
+	/**
+	 * Get recent audit logs
+	 */
+	getRecentAuditLogs(limit: number): unknown[] {
+		const db = this.getDb();
+		const stmt = db.prepare(`
+			SELECT * FROM audit_logs
+			ORDER BY timestamp DESC
+			LIMIT ?
+		`);
+		return stmt.all(limit);
+	}
+
+	/**
+	 * Get audit logs by event type
+	 */
+	getAuditLogsByEventType(eventType: string, limit: number): unknown[] {
+		const db = this.getDb();
+		const stmt = db.prepare(`
+			SELECT * FROM audit_logs
+			WHERE event_type = ?
+			ORDER BY timestamp DESC
+			LIMIT ?
+		`);
+		return stmt.all(eventType, limit);
+	}
+
+	/**
+	 * Get audit logs by IP address
+	 */
+	getAuditLogsByIp(ipAddress: string, limit: number): unknown[] {
+		const db = this.getDb();
+		const stmt = db.prepare(`
+			SELECT * FROM audit_logs
+			WHERE ip_address = ?
+			ORDER BY timestamp DESC
+			LIMIT ?
+		`);
+		return stmt.all(ipAddress, limit);
+	}
+
+	/**
+	 * Get audit logs by resource
+	 */
+	getAuditLogsByResource(resourceType: string, resourceId: string): unknown[] {
+		const db = this.getDb();
+		const stmt = db.prepare(`
+			SELECT * FROM audit_logs
+			WHERE resource_type = ? AND resource_id = ?
+			ORDER BY timestamp DESC
+		`);
+		return stmt.all(resourceType, resourceId);
+	}
+
+	/**
+	 * Cleanup old audit logs
+	 */
+	cleanupOldAuditLogs(retentionDays: number): number {
+		const db = this.getDb();
+		const cutoff = Date.now() - retentionDays * 24 * 60 * 60 * 1000;
+		const stmt = db.prepare(`
+			DELETE FROM audit_logs
+			WHERE timestamp < ?
+		`);
+		const result = stmt.run(cutoff);
+		return result.changes;
 	}
 
 	/**
