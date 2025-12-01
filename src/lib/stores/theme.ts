@@ -1,4 +1,4 @@
-import { writable, get } from 'svelte/store';
+import { writable } from 'svelte/store';
 import { browser } from '$app/environment';
 
 type Theme = 'light' | 'dark';
@@ -7,18 +7,23 @@ function createThemeStore() {
 	const stored = browser ? localStorage.getItem('theme') : null;
 	const initial: Theme = (stored as Theme) || 'light';
 
-	const { subscribe, set } = writable<Theme>(initial);
+	const store = writable<Theme>(initial);
+	let currentTheme = initial;
 
 	// Apply theme on init
 	if (browser && initial) {
 		document.documentElement.setAttribute('data-theme', initial);
 	}
 
+	// Subscribe to update current value
+	store.subscribe((value) => {
+		currentTheme = value;
+	});
+
 	return {
-		subscribe,
+		subscribe: store.subscribe,
 		toggle() {
-			const current = get({ subscribe });
-			const newTheme = current === 'light' ? 'dark' : 'light';
+			const newTheme = currentTheme === 'light' ? 'dark' : 'light';
 			this.set(newTheme);
 		},
 		set(newTheme: Theme) {
@@ -26,7 +31,7 @@ function createThemeStore() {
 				localStorage.setItem('theme', newTheme);
 				document.documentElement.setAttribute('data-theme', newTheme);
 			}
-			set(newTheme);
+			store.set(newTheme);
 		}
 	};
 }

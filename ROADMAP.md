@@ -292,6 +292,7 @@ Pour activer release-please et uploads Security tab, configurer dans GitHub :
 - [x] Mode sombre/clair - Theme toggle avec localStorage
 - [x] Glisser-déposer intuitif - Déjà présent
 - [x] Barre de progression pour uploads/downloads - Déjà présent
+- [ ] tests unitaires et E2E
 
 **Implémenté** :
 
