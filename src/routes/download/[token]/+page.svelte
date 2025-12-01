@@ -187,9 +187,8 @@
 		</div>
 
 		<footer>
-			<a href="/">Upload a file</a>
-			<p style="margin-top: 1rem; font-size: 0.75rem; opacity: 0.8;">
-				v{buildInfo.version} • {new Date(buildInfo.buildDate).toLocaleDateString()}
+			<p style="font-size: 0.75rem; opacity: 0.8;">
+				PrivaSend v{buildInfo.version} • {new Date(buildInfo.buildDate).toLocaleDateString()}
 			</p>
 		</footer>
 	</div>
@@ -363,18 +362,6 @@
 	footer {
 		text-align: center;
 		margin-top: 2rem;
-	}
-
-	footer a {
-		color: white;
-		text-decoration: none;
-		font-size: 0.875rem;
-		opacity: 0.9;
-		transition: opacity 0.2s;
-	}
-
-	footer a:hover {
-		opacity: 1;
-		text-decoration: underline;
+		color: rgba(255, 255, 255, 0.8);
 	}
 </style>
