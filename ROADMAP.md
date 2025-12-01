@@ -308,6 +308,12 @@ Pour activer release-please et uploads Security tab, configurer dans GitHub :
 - Appliquer dans : +page.svelte, login, share-existing, download
 - Estimation : 2-3h de refactor
 
+**Tests** :
+
+- [ ] Tests unitaires theme store
+- [ ] Tests E2E theme toggle
+- [ ] Tests persistence localStorage
+
 **Note** : Infrastructure complète et fonctionnelle. Refactor visuel optionnel mais simple.
 
 ### 4.2 Notifications & Communication
