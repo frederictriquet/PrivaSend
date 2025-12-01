@@ -16,8 +16,9 @@ Application de partage de fichiers privée et sécurisée, alternative à WeTran
   - ✅ Phase 1.6 : Upload Disable Mode (Terminée)
   - ✅ Phase 1.7 : Authentification Admin (Terminée - tests à compléter)
 - ✅ **Phase 2** : CI/CD & Qualité - 95% Complete (CD partiel)
-- 🔜 **Phase 3** : Audit & Traçabilité - Prochaine
-- ⏳ **Phases 4-7** : En attente
+- ✅ **Phase 3** : Audit & Traçabilité - Backend Complet
+- 🔜 **Phase 4** : UX Améliorée - Prochaine
+- ⏳ **Phases 5-7** : En attente
 
 ---
 
@@ -254,12 +255,32 @@ Pour activer release-please et uploads Security tab, configurer dans GitHub :
 
 ---
 
-## Phase 3 : Audit & Traçabilité
+## Phase 3 : Audit & Traçabilité ✅ IMPLÉMENTÉ
 
-- [ ] Logs d'accès (qui, quand, depuis où)
-- [ ] Notifications de téléchargement
-- [ ] Historique des partages
-- [ ] Alertes en cas d'activité suspecte
+### Infrastructure ✅
+
+- [x] Table audit_logs dans database
+- [x] AuditService avec méthodes de logging
+- [x] Indexes pour queries rapides
+
+### Événements Loggés ✅
+
+- [x] Login success/failure (avec IP)
+- [x] Logout (avec session ID)
+- [x] Upload success (avec fileName, fileSize)
+- [x] Download (avec fileName, user-agent)
+- [x] Share link creation (upload et shared modes)
+
+### API ✅
+
+- [x] GET /api/audit/logs (admin only)
+- [x] Query params: ?type=..., ?ip=..., ?limit=...
+
+### Configuration ✅
+
+- [x] AUDIT_RETENTION_DAYS dans .env
+
+**Status** : Backend complet, UI viewer optionnel
 
 ---
 
@@ -415,12 +436,11 @@ Pour activer release-please et uploads Security tab, configurer dans GitHub :
 
 1. **MVP fonctionnel** (Phase 1.1-1.7) - ✅ TERMINÉ (2025-11-30)
 2. **CI/CD & Qualité** (Phase 2) - ✅ TERMINÉ (2025-11-29)
-3. **🔜 Audit & Traçabilité** (Phase 3) - 1 semaine - **PROCHAINE**
-4. **Tests Phase 1.7** (Tests auth + doc) - 1 jour
-5. **UX Améliorée** (Phase 4) - 1-2 semaines
-6. **Administration** (Phase 5) - 1 semaine
-7. **API & Intégrations** (Phase 6) - 2 semaines
-8. **Fonctionnalités Avancées** (Phase 7) - évolutif
+3. **✅ Audit & Traçabilité** (Phase 3) - TERMINÉ (2025-12-01)
+4. **🔜 UX Améliorée** (Phase 4) - **PROCHAINE**
+5. **Administration** (Phase 5) - 1 semaine
+6. **API & Intégrations** (Phase 6) - 2 semaines
+7. **Fonctionnalités Avancées** (Phase 7) - évolutif
 
 **Note** : Phase 1 est 100% complète avec toutes les fonctionnalités core, y compris la sécurité admin. L'application est prête pour un déploiement production sécurisé.
 
