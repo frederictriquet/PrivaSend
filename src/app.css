@@ -1,0 +1,38 @@
+/* Global CSS Variables for Theme Support */
+
+:root[data-theme='light'] {
+	--bg-gradient-start: #667eea;
+	--bg-gradient-end: #764ba2;
+	--bg-primary: #ffffff;
+	--bg-secondary: #f7fafc;
+	--text-primary: #333333;
+	--text-secondary: #666666;
+	--border-color: #e0e0e0;
+	--accent: #667eea;
+	--accent-hover: #5568d3;
+	--error-bg: #fee;
+	--error-text: #c33;
+	--success-bg: #e6f7ed;
+	--success-text: #1a7f37;
+}
+
+:root[data-theme='dark'] {
+	--bg-gradient-start: #1a1a2e;
+	--bg-gradient-end: #16213e;
+	--bg-primary: #0f3460;
+	--bg-secondary: #1a2942;
+	--text-primary: #e4e4e7;
+	--text-secondary: #a1a1aa;
+	--border-color: #27272a;
+	--accent: #818cf8;
+	--accent-hover: #6366f1;
+	--error-bg: #7f1d1d;
+	--error-text: #fca5a5;
+	--success-bg: #14532d;
+	--success-text: #86efac;
+}
+
+/* Apply theme transitions */
+* {
+	transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}

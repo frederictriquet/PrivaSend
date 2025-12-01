@@ -3,6 +3,7 @@
 	import { theme } from '$lib/stores/theme';
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
+	import '../app.css';
 
 	let { children } = $props();
 
