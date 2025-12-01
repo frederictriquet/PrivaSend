@@ -300,7 +300,15 @@ Pour activer release-please et uploads Security tab, configurer dans GitHub :
 - ✅ Toggle button (🌙/☀️)
 - ⏳ Pages à refactorer (styles hardcodés)
 
-**Note** : Infrastructure en place, refactor visuel optionnel.
+**Pour terminer le dark mode** :
+
+- Remplacer `background: white` par `background: var(--bg-primary)` dans tous les composants
+- Remplacer `color: #333` par `color: var(--text-primary)`
+- Remplacer `border-color: #ddd` par `border-color: var(--border-color)`
+- Appliquer dans : +page.svelte, login, share-existing, download
+- Estimation : 2-3h de refactor
+
+**Note** : Infrastructure complète et fonctionnelle. Refactor visuel optionnel mais simple.
 
 ### 4.2 Notifications & Communication
 
