@@ -282,7 +282,6 @@ Pour activer release-please et uploads Security tab, configurer dans GitHub :
 
 ### 4.3 Notifications & Communication
 
-- [ ] Envoi automatique du lien par email
 - [ ] Notification de téléchargement au partageur
 - [ ] Message personnalisé avec le partage
 - [ ] QR Code pour partage facile
@@ -301,9 +300,7 @@ Pour activer release-please et uploads Security tab, configurer dans GitHub :
 ### 5.2 Configuration Avancée
 
 - [ ] Paramètres de rétention par défaut
-- [ ] Quotas de stockage par utilisateur
 - [ ] Politique de sécurité personnalisable
-- [ ] Branding personnalisé (logo, couleurs)
 
 ### 5.3 Monitoring
 

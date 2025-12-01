@@ -10,22 +10,19 @@
 		lastModified: Date;
 	}
 
-	interface ShareLinkResult {
-		token: string;
-		url: string;
-		fileName: string;
-		fileSize: number;
-		expiresAt: string;
+	interface FileWithShare extends FileEntry {
+		isShared: boolean;
+		shareLink: string | null;
+		shareToken: string | null;
+		loading: boolean;
+		copied: boolean;
 	}
 
-	let files: FileEntry[] = $state([]);
+	let files: FileWithShare[] = $state([]);
 	let currentPath: string = $state('');
 	let loading: boolean = $state(false);
 	let error: string | null = $state(null);
-	let shareLink: ShareLinkResult | null = $state(null);
-	let copied: boolean = $state(false);
 
-	// Load on mount
 	$effect(() => {
 		loadFiles('');
 	});
@@ -43,58 +40,82 @@
 			}
 
 			const data = await response.json();
-			files = data.files || [];
+			files = (data.files || []).map((f: FileEntry) => ({
+				...f,
+				isShared: false,
+				shareLink: null,
+				shareToken: null,
+				loading: false,
+				copied: false
+			}));
 			currentPath = path;
 		} catch (err) {
 			error = err instanceof Error ? err.message : 'Failed to load files';
-			if (error.includes('not enabled')) {
-				error = 'Shared volume feature is not enabled. Set SHARED_VOLUME_ENABLED=true';
-			}
 		} finally {
 			loading = false;
 		}
 	}
 
-	async function shareFile(file: FileEntry) {
-		loading = true;
-		error = null;
+	async function toggleShare(file: FileWithShare) {
+		if (file.isDirectory) return;
 
-		try {
-			const response = await fetch('/api/shared/link', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({
-					relativePath: file.relativePath
-				})
-			});
+		if (file.isShared) {
+			// Unshare (just clear the UI, link still valid in DB)
+			file.isShared = false;
+			file.shareLink = null;
+			file.shareToken = null;
+		} else {
+			// Create share link
+			file.loading = true;
 
-			if (!response.ok) {
-				throw new Error('Failed to create share link');
+			try {
+				const response = await fetch('/api/shared/link', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ relativePath: file.relativePath })
+				});
+
+				if (!response.ok) {
+					throw new Error('Failed to create share link');
+				}
+
+				const data = await response.json();
+				file.isShared = true;
+				file.shareToken = data.link.token;
+				file.shareLink = `${window.location.origin}${data.link.url}`;
+			} catch (err) {
+				error = err instanceof Error ? err.message : 'Failed to share file';
+			} finally {
+				file.loading = false;
 			}
-
-			const data = await response.json();
-			shareLink = data.link;
-		} catch (err) {
-			error = err instanceof Error ? err.message : 'Failed to share file';
-		} finally {
-			loading = false;
 		}
 	}
 
-	async function copyToClipboard() {
-		if (!shareLink) return;
-
-		const fullUrl = `${window.location.origin}${shareLink.url}`;
+	async function copyLink(file: FileWithShare, event: Event) {
+		event.stopPropagation();
+		if (!file.shareLink) return;
 
 		try {
-			await navigator.clipboard.writeText(fullUrl);
-			copied = true;
+			await navigator.clipboard.writeText(file.shareLink);
+			file.copied = true;
 			setTimeout(() => {
-				copied = false;
+				file.copied = false;
 			}, 2000);
 		} catch (err) {
 			console.error('Failed to copy:', err);
 		}
+	}
+
+	function navigateTo(file: FileEntry) {
+		if (file.isDirectory) {
+			loadFiles(file.relativePath);
+		}
+	}
+
+	function goBack() {
+		const parts = currentPath.split('/').filter(Boolean);
+		parts.pop();
+		loadFiles(parts.join('/'));
 	}
 
 	function formatBytes(bytes: number): string {
@@ -105,10 +126,6 @@
 		return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + ' ' + sizes[i];
 	}
 
-	function formatDate(date: Date): string {
-		return new Date(date).toLocaleDateString() + ' ' + new Date(date).toLocaleTimeString();
-	}
-
 	function getFileIcon(file: FileEntry): string {
 		if (file.isDirectory) return '📁';
 		if (file.mimeType.startsWith('image/')) return '🖼️';
@@ -117,18 +134,6 @@
 		if (file.mimeType.includes('pdf')) return '📄';
 		if (file.mimeType.includes('zip') || file.mimeType.includes('tar')) return '📦';
 		return '📄';
-	}
-
-	function goBack() {
-		const parts = currentPath.split('/').filter(Boolean);
-		parts.pop();
-		const parentPath = parts.join('/');
-		loadFiles(parentPath);
-	}
-
-	function resetShare() {
-		shareLink = null;
-		copied = false;
 	}
 </script>
 
@@ -149,119 +154,76 @@
 		</nav>
 
 		<div class="content-section">
-			{#if !shareLink}
-				<div class="browser-section">
-					<div class="breadcrumb">
-						<span class="path-label">Current path:</span>
-						<span class="current-path">/{currentPath || 'root'}</span>
-						{#if currentPath}
-							<button class="back-button" onclick={goBack}>← Back</button>
-						{/if}
-					</div>
+			<div class="breadcrumb">
+				<span class="path-label">Path:</span>
+				<span class="current-path">/{currentPath || 'root'}</span>
+				{#if currentPath}
+					<button class="back-button" onclick={goBack}>← Back</button>
+				{/if}
+			</div>
 
-					{#if loading}
-						<div class="loading">Loading...</div>
-					{:else if error}
-						<div class="error-message">
-							<svg
-								class="error-icon"
-								xmlns="http://www.w3.org/2000/svg"
-								fill="none"
-								viewBox="0 0 24 24"
-								stroke="currentColor"
+			{#if loading}
+				<div class="loading">Loading files...</div>
+			{:else if error}
+				<div class="error-box">{error}</div>
+			{:else if files.length === 0}
+				<div class="empty">No files in this directory</div>
+			{:else}
+				<div class="file-list">
+					{#each files as file}
+						<div class="file-row">
+							<div
+								class="file-info"
+								onclick={() => navigateTo(file)}
+								onkeydown={(e) => e.key === 'Enter' && navigateTo(file)}
+								role="button"
+								tabindex="0"
 							>
-								<path
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									stroke-width="2"
-									d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-								/>
-							</svg>
-							<p>{error}</p>
-						</div>
-					{:else if files.length === 0}
-						<div class="empty-state">
-							<p>No files in this directory</p>
-						</div>
-					{:else}
-						<div class="file-list">
-							{#each files as file}
-								<div class="file-item">
-									<div class="file-info">
-										<span class="file-icon">{getFileIcon(file)}</span>
-										<div class="file-details">
-											<div class="file-name">{file.name}</div>
-											<div class="file-meta">
-												{#if !file.isDirectory}
-													{formatBytes(file.size)} • {formatDate(file.lastModified)}
-												{:else}
-													Directory
-												{/if}
-											</div>
-										</div>
-									</div>
-									<div class="file-actions">
-										{#if file.isDirectory}
-											<button class="action-button" onclick={() => loadFiles(file.relativePath)}>
-												Open →
-											</button>
-										{:else}
-											<button
-												class="action-button primary"
-												onclick={() => shareFile(file)}
-												disabled={loading}
-											>
-												Share
-											</button>
+								<span class="file-icon">{getFileIcon(file)}</span>
+								<div class="file-details">
+									<div class="file-name">{file.name}</div>
+									<div class="file-meta">
+										{#if !file.isDirectory}
+											{formatBytes(file.size)}
 										{/if}
 									</div>
 								</div>
-							{/each}
-						</div>
-					{/if}
-				</div>
-			{:else}
-				<div class="success-message">
-					<svg
-						class="success-icon"
-						xmlns="http://www.w3.org/2000/svg"
-						fill="none"
-						viewBox="0 0 24 24"
-						stroke="currentColor"
-					>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-						/>
-					</svg>
-					<h2>Share link created!</h2>
-					<p class="file-name">{shareLink.fileName}</p>
-					<p class="file-size">{formatBytes(shareLink.fileSize)}</p>
+							</div>
 
-					<div class="share-link-box">
-						<label for="shareLink">Share this link:</label>
-						<div class="link-input-group">
-							<input
-								type="text"
-								id="shareLink"
-								readonly
-								value="{window.location.origin}{shareLink.url}"
-								onclick={(e) => e.currentTarget.select()}
-							/>
-							<button class="copy-button" onclick={copyToClipboard} title="Copy to clipboard">
-								{#if copied}
-									✓ Copied!
-								{:else}
-									📋 Copy
-								{/if}
-							</button>
-						</div>
-						<p class="link-info">Link expires in 7 days</p>
-					</div>
+							{#if !file.isDirectory}
+								<div class="share-controls">
+									<label class="checkbox-label">
+										<input
+											type="checkbox"
+											checked={file.isShared}
+											onchange={() => toggleShare(file)}
+											disabled={file.loading}
+										/>
+										<span>Share</span>
+									</label>
 
-					<button class="button-secondary" onclick={resetShare}>Share another file</button>
+									{#if file.loading}
+										<span class="loading-text">Creating link...</span>
+									{/if}
+
+									{#if file.isShared && file.shareLink}
+										<div class="share-link-inline">
+											<input
+												type="text"
+												readonly
+												value={file.shareLink}
+												onclick={(e) => e.currentTarget.select()}
+												class="link-input"
+											/>
+											<button class="copy-btn" onclick={(e) => copyLink(file, e)} title="Copy link">
+												{file.copied ? '✓' : '📋'}
+											</button>
+										</div>
+									{/if}
+								</div>
+							{/if}
+						</div>
+					{/each}
 				</div>
 			{/if}
 		</div>
@@ -279,65 +241,56 @@
 <style>
 	:global(body) {
 		margin: 0;
-		padding: 0;
-		font-family:
-			-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 		min-height: 100vh;
 	}
 
 	main {
-		min-height: 100vh;
-		display: flex;
-		align-items: center;
-		justify-content: center;
 		padding: 2rem;
+		min-height: 100vh;
 	}
 
 	.container {
-		max-width: 800px;
-		width: 100%;
+		max-width: 900px;
+		margin: 0 auto;
 	}
 
 	header {
 		text-align: center;
-		color: white;
 		margin-bottom: 2rem;
+		color: white;
 	}
 
 	h1 {
 		font-size: 2.5rem;
-		margin: 0 0 0.5rem 0;
-		font-weight: 700;
+		margin-bottom: 0.5rem;
 	}
 
 	.subtitle {
-		font-size: 1rem;
-		margin: 0;
+		font-size: 1.1rem;
 		opacity: 0.9;
+		margin: 0;
 	}
 
 	.mode-nav {
 		display: flex;
-		gap: 1rem;
+		gap: 0.5rem;
 		margin-bottom: 2rem;
-		background: rgba(255, 255, 255, 0.1);
-		padding: 0.5rem;
-		border-radius: 0.5rem;
+		justify-content: center;
 	}
 
 	.nav-link {
-		flex: 1;
 		padding: 0.75rem 1.5rem;
-		text-align: center;
+		background: rgba(255, 255, 255, 0.2);
 		color: white;
 		text-decoration: none;
-		border-radius: 0.375rem;
-		transition: all 0.2s;
+		border-radius: 0.5rem;
+		transition: background 0.2s;
 	}
 
 	.nav-link:hover {
-		background: rgba(255, 255, 255, 0.1);
+		background: rgba(255, 255, 255, 0.3);
 	}
 
 	.nav-link.active {
@@ -357,59 +310,76 @@
 	.breadcrumb {
 		display: flex;
 		align-items: center;
-		gap: 1rem;
-		padding: 1rem;
-		background: #f7fafc;
-		border-radius: 0.5rem;
+		gap: 0.5rem;
 		margin-bottom: 1.5rem;
+		padding-bottom: 1rem;
+		border-bottom: 1px solid #e0e0e0;
 	}
 
 	.path-label {
 		font-weight: 600;
-		color: #718096;
+		color: #666;
 	}
 
 	.current-path {
-		font-family: 'Monaco', monospace;
-		color: #2d3748;
+		font-family: monospace;
+		color: #333;
 	}
 
 	.back-button {
 		margin-left: auto;
 		padding: 0.5rem 1rem;
-		background: #667eea;
-		color: white;
-		border: none;
+		background: #f5f5f5;
+		border: 1px solid #ddd;
 		border-radius: 0.375rem;
 		cursor: pointer;
+		font-size: 0.9rem;
+	}
+
+	.back-button:hover {
+		background: #e8e8e8;
+	}
+
+	.loading,
+	.error-box,
+	.empty {
+		text-align: center;
+		padding: 3rem;
+		color: #666;
+	}
+
+	.error-box {
+		background: #fee;
+		color: #c33;
+		border-radius: 0.5rem;
 	}
 
 	.file-list {
 		display: flex;
 		flex-direction: column;
-		gap: 0.75rem;
+		gap: 0.5rem;
 	}
 
-	.file-item {
+	.file-row {
 		display: flex;
-		align-items: center;
-		justify-content: space-between;
+		align-items: flex-start;
+		gap: 1rem;
 		padding: 1rem;
-		border: 1px solid #e2e8f0;
+		border: 1px solid #e0e0e0;
 		border-radius: 0.5rem;
-		transition: all 0.2s;
+		transition: background 0.2s;
 	}
 
-	.file-item:hover {
-		border-color: #667eea;
-		background: #f7fafc;
+	.file-row:hover {
+		background: #f9f9f9;
 	}
 
 	.file-info {
 		display: flex;
 		align-items: center;
-		gap: 1rem;
+		gap: 0.75rem;
 		flex: 1;
+		cursor: pointer;
 	}
 
 	.file-icon {
@@ -422,172 +392,91 @@
 
 	.file-name {
 		font-weight: 500;
-		color: #2d3748;
+		color: #333;
 		margin-bottom: 0.25rem;
 	}
 
 	.file-meta {
-		font-size: 0.875rem;
-		color: #718096;
+		font-size: 0.85rem;
+		color: #666;
 	}
 
-	.action-button {
-		padding: 0.5rem 1.5rem;
-		border: 2px solid #667eea;
-		background: white;
-		color: #667eea;
-		border-radius: 0.375rem;
+	.share-controls {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+		align-items: flex-end;
+		min-width: 300px;
+	}
+
+	.checkbox-label {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
 		cursor: pointer;
+		user-select: none;
+	}
+
+	.checkbox-label input[type='checkbox'] {
+		width: 18px;
+		height: 18px;
+		cursor: pointer;
+	}
+
+	.checkbox-label span {
 		font-weight: 500;
-		transition: all 0.2s;
+		color: #667eea;
 	}
 
-	.action-button:hover:not(:disabled) {
-		background: #667eea;
-		color: white;
+	.loading-text {
+		font-size: 0.85rem;
+		color: #999;
 	}
 
-	.action-button.primary {
-		background: #667eea;
-		color: white;
-	}
-
-	.action-button.primary:hover:not(:disabled) {
-		background: #5a67d8;
-	}
-
-	.action-button:disabled {
-		opacity: 0.5;
-		cursor: not-allowed;
-	}
-
-	.loading {
-		text-align: center;
-		padding: 3rem;
-		color: #718096;
-	}
-
-	.error-message {
-		text-align: center;
-		padding: 2rem;
-	}
-
-	.error-icon {
-		width: 64px;
-		height: 64px;
-		margin: 0 auto 1rem;
-		color: #f56565;
-	}
-
-	.error-message p {
-		color: #f56565;
-		margin: 0;
-	}
-
-	.empty-state {
-		text-align: center;
-		padding: 3rem;
-		color: #718096;
-	}
-
-	.success-message {
-		text-align: center;
-		padding: 1rem 0;
-	}
-
-	.success-icon {
-		width: 64px;
-		height: 64px;
-		margin: 0 auto 1rem;
-		color: #48bb78;
-	}
-
-	.success-message h2 {
-		margin: 0 0 1rem 0;
-		color: #2d3748;
-		font-size: 1.5rem;
-	}
-
-	.file-size {
-		margin: 0 0 1.5rem 0;
-		color: #718096;
-		font-size: 0.875rem;
-	}
-
-	.share-link-box {
-		background: #f7fafc;
-		padding: 1.5rem;
-		border-radius: 0.5rem;
-		margin: 1.5rem 0;
-	}
-
-	.share-link-box label {
-		display: block;
-		font-size: 0.875rem;
-		font-weight: 500;
-		color: #2d3748;
-		margin-bottom: 0.75rem;
-	}
-
-	.link-input-group {
+	.share-link-inline {
 		display: flex;
 		gap: 0.5rem;
-		margin-bottom: 0.75rem;
+		width: 100%;
 	}
 
-	.link-input-group input {
+	.link-input {
 		flex: 1;
-		padding: 0.75rem;
-		border: 1px solid #e2e8f0;
+		padding: 0.5rem;
+		border: 1px solid #ddd;
 		border-radius: 0.375rem;
-		font-family: 'Monaco', monospace;
-		font-size: 0.875rem;
+		font-size: 0.85rem;
+		font-family: monospace;
+		background: #f9f9f9;
 	}
 
-	.copy-button {
-		padding: 0.75rem 1rem;
+	.link-input:focus {
+		outline: none;
+		border-color: #667eea;
+	}
+
+	.copy-btn {
+		padding: 0.5rem 0.75rem;
 		background: #667eea;
 		color: white;
 		border: none;
 		border-radius: 0.375rem;
 		cursor: pointer;
-		font-weight: 500;
-		white-space: nowrap;
+		font-size: 1.2rem;
+		transition: background 0.2s;
 	}
 
-	.copy-button:hover {
-		background: #5a67d8;
-	}
-
-	.link-info {
-		margin: 0;
-		font-size: 0.75rem;
-		color: #718096;
-		text-align: center;
-	}
-
-	.button-secondary {
-		background: white;
-		border: 2px solid #667eea;
-		color: #667eea;
-		padding: 0.75rem 2rem;
-		border-radius: 0.5rem;
-		font-size: 1rem;
-		font-weight: 500;
-		cursor: pointer;
-		transition: all 0.2s;
-	}
-
-	.button-secondary:hover {
-		background: #667eea;
-		color: white;
+	.copy-btn:hover {
+		background: #5568d3;
 	}
 
 	footer {
 		text-align: center;
-		color: white;
 		margin-top: 2rem;
-		opacity: 0.8;
-		font-size: 0.875rem;
+		color: rgba(255, 255, 255, 0.8);
+		font-size: 0.85rem;
+	}
+
+	footer p {
+		margin: 0;
 	}
 </style>
