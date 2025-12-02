@@ -280,7 +280,7 @@
 	}
 
 	.container {
-		max-width: 1200px;
+		max-width: 900px;
 		margin: 0 auto;
 	}
 
@@ -389,11 +389,11 @@
 	}
 
 	.file-row {
-		display: flex;
-		align-items: flex-start;
+		display: grid;
+		grid-template-columns: 1fr auto;
 		gap: 1rem;
 		padding: 1rem;
-		border: 1px solid #e0e0e0;
+		border: 1px solid var(--border-color);
 		border-radius: 0.5rem;
 		transition: background 0.2s;
 	}
@@ -434,7 +434,7 @@
 		flex-direction: column;
 		gap: 0.5rem;
 		align-items: stretch;
-		flex: 1;
+		min-width: 500px;
 	}
 
 	.checkbox-label {
