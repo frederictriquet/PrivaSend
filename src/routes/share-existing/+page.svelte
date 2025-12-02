@@ -469,13 +469,14 @@
 
 	.link-input {
 		flex: 1;
-		padding: 0.5rem;
-		border: 1px solid var(--border-color);
-		border-radius: 0.375rem;
-		font-size: 0.85rem;
+		padding: 0.75rem;
+		border: 2px solid var(--border-color);
+		border-radius: 0.5rem;
+		font-size: 0.9rem;
 		font-family: monospace;
 		background: var(--bg-secondary);
 		color: var(--text-primary);
+		font-weight: 500;
 	}
 
 	.link-input:focus {
