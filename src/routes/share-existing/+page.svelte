@@ -475,6 +475,7 @@
 		font-size: 0.85rem;
 		font-family: monospace;
 		background: var(--bg-secondary);
+		color: var(--text-primary);
 	}
 
 	.link-input:focus {
