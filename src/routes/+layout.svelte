@@ -48,13 +48,13 @@
 	.theme-toggle,
 	.logout-button {
 		padding: 0.5rem 1rem;
-		background: white;
-		border: 1px solid #ddd;
+		background: var(--bg-primary);
+		border: 1px solid var(--border-color);
 		border-radius: 6px;
 		cursor: pointer;
 		font-size: 0.9rem;
 		font-weight: 500;
-		color: #333;
+		color: var(--text-primary);
 		transition: all 0.2s;
 		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 	}
@@ -66,8 +66,8 @@
 
 	.theme-toggle:hover,
 	.logout-button:hover {
-		background: #f5f5f5;
-		border-color: #667eea;
+		background: var(--bg-secondary);
+		border-color: var(--accent);
 		transform: translateY(-2px);
 		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 	}
