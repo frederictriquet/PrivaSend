@@ -322,13 +322,13 @@
 	}
 
 	.nav-link.active {
-		background: white;
-		color: #667eea;
+		background: var(--bg-primary);
+		color: var(--accent);
 		font-weight: 600;
 	}
 
 	.content-section {
-		background: white;
+		background: var(--bg-primary);
 		border-radius: 1rem;
 		padding: 2rem;
 		box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
@@ -346,26 +346,26 @@
 
 	.path-label {
 		font-weight: 600;
-		color: #666;
+		color: var(--text-secondary);
 	}
 
 	.current-path {
 		font-family: monospace;
-		color: #333;
+		color: var(--text-primary);
 	}
 
 	.back-button {
 		margin-left: auto;
 		padding: 0.5rem 1rem;
-		background: #f5f5f5;
-		border: 1px solid #ddd;
+		background: var(--bg-secondary);
+		border: 1px solid var(--border-color);
 		border-radius: 0.375rem;
 		cursor: pointer;
 		font-size: 0.9rem;
 	}
 
 	.back-button:hover {
-		background: #e8e8e8;
+		background: var(--bg-secondary);
 	}
 
 	.loading,
@@ -373,12 +373,12 @@
 	.empty {
 		text-align: center;
 		padding: 3rem;
-		color: #666;
+		color: var(--text-secondary);
 	}
 
 	.error-box {
-		background: #fee;
-		color: #c33;
+		background: var(--error-bg);
+		color: var(--error-text);
 		border-radius: 0.5rem;
 	}
 
@@ -399,7 +399,7 @@
 	}
 
 	.file-row:hover {
-		background: #f9f9f9;
+		background: var(--bg-secondary);
 	}
 
 	.file-info {
@@ -420,13 +420,13 @@
 
 	.file-name {
 		font-weight: 500;
-		color: #333;
+		color: var(--text-primary);
 		margin-bottom: 0.25rem;
 	}
 
 	.file-meta {
 		font-size: 0.85rem;
-		color: #666;
+		color: var(--text-secondary);
 	}
 
 	.share-controls {
@@ -453,12 +453,12 @@
 
 	.checkbox-label span {
 		font-weight: 500;
-		color: #667eea;
+		color: var(--accent);
 	}
 
 	.loading-text {
 		font-size: 0.85rem;
-		color: #999;
+		color: var(--text-secondary);
 	}
 
 	.share-link-inline {
@@ -470,21 +470,21 @@
 	.link-input {
 		flex: 1;
 		padding: 0.5rem;
-		border: 1px solid #ddd;
+		border: 1px solid var(--border-color);
 		border-radius: 0.375rem;
 		font-size: 0.85rem;
 		font-family: monospace;
-		background: #f9f9f9;
+		background: var(--bg-secondary);
 	}
 
 	.link-input:focus {
 		outline: none;
-		border-color: #667eea;
+		border-color: var(--accent);
 	}
 
 	.copy-btn {
 		padding: 0.5rem 0.75rem;
-		background: #667eea;
+		background: var(--accent);
 		color: white;
 		border: none;
 		border-radius: 0.375rem;
@@ -494,7 +494,7 @@
 	}
 
 	.copy-btn:hover {
-		background: #5568d3;
+		background: var(--accent-hover);
 	}
 
 	footer {

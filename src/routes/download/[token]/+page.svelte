@@ -237,7 +237,7 @@
 	}
 
 	.download-card {
-		background: white;
+		background: var(--bg-primary);
 		border-radius: 1rem;
 		padding: 2.5rem;
 		box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);

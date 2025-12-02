@@ -512,20 +512,20 @@
 	}
 
 	.nav-link.active {
-		background: white;
-		color: #667eea;
+		background: var(--bg-primary);
+		color: var(--accent);
 		font-weight: 600;
 	}
 
 	.upload-section {
-		background: white;
+		background: var(--bg-primary);
 		border-radius: 1rem;
 		padding: 2rem;
 		box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
 	}
 
 	.upload-disabled {
-		background: white;
+		background: var(--bg-primary);
 		border-radius: 1rem;
 		padding: 3rem 2rem;
 		box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
@@ -540,19 +540,19 @@
 	}
 
 	.upload-disabled h2 {
-		color: #333;
+		color: var(--text-primary);
 		margin-bottom: 1rem;
 	}
 
 	.upload-disabled p {
-		color: #666;
+		color: var(--text-secondary);
 		margin-bottom: 2rem;
 	}
 
 	.upload-disabled .button {
 		display: inline-block;
 		padding: 0.75rem 2rem;
-		background: #667eea;
+		background: var(--accent);
 		color: white;
 		text-decoration: none;
 		border-radius: 0.5rem;
@@ -561,7 +561,7 @@
 	}
 
 	.upload-disabled .button:hover {
-		background: #5568d3;
+		background: var(--accent-hover);
 	}
 
 	.dropzone {
@@ -576,13 +576,13 @@
 
 	.dropzone:hover,
 	.dropzone:focus {
-		border-color: #667eea;
+		border-color: var(--accent);
 		background: #edf2f7;
 		outline: none;
 	}
 
 	.dropzone.dragging {
-		border-color: #667eea;
+		border-color: var(--accent);
 		background: #e6f2ff;
 		transform: scale(1.02);
 	}
@@ -590,7 +590,7 @@
 	.upload-icon {
 		width: 64px;
 		height: 64px;
-		color: #667eea;
+		color: var(--accent);
 		margin: 0 auto 1rem;
 	}
 
@@ -629,7 +629,7 @@
 	.file-icon {
 		width: 48px;
 		height: 48px;
-		color: #667eea;
+		color: var(--accent);
 		flex-shrink: 0;
 	}
 
@@ -748,13 +748,13 @@
 		font-family: 'Monaco', 'Courier New', monospace;
 		font-size: 0.875rem;
 		color: #2d3748;
-		background: white;
+		background: var(--bg-primary);
 		cursor: pointer;
 	}
 
 	.link-input-group input:focus {
 		outline: none;
-		border-color: #667eea;
+		border-color: var(--accent);
 	}
 
 	.copy-button {
@@ -762,7 +762,7 @@
 		align-items: center;
 		gap: 0.5rem;
 		padding: 0.75rem 1rem;
-		background: #667eea;
+		background: var(--accent);
 		color: white;
 		border: none;
 		border-radius: 0.375rem;
@@ -795,9 +795,9 @@
 	}
 
 	.button-secondary {
-		background: white;
+		background: var(--bg-primary);
 		border: 2px solid #667eea;
-		color: #667eea;
+		color: var(--accent);
 		padding: 0.75rem 2rem;
 		border-radius: 0.5rem;
 		font-size: 1rem;
@@ -807,7 +807,7 @@
 	}
 
 	.button-secondary:hover {
-		background: #667eea;
+		background: var(--accent);
 		color: white;
 		transform: translateY(-1px);
 		box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
