@@ -434,7 +434,7 @@
 		flex-direction: column;
 		gap: 0.5rem;
 		align-items: flex-end;
-		min-width: 300px;
+		min-width: 400px;
 	}
 
 	.checkbox-label {
