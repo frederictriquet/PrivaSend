@@ -200,7 +200,7 @@
 		padding: 0;
 		font-family:
 			-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+		background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
 		min-height: 100vh;
 	}
 
@@ -295,7 +295,7 @@
 
 	.download-button {
 		width: 100%;
-		background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+		background: linear-gradient(90deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
 		color: white;
 		border: none;
 		padding: 1rem 2rem;
@@ -339,7 +339,7 @@
 
 	.progress-fill {
 		height: 100%;
-		background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+		background: linear-gradient(90deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
 		transition: width 0.3s ease;
 		border-radius: 4px;
 	}
