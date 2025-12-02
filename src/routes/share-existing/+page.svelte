@@ -16,6 +16,7 @@
 		shareToken: string | null;
 		loading: boolean;
 		copied: boolean;
+		downloadCount?: number;
 	}
 
 	let files: FileWithShare[] = $state([]);
@@ -58,6 +59,15 @@
 								if (linkData.hasLink) {
 									existingToken = linkData.token;
 									existingLink = `${window.location.origin}/download/${linkData.token}`;
+									return {
+										...f,
+										isShared: true,
+										shareLink: existingLink,
+										shareToken: existingToken,
+										loading: false,
+										copied: false,
+										downloadCount: linkData.downloadCount || 0
+									};
 								}
 							}
 						} catch {
@@ -67,11 +77,12 @@
 
 					return {
 						...f,
-						isShared: !!existingLink,
-						shareLink: existingLink,
-						shareToken: existingToken,
+						isShared: false,
+						shareLink: null,
+						shareToken: null,
 						loading: false,
-						copied: false
+						copied: false,
+						downloadCount: 0
 					};
 				})
 			);
@@ -250,6 +261,11 @@
 												{file.copied ? '✓' : '📋'}
 											</button>
 										</div>
+										{#if file.downloadCount !== undefined}
+											<div class="download-stats">
+												📥 {file.downloadCount} download{file.downloadCount === 1 ? '' : 's'}
+											</div>
+										{/if}
 									{/if}
 								</div>
 							{/if}
@@ -520,6 +536,12 @@
 
 	.copy-btn:hover {
 		background: var(--accent-hover);
+	}
+
+	.download-stats {
+		font-size: 0.85rem;
+		color: var(--text-secondary);
+		padding: 0.25rem 0;
 	}
 
 	footer {
