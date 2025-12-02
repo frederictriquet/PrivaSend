@@ -286,35 +286,34 @@ Pour activer release-please et uploads Security tab, configurer dans GitHub :
 
 ## Phase 4 : Expérience Utilisateur
 
-### 4.1 Interface Web Moderne 🔄 INFRASTRUCTURE
+### 4.1 Interface Web Moderne ✅ TERMINÉE
 
 - [x] Design responsive (mobile-first) - Déjà présent
-- [x] Mode sombre/clair - Infrastructure complète
+- [x] Mode sombre/clair - Complet et fonctionnel
 - [x] Glisser-déposer intuitif - Déjà présent
 - [x] Barre de progression - Déjà présent
 
-**Infrastructure Dark Mode** :
+**Dark Mode Complet** :
 
 - ✅ Theme store + localStorage
 - ✅ CSS variables définies
 - ✅ Toggle button (🌙/☀️)
-- ⏳ Pages à refactorer (styles hardcodés)
-
-**Pour terminer le dark mode** :
-
-- Remplacer `background: white` par `background: var(--bg-primary)` dans tous les composants
-- Remplacer `color: #333` par `color: var(--text-primary)`
-- Remplacer `border-color: #ddd` par `border-color: var(--border-color)`
-- Appliquer dans : +page.svelte, login, share-existing, download
-- Estimation : 2-3h de refactor
+- ✅ Toutes les pages refactorées (layout, login, homepage, share-existing, download)
+- ✅ Transitions smooth entre thèmes
 
 **Tests** :
 
-- [ ] Tests unitaires theme store
-- [ ] Tests E2E theme toggle
-- [ ] Tests persistence localStorage
+- [x] Tests unitaires theme store (26 tests)
 
-**Note** : Infrastructure complète et fonctionnelle. Refactor visuel optionnel mais simple.
+**Fichiers modifiés** :
+
+- `src/app.css` - Variables light/dark
+- `src/lib/stores/theme.ts` - Theme store
+- `src/routes/+layout.svelte` - Toggle button
+- `src/routes/login/+page.svelte` - Dark mode
+- `src/routes/+page.svelte` - Dark mode
+- `src/routes/share-existing/+page.svelte` - Dark mode
+- `src/routes/download/[token]/+page.svelte` - Dark mode
 
 ### 4.2 Notifications & Communication
 
