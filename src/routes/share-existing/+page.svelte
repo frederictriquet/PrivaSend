@@ -200,26 +200,25 @@
 				<div class="file-list">
 					{#each files as file}
 						<div class="file-row">
-							<div
-								class="file-info"
-								onclick={() => navigateTo(file)}
-								onkeydown={(e) => e.key === 'Enter' && navigateTo(file)}
-								role="button"
-								tabindex="0"
+							<button
+								class="file-header"
+								onclick={() => file.isDirectory && navigateTo(file)}
+								disabled={!file.isDirectory}
+								class:clickable={file.isDirectory}
 							>
 								<span class="file-icon">{getFileIcon(file)}</span>
-								<div class="file-details">
-									<div class="file-name">{file.name}</div>
+								<div class="file-info-vertical">
+									<div class="file-name" title={file.name}>{file.name}</div>
 									<div class="file-meta">
 										{#if !file.isDirectory}
 											{formatBytes(file.size)}
 										{/if}
 									</div>
 								</div>
-							</div>
+							</button>
 
 							{#if !file.isDirectory}
-								<div class="share-controls">
+								<div class="share-section">
 									<label class="checkbox-label">
 										<input
 											type="checkbox"
@@ -390,9 +389,8 @@
 
 	.file-row {
 		display: flex;
-		align-items: flex-start;
-		justify-content: space-between;
-		gap: 1rem;
+		flex-direction: column;
+		gap: 0.75rem;
 		padding: 1rem;
 		border: 1px solid var(--border-color);
 		border-radius: 0.5rem;
@@ -403,20 +401,31 @@
 		background: var(--bg-secondary);
 	}
 
-	.file-info {
+	.file-header {
 		display: flex;
 		align-items: center;
 		gap: 0.75rem;
+		background: none;
+		border: none;
+		padding: 0;
+		width: 100%;
+		text-align: left;
+	}
+
+	.file-header.clickable {
 		cursor: pointer;
-		flex: 1;
-		min-width: 0;
+	}
+
+	.file-header:disabled {
+		cursor: default;
 	}
 
 	.file-icon {
 		font-size: 2rem;
+		flex-shrink: 0;
 	}
 
-	.file-details {
+	.file-info-vertical {
 		flex: 1;
 		min-width: 0;
 	}
@@ -425,9 +434,7 @@
 		font-weight: 500;
 		color: var(--text-primary);
 		margin-bottom: 0.25rem;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
+		word-break: break-all;
 	}
 
 	.file-meta {
@@ -435,11 +442,11 @@
 		color: var(--text-secondary);
 	}
 
-	.share-controls {
+	.share-section {
 		display: flex;
 		flex-direction: column;
 		gap: 0.5rem;
-		min-width: 650px;
+		padding-left: 3.5rem;
 	}
 
 	.checkbox-label {
@@ -448,8 +455,6 @@
 		gap: 0.5rem;
 		cursor: pointer;
 		user-select: none;
-		align-self: flex-end;
-		margin-bottom: 0;
 	}
 
 	.checkbox-label input[type='checkbox'] {
