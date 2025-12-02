@@ -237,6 +237,10 @@
 												/>
 												<span>Share</span>
 											</label>
+											{#if file.isShared && file.downloadCount !== undefined}
+												<span class="separator">•</span>
+												<span class="download-count">📥 {file.downloadCount}</span>
+											{/if}
 										{/if}
 									</div>
 								</div>
@@ -261,11 +265,6 @@
 												{file.copied ? '✓' : '📋'}
 											</button>
 										</div>
-										{#if file.downloadCount !== undefined}
-											<div class="download-stats">
-												📥 {file.downloadCount} download{file.downloadCount === 1 ? '' : 's'}
-											</div>
-										{/if}
 									{/if}
 								</div>
 							{/if}
@@ -470,6 +469,11 @@
 		opacity: 0.5;
 	}
 
+	.download-count {
+		color: var(--text-secondary);
+		font-size: 0.85rem;
+	}
+
 	.share-section {
 		display: flex;
 		flex-direction: column;
@@ -536,12 +540,6 @@
 
 	.copy-btn:hover {
 		background: var(--accent-hover);
-	}
-
-	.download-stats {
-		font-size: 0.85rem;
-		color: var(--text-secondary);
-		padding: 0.25rem 0;
 	}
 
 	footer {
