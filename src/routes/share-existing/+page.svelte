@@ -433,8 +433,8 @@
 		display: flex;
 		flex-direction: column;
 		gap: 0.5rem;
-		align-items: flex-end;
-		min-width: 400px;
+		align-items: stretch;
+		flex: 1;
 	}
 
 	.checkbox-label {
@@ -443,6 +443,7 @@
 		gap: 0.5rem;
 		cursor: pointer;
 		user-select: none;
+		align-self: flex-end;
 	}
 
 	.checkbox-label input[type='checkbox'] {
