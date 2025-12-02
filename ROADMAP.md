@@ -318,11 +318,15 @@ Pour activer release-please et uploads Security tab, configurer dans GitHub :
 
 ### 4.2 Notifications & Communication
 
+- [x] Compteur de téléchargement pour chaque fichier partagé
 - [ ] Notification de téléchargement au partageur
-- [ ] Compteur de téléchargement pour chaque fichier partagé
 - [ ] Message personnalisé avec le partage
 - [ ] QR Code pour partage facile
-- [ ] tests unitaires et E2E
+
+**Implémenté** :
+
+- Download count affiché inline (Size • Share • 📥 X)
+- Compteur chargé depuis DB via check-link API
 
 ---
 
