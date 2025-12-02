@@ -433,7 +433,6 @@
 		display: flex;
 		flex-direction: column;
 		gap: 0.5rem;
-		align-items: stretch;
 		min-width: 650px;
 	}
 
@@ -444,6 +443,7 @@
 		cursor: pointer;
 		user-select: none;
 		align-self: flex-end;
+		margin-bottom: 0;
 	}
 
 	.checkbox-label input[type='checkbox'] {
