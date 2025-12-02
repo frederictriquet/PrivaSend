@@ -389,8 +389,9 @@
 	}
 
 	.file-row {
-		display: grid;
-		grid-template-columns: 1fr auto;
+		display: flex;
+		align-items: flex-start;
+		justify-content: space-between;
 		gap: 1rem;
 		padding: 1rem;
 		border: 1px solid var(--border-color);
@@ -407,6 +408,8 @@
 		align-items: center;
 		gap: 0.75rem;
 		cursor: pointer;
+		flex: 1;
+		min-width: 0;
 	}
 
 	.file-icon {
@@ -415,6 +418,7 @@
 
 	.file-details {
 		flex: 1;
+		min-width: 0;
 	}
 
 	.file-name {
@@ -424,7 +428,6 @@
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
-		max-width: 400px;
 	}
 
 	.file-meta {
