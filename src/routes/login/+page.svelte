@@ -85,12 +85,12 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+		background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
 		padding: 1rem;
 	}
 
 	.login-card {
-		background: white;
+		background: var(--bg-primary);
 		border-radius: 12px;
 		padding: 2rem;
 		width: 100%;
@@ -114,18 +114,18 @@
 	.logo h1 {
 		font-size: 1.5rem;
 		margin: 0;
-		color: #667eea;
+		color: var(--accent);
 	}
 
 	h2 {
 		margin: 0 0 0.5rem 0;
 		text-align: center;
-		color: #333;
+		color: var(--text-primary);
 	}
 
 	.subtitle {
 		text-align: center;
-		color: #666;
+		color: var(--text-secondary);
 		margin-bottom: 2rem;
 		font-size: 0.9rem;
 	}
@@ -138,33 +138,35 @@
 		display: block;
 		margin-bottom: 0.5rem;
 		font-weight: 500;
-		color: #333;
+		color: var(--text-primary);
 	}
 
 	input {
 		width: 100%;
 		padding: 0.75rem;
-		border: 1px solid #ddd;
+		border: 1px solid var(--border-color);
 		border-radius: 6px;
 		font-size: 1rem;
 		box-sizing: border-box;
+		background: var(--bg-primary);
+		color: var(--text-primary);
 	}
 
 	input:focus {
 		outline: none;
-		border-color: #667eea;
+		border-color: var(--accent);
 		box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 	}
 
 	input:disabled {
-		background-color: #f5f5f5;
+		background-color: var(--bg-secondary);
 		cursor: not-allowed;
 	}
 
 	button {
 		width: 100%;
 		padding: 0.75rem;
-		background: #667eea;
+		background: var(--accent);
 		color: white;
 		border: none;
 		border-radius: 6px;
@@ -175,7 +177,7 @@
 	}
 
 	button:hover:not(:disabled) {
-		background: #5568d3;
+		background: var(--accent-hover);
 	}
 
 	button:disabled {
@@ -184,13 +186,13 @@
 	}
 
 	.error {
-		background: #fee;
-		color: #c33;
+		background: var(--error-bg);
+		color: var(--error-text);
 		padding: 0.75rem;
 		border-radius: 6px;
 		margin-bottom: 1rem;
 		font-size: 0.9rem;
-		border: 1px solid #fcc;
+		border: 1px solid var(--error-text);
 	}
 
 	footer {
