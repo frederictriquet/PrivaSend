@@ -421,6 +421,10 @@
 		font-weight: 500;
 		color: var(--text-primary);
 		margin-bottom: 0.25rem;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		max-width: 400px;
 	}
 
 	.file-meta {
