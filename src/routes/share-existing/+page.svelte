@@ -209,9 +209,23 @@
 								<span class="file-icon">{getFileIcon(file)}</span>
 								<div class="file-info-vertical">
 									<div class="file-name" title={file.name}>{file.name}</div>
-									<div class="file-meta">
+									<div class="file-meta-row">
 										{#if !file.isDirectory}
-											{formatBytes(file.size)}
+											<span>{formatBytes(file.size)}</span>
+											<span class="separator">•</span>
+											<label class="checkbox-label">
+												<input
+													type="checkbox"
+													checked={file.isShared}
+													onchange={(e) => {
+														e.stopPropagation();
+														toggleShare(file);
+													}}
+													onclick={(e) => e.stopPropagation()}
+													disabled={file.loading}
+												/>
+												<span>Share</span>
+											</label>
 										{/if}
 									</div>
 								</div>
@@ -219,16 +233,6 @@
 
 							{#if !file.isDirectory}
 								<div class="share-section">
-									<label class="checkbox-label">
-										<input
-											type="checkbox"
-											checked={file.isShared}
-											onchange={() => toggleShare(file)}
-											disabled={file.loading}
-										/>
-										<span>Share</span>
-									</label>
-
 									{#if file.loading}
 										<span class="loading-text">Creating link...</span>
 									{/if}
@@ -437,9 +441,17 @@
 		word-break: break-all;
 	}
 
-	.file-meta {
+	.file-meta-row {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
 		font-size: 0.85rem;
 		color: var(--text-secondary);
+	}
+
+	.separator {
+		color: var(--text-secondary);
+		opacity: 0.5;
 	}
 
 	.share-section {
