@@ -227,7 +227,12 @@ LOGIN_RATE_LIMIT=3                         # Tentatives par minute
 - [x] Vérification des secrets (GitGuardian via CodeQL)
 - [x] Mutation testing - Stryker documenté pour implémentation future
 
-**Note** : Stryker mutation testing ajouté au backlog (Phase 2.4 future enhancement)
+**Stryker Mutation Testing** :
+
+- ✅ Configuration créée (stryker.config.json)
+- ✅ Script npm ajouté (test:mutation)
+- ⚠️ Nécessite Node.js 20.12+ (actuellement 20.10.0)
+- 📝 Pour activer : `nvm use 20` puis `npm run test:mutation`
 
 ### 2.5 Rapports & Métriques ✅
 
