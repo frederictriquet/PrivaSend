@@ -7,7 +7,7 @@ describe('Security Headers - Mutation Testing', () => {
 			const mockEvent = { url: new URL('http://localhost') } as unknown;
 			const mockResolve = vi.fn().mockResolvedValue(new Response('test'));
 
-			const response = await securityHeaders({ event: mockEvent, resolve: mockResolve });
+			const _response = await securityHeaders({ event: mockEvent, resolve: mockResolve });
 
 			expect(response.headers.get('X-Frame-Options')).toBe('DENY');
 		});
@@ -16,7 +16,7 @@ describe('Security Headers - Mutation Testing', () => {
 			const mockEvent = { url: new URL('http://localhost') } as unknown;
 			const mockResolve = vi.fn().mockResolvedValue(new Response('test'));
 
-			const response = await securityHeaders({ event: mockEvent, resolve: mockResolve });
+			const _response = await securityHeaders({ event: mockEvent, resolve: mockResolve });
 
 			expect(response.headers.get('X-Content-Type-Options')).toBe('nosniff');
 		});
@@ -25,7 +25,7 @@ describe('Security Headers - Mutation Testing', () => {
 			const mockEvent = { url: new URL('http://localhost') } as unknown;
 			const mockResolve = vi.fn().mockResolvedValue(new Response('test'));
 
-			const response = await securityHeaders({ event: mockEvent, resolve: mockResolve });
+			const _response = await securityHeaders({ event: mockEvent, resolve: mockResolve });
 			const csp = response.headers.get('Content-Security-Policy');
 
 			expect(csp).toContain("default-src 'self'");
@@ -35,7 +35,7 @@ describe('Security Headers - Mutation Testing', () => {
 			const mockEvent = { url: new URL('https://localhost') } as unknown;
 			const mockResolve = vi.fn().mockResolvedValue(new Response('test'));
 
-			const response = await securityHeaders({ event: mockEvent, resolve: mockResolve });
+			const _response = await securityHeaders({ event: mockEvent, resolve: mockResolve });
 
 			expect(response.headers.get('Strict-Transport-Security')).toBe(
 				'max-age=31536000; includeSubDomains'
@@ -46,7 +46,7 @@ describe('Security Headers - Mutation Testing', () => {
 			const mockEvent = { url: new URL('http://localhost') } as unknown;
 			const mockResolve = vi.fn().mockResolvedValue(new Response('test'));
 
-			const response = await securityHeaders({ event: mockEvent, resolve: mockResolve });
+			const _response = await securityHeaders({ event: mockEvent, resolve: mockResolve });
 
 			expect(response.headers.get('Strict-Transport-Security')).toBeNull();
 		});
@@ -63,7 +63,7 @@ describe('Security Headers - Mutation Testing', () => {
 			} as unknown;
 			const mockResolve = vi.fn();
 
-			const response = await httpsRedirect({ event: mockEvent, resolve: mockResolve });
+			const _response = await httpsRedirect({ event: mockEvent, resolve: mockResolve });
 
 			expect(response.status).toBe(301);
 			expect(response.headers.get('location')).toBe('https://example.com/path');
@@ -82,7 +82,7 @@ describe('Security Headers - Mutation Testing', () => {
 			} as unknown;
 			const mockResolve = vi.fn().mockResolvedValue(new Response('ok'));
 
-			const response = await httpsRedirect({ event: mockEvent, resolve: mockResolve });
+			const _response = await httpsRedirect({ event: mockEvent, resolve: mockResolve });
 
 			expect(mockResolve).toHaveBeenCalled();
 
@@ -124,6 +124,69 @@ describe('Security Headers - Mutation Testing', () => {
 			const name = 'a'.repeat(251) + '.txt';
 			const result = sanitizeFilename(name);
 			expect(result).toBe(name);
+		});
+	});
+});
+
+describe('Security - Final Mutation Killers', () => {
+	describe('CSP frame-ancestors', () => {
+		it('should set frame-ancestors to none', async () => {
+			const mockEvent = { url: new URL('http://localhost') } as unknown;
+			const mockResolve = vi.fn().mockResolvedValue(new Response('test'));
+
+			const _response = await securityHeaders({
+				event: mockEvent as unknown,
+				resolve: mockResolve
+			});
+			const csp = response.headers.get('Content-Security-Policy');
+
+			expect(csp).toContain("frame-ancestors 'none'");
+		});
+	});
+
+	describe('HTTPS redirect header check', () => {
+		it('should check x-forwarded-proto header', async () => {
+			const originalEnv = process.env.NODE_ENV;
+			process.env.NODE_ENV = 'production';
+
+			const mockEvent = {
+				url: new URL('http://example.com'),
+				request: {
+					headers: { get: (name: string) => (name === 'x-forwarded-proto' ? 'http' : null) }
+				}
+			} as unknown;
+
+			const _response = await httpsRedirect({ event: mockEvent as unknown, resolve: vi.fn() });
+			expect(response.status).toBe(301);
+
+			process.env.NODE_ENV = originalEnv;
+		});
+	});
+
+	describe('sanitizeFilename - Boundary at 255', () => {
+		it('should truncate ONLY when > 255', () => {
+			const exactly255 = 'a'.repeat(251) + '.txt';
+			expect(sanitizeFilename(exactly255).length).toBe(255);
+			expect(sanitizeFilename(exactly255)).toBe(exactly255);
+		});
+
+		it('should truncate when = 256', () => {
+			const exactly256 = 'a'.repeat(252) + '.txt';
+			const result = sanitizeFilename(exactly256);
+			expect(result.length).toBe(255);
+			expect(result).not.toBe(exactly256);
+		});
+	});
+
+	describe('Extension extraction', () => {
+		it('should handle filename without extension', () => {
+			const result = sanitizeFilename('README');
+			expect(result).toBe('README');
+		});
+
+		it('should handle empty extension', () => {
+			const result = sanitizeFilename('file.');
+			expect(result).toBe('file.');
 		});
 	});
 });
