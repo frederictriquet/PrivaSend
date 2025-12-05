@@ -13,13 +13,31 @@
 		resource_id?: string;
 	}
 
+	interface Stats {
+		links: { total: number; uploads: number; shared: number };
+		downloads: { total: number };
+		storage: { used: number; fileCount: number };
+		activity24h: { uploads: number; downloads: number };
+	}
+
 	let logs = $state<AuditLog[]>([]);
+	let stats = $state<Stats | null>(null);
 	let loading = $state(true);
 	let filter = $state('all');
 
 	onMount(async () => {
-		await loadLogs();
+		await Promise.all([loadLogs(), loadStats()]);
 	});
+
+	async function loadStats() {
+		try {
+			const response = await fetch('/api/admin/stats');
+			const data = await response.json();
+			stats = data;
+		} catch (err) {
+			console.error('Failed to load stats:', err);
+		}
+	}
 
 	async function loadLogs() {
 		loading = true;
@@ -62,7 +80,29 @@
 			<p class="subtitle">Activity logs and system overview</p>
 		</header>
 
+		{#if stats}
+			<div class="stats-grid">
+				<div class="stat-card">
+					<div class="stat-value">{stats.links.total}</div>
+					<div class="stat-label">Total Share Links</div>
+				</div>
+				<div class="stat-card">
+					<div class="stat-value">{stats.downloads.total}</div>
+					<div class="stat-label">Total Downloads</div>
+				</div>
+				<div class="stat-card">
+					<div class="stat-value">{stats.storage.fileCount}</div>
+					<div class="stat-label">Files Stored</div>
+				</div>
+				<div class="stat-card">
+					<div class="stat-value">{(stats.storage.used / 1024 / 1024).toFixed(1)} MB</div>
+					<div class="stat-label">Storage Used</div>
+				</div>
+			</div>
+		{/if}
+
 		<div class="content-section">
+			<h2 class="section-title">Audit Logs</h2>
 			<div class="filters">
 				<label>
 					Filter:
@@ -159,6 +199,41 @@
 		font-size: 1.1rem;
 		opacity: 0.9;
 		margin: 0;
+	}
+
+	.stats-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+		gap: 1rem;
+		margin-bottom: 2rem;
+	}
+
+	.stat-card {
+		background: var(--bg-primary);
+		padding: 1.5rem;
+		border-radius: 0.75rem;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+		text-align: center;
+	}
+
+	.stat-value {
+		font-size: 2rem;
+		font-weight: 700;
+		color: var(--accent);
+		margin-bottom: 0.5rem;
+	}
+
+	.stat-label {
+		font-size: 0.85rem;
+		color: var(--text-secondary);
+		text-transform: uppercase;
+		letter-spacing: 0.5px;
+	}
+
+	.section-title {
+		color: var(--text-primary);
+		margin: 0 0 1rem 0;
+		font-size: 1.25rem;
 	}
 
 	.content-section {
