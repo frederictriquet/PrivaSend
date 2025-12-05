@@ -711,6 +711,9 @@
 		margin: 0.5rem 0;
 		color: var(--text-primary);
 		font-weight: 500;
+		word-wrap: break-word;
+		overflow-wrap: break-word;
+		max-width: 100%;
 	}
 
 	.file-size {
