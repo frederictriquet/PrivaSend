@@ -238,14 +238,6 @@
 			<p class="subtitle">Secure File Sharing for Your Private Network</p>
 		</header>
 
-		{#if data.sharedVolumeEnabled}
-			<nav class="mode-nav">
-				<a href="/" class="nav-link active">📤 Upload File</a>
-				<a href="/share-existing" class="nav-link">📂 Share Existing</a>
-				<a href="/admin" class="nav-link">⚙️ Admin</a>
-			</nav>
-		{/if}
-
 		{#if !data.uploadEnabled}
 			<div class="upload-disabled">
 				<svg
@@ -487,35 +479,6 @@
 		font-size: 1.1rem;
 		margin: 0;
 		opacity: 0.9;
-	}
-
-	.mode-nav {
-		display: flex;
-		gap: 1rem;
-		margin-bottom: 2rem;
-		background: rgba(255, 255, 255, 0.1);
-		padding: 0.5rem;
-		border-radius: 0.5rem;
-	}
-
-	.nav-link {
-		flex: 1;
-		padding: 0.75rem 1.5rem;
-		text-align: center;
-		color: white;
-		text-decoration: none;
-		border-radius: 0.375rem;
-		transition: all 0.2s;
-	}
-
-	.nav-link:hover {
-		background: rgba(255, 255, 255, 0.1);
-	}
-
-	.nav-link.active {
-		background: var(--bg-primary);
-		color: var(--accent);
-		font-weight: 600;
 	}
 
 	.upload-section {
