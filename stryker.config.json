@@ -4,7 +4,8 @@
 	"testRunner": "vitest",
 	"vitest": {
 		"configFile": "vitest.config.ts",
-		"related": false
+		"related": false,
+		"test": ["tests/**/*.test.ts"]
 	},
 	"checkers": [],
 	"mutate": [
