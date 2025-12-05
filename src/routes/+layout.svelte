@@ -19,9 +19,23 @@
 		theme.toggle();
 	}
 
-	// Don't show logout button on login page
+	// Don't show nav on login/download pages
 	let isLoginPage = $derived($page.url.pathname === '/login');
+	let isDownloadPage = $derived($page.url.pathname.startsWith('/download/'));
+	let showNav = $derived(!isLoginPage && !isDownloadPage);
+
+	let currentPath = $derived($page.url.pathname);
 </script>
+
+{#if showNav}
+	<nav class="global-nav">
+		<a href="/" class="nav-link" class:active={currentPath === '/'}>📤 Upload</a>
+		<a href="/share-existing" class="nav-link" class:active={currentPath === '/share-existing'}
+			>📂 Share</a
+		>
+		<a href="/admin" class="nav-link" class:active={currentPath.startsWith('/admin')}>⚙️ Admin</a>
+	</nav>
+{/if}
 
 <div class="controls-container">
 	<button class="theme-toggle" onclick={toggleTheme} title="Toggle dark mode">
@@ -36,6 +50,37 @@
 {@render children()}
 
 <style>
+	.global-nav {
+		position: fixed;
+		top: 1rem;
+		left: 1rem;
+		z-index: 1000;
+		display: flex;
+		gap: 0.5rem;
+	}
+
+	.nav-link {
+		padding: 0.5rem 1rem;
+		background: rgba(255, 255, 255, 0.9);
+		color: var(--accent);
+		text-decoration: none;
+		border-radius: 6px;
+		transition: all 0.2s;
+		font-weight: 500;
+		font-size: 0.9rem;
+	}
+
+	.nav-link:hover {
+		background: white;
+		transform: translateY(-2px);
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+	}
+
+	.nav-link.active {
+		background: var(--accent);
+		color: white;
+	}
+
 	.controls-container {
 		position: fixed;
 		top: 1rem;
