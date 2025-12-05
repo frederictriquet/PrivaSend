@@ -5,6 +5,34 @@ All notable changes to PrivaSend will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.5](https://github.com/frederictriquet/PrivaSend/compare/privasend-v0.4.4...privasend-v0.4.5) (2025-12-05)
+
+
+### Features
+
+* **audit:** Integrate logging in upload, download, and share endpoints ([9603167](https://github.com/frederictriquet/PrivaSend/commit/9603167d5a00aae51e764f1966d52b41b19c14e5))
+* **phase-3:** Implement audit logging infrastructure ([23d2965](https://github.com/frederictriquet/PrivaSend/commit/23d29657be3dc9f2ee411f422e9f4dce92158280))
+* **phase-4.1:** Add CSS variables for dark/light theme ([dded249](https://github.com/frederictriquet/PrivaSend/commit/dded2495b62171a4d2039b71c8178e23552dbc81))
+* **phase-4.1:** Add dark mode with theme toggle ([b92fd0a](https://github.com/frederictriquet/PrivaSend/commit/b92fd0ab8f748064713906cf1d63bf388877a8d5))
+* **phase-4.2:** Add download count display ([8401116](https://github.com/frederictriquet/PrivaSend/commit/84011162c8eaa666eb142f54495488afbffc86b4))
+* **phase-4.2:** Add QR code for easy sharing ([9243c4b](https://github.com/frederictriquet/PrivaSend/commit/9243c4b781ed56d9ddff66b2173533c4c37739d1))
+* **share:** Persist share state across page refreshes ([a575b3d](https://github.com/frederictriquet/PrivaSend/commit/a575b3d5a886f114736069a397ef6c62eb6d15d9))
+* **ux:** Improve share-existing UI with inline checkboxes ([15e53cb](https://github.com/frederictriquet/PrivaSend/commit/15e53cb3e06acf0306bcdd330761a2010d71795c))
+
+
+### Bug Fixes
+
+* **dark-mode:** Apply CSS variables to layout buttons ([b90f7ce](https://github.com/frederictriquet/PrivaSend/commit/b90f7ce464f8b6f89313a1f709d20555429bd6b1))
+* **dark-mode:** Apply gradient variables to all page backgrounds ([699e727](https://github.com/frederictriquet/PrivaSend/commit/699e7279151781e9368a4e28d6613077217ee377))
+* **dark-mode:** Fix link input text color in dark mode ([46e71fe](https://github.com/frederictriquet/PrivaSend/commit/46e71fe7fc2b57115e40e17e237340d66b9ddea2))
+* **download:** Support shared volume files in download page ([8b0891c](https://github.com/frederictriquet/PrivaSend/commit/8b0891c9707cdd118a1e25b152c9bf42600da647))
+* **prettier:** Add CSS files to lint-staged ([7c462ed](https://github.com/frederictriquet/PrivaSend/commit/7c462ed1ebbbcbaf0d668b9aaac606b8c08bca87))
+* **share:** Fix layout with flexbox and min-width ([a62a34f](https://github.com/frederictriquet/PrivaSend/commit/a62a34fffdc8eb2d34ada91c2bb739e48139773d))
+* **share:** Remove conflicting flex from file-info in grid layout ([d5dfdfa](https://github.com/frederictriquet/PrivaSend/commit/d5dfdfae046e00e38a0d8d6b3bf6b4f9b73923a8))
+* **share:** Truncate long filenames with ellipsis ([c307073](https://github.com/frederictriquet/PrivaSend/commit/c307073ed2459a617b4ce14f73d0df6057620cef))
+* **theme:** Fix theme toggle functionality ([ed5a16d](https://github.com/frederictriquet/PrivaSend/commit/ed5a16db3b0a52f1ced1073622b1e9f4706bb0eb))
+* **ui:** Remove upload link from download page ([1fd5b78](https://github.com/frederictriquet/PrivaSend/commit/1fd5b78634a264a9e912d375c5d4a889687f8530))
+
 ## [0.4.4](https://github.com/frederictriquet/PrivaSend/compare/privasend-v0.4.3...privasend-v0.4.4) (2025-11-30)
 
 
