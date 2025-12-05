@@ -3,9 +3,7 @@
 	"packageManager": "npm",
 	"testRunner": "vitest",
 	"vitest": {
-		"configFile": "vitest.config.ts",
-		"related": false,
-		"test": ["tests/**/*.test.ts"]
+		"configFile": "vitest.config.ts"
 	},
 	"checkers": [],
 	"mutate": [
@@ -18,7 +16,7 @@
 	"htmlReporter": {
 		"fileName": "mutation-report.html"
 	},
-	"coverageAnalysis": "perTest",
+	"coverageAnalysis": "off",
 	"thresholds": {
 		"high": 80,
 		"low": 60,
