@@ -33,7 +33,10 @@
 		<a href="/share-existing" class="nav-link" class:active={currentPath === '/share-existing'}
 			>📂 Share</a
 		>
-		<a href="/admin" class="nav-link" class:active={currentPath.startsWith('/admin')}>⚙️ Admin</a>
+		<a href="/admin" class="nav-link" class:active={currentPath === '/admin'}>📊 Logs</a>
+		<a href="/admin/files" class="nav-link" class:active={currentPath === '/admin/files'}
+			>📁 Files</a
+		>
 	</nav>
 {/if}
 
