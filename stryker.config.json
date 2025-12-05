@@ -7,9 +7,12 @@
 	},
 	"checkers": [],
 	"mutate": ["src/lib/server/security.ts"],
-	"reporters": ["progress", "clear-text", "html"],
+	"reporters": ["progress", "clear-text", "html", "json"],
 	"htmlReporter": {
 		"fileName": "mutation-report.html"
+	},
+	"jsonReporter": {
+		"fileName": "mutation-report.json"
 	},
 	"coverageAnalysis": "off",
 	"thresholds": {
@@ -18,6 +21,6 @@
 		"break": 50
 	},
 	"timeoutMS": 180000,
-	"concurrency": 2,
+	"concurrency": 4,
 	"ignorePatterns": ["dist", "build", ".svelte-kit", "node_modules", "coverage"]
 }
