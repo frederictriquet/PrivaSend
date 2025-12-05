@@ -357,12 +357,18 @@ Pour activer release-please et uploads Security tab, configurer dans GitHub :
 - [ ] Paramètres de rétention par défaut
 - [ ] Politique de sécurité personnalisable
 
-### 5.3 Monitoring
+### 5.3 Monitoring ✅ IMPLÉMENTÉ
 
-- [ ] Métriques de performance
-- [ ] Alertes sur espace disque
-- [ ] Logs d'audit complets
-- [ ] Rapports d'utilisation
+- [x] Métriques système - Stats cards
+- [x] Storage monitoring
+- [x] Logs d'audit complets
+- [x] Rapports d'utilisation
+
+**Implémenté** :
+
+- Stats API avec métriques temps réel
+- Dashboard cards (4 KPIs)
+- Storage usage tracking
 
 ---
 
