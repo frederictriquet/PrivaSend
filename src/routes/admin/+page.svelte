@@ -65,7 +65,8 @@
 		<nav class="mode-nav">
 			<a href="/" class="nav-link">📤 Upload</a>
 			<a href="/share-existing" class="nav-link">📂 Share</a>
-			<a href="/admin" class="nav-link active">⚙️ Admin</a>
+			<a href="/admin" class="nav-link active">📊 Logs</a>
+			<a href="/admin/files" class="nav-link">📁 Files</a>
 		</nav>
 
 		<div class="content-section">
