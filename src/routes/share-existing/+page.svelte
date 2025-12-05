@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { buildInfo } from '$lib/buildInfo';
+	import QRCode from '$lib/components/QRCode.svelte';
 
 	interface FileEntry {
 		name: string;
@@ -23,6 +24,7 @@
 	let currentPath: string = $state('');
 	let loading: boolean = $state(false);
 	let error: string | null = $state(null);
+	let showQR: { url: string; fileName: string } | null = $state(null);
 
 	$effect(() => {
 		loadFiles('');
@@ -264,6 +266,16 @@
 											<button class="copy-btn" onclick={(e) => copyLink(file, e)} title="Copy link">
 												{file.copied ? '✓' : '📋'}
 											</button>
+											<button
+												class="qr-btn"
+												onclick={(e) => {
+													e.stopPropagation();
+													showQR = { url: file.shareLink!, fileName: file.name };
+												}}
+												title="Show QR Code"
+											>
+												📱
+											</button>
 										</div>
 									{/if}
 								</div>
@@ -283,6 +295,23 @@
 		</footer>
 	</div>
 </main>
+
+{#if showQR}
+	<div
+		class="qr-modal"
+		onclick={() => (showQR = null)}
+		onkeydown={(e) => e.key === 'Escape' && (showQR = null)}
+		role="button"
+		tabindex="0"
+	>
+		<div class="qr-content">
+			<h3>{showQR.fileName}</h3>
+			<QRCode url={showQR.url} size={300} />
+			<p class="qr-hint">Scan to download</p>
+			<button class="close-btn" onclick={() => (showQR = null)}>Close</button>
+		</div>
+	</div>
+{/if}
 
 <style>
 	:global(body) {
@@ -539,6 +568,68 @@
 	}
 
 	.copy-btn:hover {
+		background: var(--accent-hover);
+	}
+
+	.qr-btn {
+		padding: 0.5rem 0.75rem;
+		background: var(--bg-primary);
+		color: var(--text-primary);
+		border: 1px solid var(--border-color);
+		border-radius: 0.375rem;
+		cursor: pointer;
+		font-size: 1.2rem;
+		transition: background 0.2s;
+	}
+
+	.qr-btn:hover {
+		background: var(--bg-secondary);
+		border-color: var(--accent);
+	}
+
+	.qr-modal {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background: rgba(0, 0, 0, 0.7);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		z-index: 2000;
+	}
+
+	.qr-content {
+		background: var(--bg-primary);
+		padding: 2rem;
+		border-radius: 1rem;
+		text-align: center;
+		max-width: 400px;
+	}
+
+	.qr-content h3 {
+		color: var(--text-primary);
+		margin: 0 0 1rem 0;
+		word-break: break-word;
+	}
+
+	.qr-hint {
+		color: var(--text-secondary);
+		margin: 1rem 0;
+	}
+
+	.close-btn {
+		padding: 0.75rem 2rem;
+		background: var(--accent);
+		color: white;
+		border: none;
+		border-radius: 0.5rem;
+		cursor: pointer;
+		font-weight: 500;
+	}
+
+	.close-btn:hover {
 		background: var(--accent-hover);
 	}
 

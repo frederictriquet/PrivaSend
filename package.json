@@ -52,9 +52,10 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"nanoid": "^5.0.0",
+		"bcrypt": "^5.1.1",
 		"better-sqlite3": "^11.7.0",
-		"bcrypt": "^5.1.1"
+		"nanoid": "^5.0.0",
+		"qrcode": "^1.5.4"
 	},
 	"overrides": {
 		"cookie": "^0.7.1",
