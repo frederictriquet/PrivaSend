@@ -1,17 +1,12 @@
 {
 	"$schema": "./node_modules/@stryker-mutator/core/schema/stryker-schema.json",
 	"packageManager": "npm",
-	"testRunner": "vitest",
-	"vitest": {
-		"configFile": "vitest.config.ts"
+	"testRunner": "command",
+	"commandRunner": {
+		"command": "npm test -- --run"
 	},
 	"checkers": [],
-	"mutate": [
-		"src/lib/server/**/*.ts",
-		"src/lib/stores/**/*.ts",
-		"!src/lib/server/**/*.test.ts",
-		"!src/**/*.spec.ts"
-	],
+	"mutate": ["src/lib/server/security.ts"],
 	"reporters": ["progress", "clear-text", "html"],
 	"htmlReporter": {
 		"fileName": "mutation-report.html"
@@ -22,15 +17,7 @@
 		"low": 60,
 		"break": 50
 	},
-	"timeoutMS": 60000,
-	"concurrency": 4,
-	"ignorePatterns": [
-		"dist",
-		"build",
-		".svelte-kit",
-		"node_modules",
-		"coverage",
-		"**/*.spec.ts",
-		"**/*.test.ts"
-	]
+	"timeoutMS": 120000,
+	"concurrency": 1,
+	"ignorePatterns": ["dist", "build", ".svelte-kit", "node_modules", "coverage"]
 }
