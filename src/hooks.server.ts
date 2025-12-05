@@ -28,37 +28,31 @@ const authMiddleware: Handle = async ({ event, resolve }) => {
 	event.locals.session = session;
 	event.locals.isAuthenticated = session !== null;
 
-	// Protected routes
-	const protectedRoutes = ['/', '/share-existing', '/admin'];
-	const protectedAPIs = ['/api/upload', '/api/shared', '/api/audit'];
+	// Public routes (explicitly allowed without auth)
+	const publicRoutes = ['/login'];
+	const publicPaths = ['/download/', '/api/auth/', '/api/config'];
 
-	// Check if route is protected
-	const isProtectedRoute = protectedRoutes.some(
-		(route) => event.url.pathname === route || event.url.pathname.startsWith(route + '/')
-	);
+	// Check if route is public
+	const isPublicRoute = publicRoutes.includes(event.url.pathname);
+	const isPublicPath = publicPaths.some((path) => event.url.pathname.startsWith(path));
 
-	const isProtectedAPI = protectedAPIs.some((api) => event.url.pathname.startsWith(api));
-
-	// Allow public routes (login, download, auth APIs)
-	if (
-		event.url.pathname === '/login' ||
-		event.url.pathname.startsWith('/download/') ||
-		event.url.pathname.startsWith('/api/auth/')
-	) {
+	// Allow public routes
+	if (isPublicRoute || isPublicPath) {
 		return resolve(event);
 	}
 
-	// Redirect to login if accessing protected route without auth
-	if (isProtectedRoute && !session) {
-		throw redirect(302, '/login');
-	}
+	// Require authentication for all other routes and APIs
+	if (!session) {
+		// API calls get 401
+		if (event.url.pathname.startsWith('/api/')) {
+			return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+				status: 401,
+				headers: { 'Content-Type': 'application/json' }
+			});
+		}
 
-	// Return 401 for protected API calls without auth
-	if (isProtectedAPI && !session) {
-		return new Response(JSON.stringify({ error: 'Unauthorized' }), {
-			status: 401,
-			headers: { 'Content-Type': 'application/json' }
-		});
+		// Page requests redirect to login
+		throw redirect(302, '/login');
 	}
 
 	return resolve(event);
