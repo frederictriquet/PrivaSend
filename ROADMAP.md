@@ -226,6 +226,7 @@ LOGIN_RATE_LIMIT=3                         # Tentatives par minute
 - [x] Analyse statique du code (CodeQL)
 - [x] Vérification des secrets (GitGuardian via CodeQL)
 - [ ] Licence compliance check (manuel pour l'instant)
+- [ ] Mutation testing avec Stryker (amélioration future)
 
 ### 2.5 Rapports & Métriques ✅
 
