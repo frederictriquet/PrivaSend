@@ -29,8 +29,8 @@ const authMiddleware: Handle = async ({ event, resolve }) => {
 	event.locals.isAuthenticated = session !== null;
 
 	// Protected routes
-	const protectedRoutes = ['/', '/share-existing'];
-	const protectedAPIs = ['/api/upload', '/api/shared'];
+	const protectedRoutes = ['/', '/share-existing', '/admin'];
+	const protectedAPIs = ['/api/upload', '/api/shared', '/api/audit'];
 
 	// Check if route is protected
 	const isProtectedRoute = protectedRoutes.some(
