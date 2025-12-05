@@ -28,7 +28,7 @@
 		{$theme === 'light' ? '🌙' : '☀️'}
 	</button>
 
-	{#if $auth.authEnabled && $auth.isAuthenticated && !isLoginPage}
+	{#if !isLoginPage}
 		<button class="logout-button" onclick={handleLogout}>Logout</button>
 	{/if}
 </div>
