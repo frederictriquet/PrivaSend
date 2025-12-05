@@ -91,52 +91,47 @@
 			{:else if files.length === 0}
 				<div class="empty">No uploaded files</div>
 			{:else}
-				<div class="files-grid">
+				<div class="file-list">
 					{#each files as file}
-						<div class="file-card">
-							<div class="file-header">
-								<h3 title={file.fileName}>{file.fileName}</h3>
-								<span class="file-size">{formatBytes(file.fileSize)}</span>
-							</div>
-
-							<div class="file-details">
-								<div class="detail">
-									<span class="label">Uploaded:</span>
-									<span>{formatDate(file.uploadedAt)}</span>
-								</div>
-								<div class="detail">
-									<span class="label">Downloads:</span>
-									<span>📥 {file.shareLink.downloadCount}</span>
-								</div>
-								<div class="detail">
-									<span class="label">Expires:</span>
-									<span>{formatDate(file.shareLink.expiresAt)}</span>
+						<div class="file-row">
+							<div class="file-info">
+								<span class="file-icon">📄</span>
+								<div class="file-details">
+									<div class="file-name" title={file.fileName}>{file.fileName}</div>
+									<div class="file-meta">
+										{formatBytes(file.fileSize)} • 📥 {file.shareLink.downloadCount} downloads
+									</div>
 								</div>
 							</div>
 
-							<div class="share-link-box">
-								<input
-									type="text"
-									readonly
-									value={`${window.location.origin}${file.shareLink.url}`}
-									onclick={(e) => e.currentTarget.select()}
-								/>
-							</div>
-
-							<div class="actions">
-								<button
-									class="btn-qr"
-									onclick={() =>
-										(showQR = {
-											url: `${window.location.origin}${file.shareLink.url}`,
-											fileName: file.fileName
-										})}
-								>
-									📱 QR Code
-								</button>
-								<button class="btn-delete" onclick={() => (confirmDelete = file.fileId)}>
-									🗑️ Delete
-								</button>
+							<div class="file-actions">
+								<div class="share-link-inline">
+									<input
+										type="text"
+										readonly
+										value={`${window.location.origin}${file.shareLink.url}`}
+										onclick={(e) => e.currentTarget.select()}
+										class="link-input"
+									/>
+									<button
+										class="btn-qr"
+										onclick={() =>
+											(showQR = {
+												url: `${window.location.origin}${file.shareLink.url}`,
+												fileName: file.fileName
+											})}
+										title="Show QR Code"
+									>
+										📱
+									</button>
+									<button
+										class="btn-delete"
+										onclick={() => (confirmDelete = file.fileId)}
+										title="Delete file"
+									>
+										🗑️
+									</button>
+								</div>
 							</div>
 						</div>
 					{/each}
@@ -263,55 +258,67 @@
 		color: var(--text-secondary);
 	}
 
-	.files-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-		gap: 1.5rem;
+	.file-list {
+		display: flex;
+		flex-direction: column;
+		gap: 0.75rem;
 	}
 
-	.file-card {
+	.file-row {
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-start;
+		gap: 1rem;
+		padding: 1rem;
 		border: 1px solid var(--border-color);
 		border-radius: 0.5rem;
-		padding: 1.5rem;
-		background: var(--bg-primary);
+		transition: background 0.2s;
 	}
 
-	.file-header h3 {
-		margin: 0 0 0.5rem 0;
-		color: var(--text-primary);
-		font-size: 1rem;
-		word-break: break-word;
+	.file-row:hover {
+		background: var(--bg-secondary);
 	}
 
-	.file-size {
-		color: var(--text-secondary);
-		font-size: 0.85rem;
+	.file-info {
+		display: flex;
+		gap: 0.75rem;
+		flex: 1;
+		min-width: 0;
+	}
+
+	.file-icon {
+		font-size: 2rem;
+		flex-shrink: 0;
 	}
 
 	.file-details {
-		margin: 1rem 0;
+		flex: 1;
+		min-width: 0;
+	}
+
+	.file-name {
+		font-weight: 500;
+		color: var(--text-primary);
+		margin-bottom: 0.25rem;
+		word-break: break-word;
+	}
+
+	.file-meta {
+		font-size: 0.85rem;
+		color: var(--text-secondary);
+	}
+
+	.file-actions {
+		min-width: 600px;
+	}
+
+	.share-link-inline {
 		display: flex;
-		flex-direction: column;
 		gap: 0.5rem;
 	}
 
-	.detail {
-		display: flex;
-		justify-content: space-between;
-		font-size: 0.85rem;
-	}
-
-	.label {
-		color: var(--text-secondary);
-		font-weight: 500;
-	}
-
-	.share-link-box {
-		margin: 1rem 0;
-	}
-
-	.share-link-box input {
-		width: 100%;
+	.link-input {
+		flex: 1;
 		padding: 0.5rem;
 		border: 1px solid var(--border-color);
 		border-radius: 0.375rem;
@@ -321,19 +328,13 @@
 		color: var(--text-primary);
 	}
 
-	.actions {
-		display: flex;
-		gap: 0.5rem;
-	}
-
 	.btn-qr,
 	.btn-delete {
-		flex: 1;
-		padding: 0.75rem;
+		padding: 0.5rem 0.75rem;
 		border: none;
 		border-radius: 0.375rem;
 		cursor: pointer;
-		font-weight: 500;
+		font-size: 1.2rem;
 		transition: all 0.2s;
 	}
 
@@ -347,12 +348,12 @@
 	}
 
 	.btn-delete {
-		background: var(--error-bg);
-		color: var(--error-text);
+		background: #dc2626;
+		color: white;
 	}
 
 	.btn-delete:hover {
-		opacity: 0.8;
+		background: #b91c1c;
 	}
 
 	.modal {
