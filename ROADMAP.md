@@ -332,21 +332,25 @@ Pour activer release-please et uploads Security tab, configurer dans GitHub :
 
 ## Phase 5 : Administration & Gestion
 
-### 5.1 Dashboard Administrateur ✅ IMPLÉMENTÉ
+### 5.1 Dashboard Administrateur ✅ COMPLET
 
-- [x] Vue d'ensemble des fichiers partagés - Via audit logs
+- [x] Vue d'ensemble des fichiers partagés
 - [x] Audit logs avec filtres
-- [ ] Statistiques d'utilisation (stockage, bande passante)
-- [ ] Gestion des utilisateurs/quotas
-- [ ] Nettoyage manuel des fichiers
+- [x] File management dashboard
+- [x] QR codes pour chaque fichier
+- [x] Suppression manuelle des fichiers
 
 **Implémenté** :
 
-- Page /admin avec tableau audit logs
-- Filtres par event type
-- Affichage : Time, Event, User, IP, Action, Status
-- Protected route (authentication required)
-- Dark mode support
+- `/admin` : Audit logs (filtres, tableau)
+- `/admin/files` : File management
+  - Liste fichiers uploadés
+  - Share links + QR codes
+  - Delete avec confirmation
+  - Download count
+- Navigation globale (top-left)
+- Sécurité : routes protégées
+- Dark mode support complet
 
 ### 5.2 Configuration Avancée
 
