@@ -242,6 +242,7 @@
 			<nav class="mode-nav">
 				<a href="/" class="nav-link active">📤 Upload File</a>
 				<a href="/share-existing" class="nav-link">📂 Share Existing</a>
+				<a href="/admin" class="nav-link">⚙️ Admin</a>
 			</nav>
 		{/if}
 
