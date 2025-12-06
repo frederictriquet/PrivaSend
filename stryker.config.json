@@ -6,7 +6,14 @@
 		"command": "npm test -- --run"
 	},
 	"checkers": [],
-	"mutate": ["src/lib/server/security.ts"],
+	"mutate": [
+		"src/lib/server/security.ts",
+		"src/lib/server/config.ts",
+		"src/lib/server/auth.ts",
+		"src/lib/server/session.ts",
+		"src/lib/server/audit.ts",
+		"src/lib/stores/**/*.ts"
+	],
 	"reporters": ["progress", "clear-text", "html", "json"],
 	"htmlReporter": {
 		"fileName": "mutation-report.html"

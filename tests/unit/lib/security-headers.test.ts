@@ -7,7 +7,7 @@ describe('Security Headers - Mutation Testing', () => {
 			const mockEvent = { url: new URL('http://localhost') } as unknown;
 			const mockResolve = vi.fn().mockResolvedValue(new Response('test'));
 
-			const _response = await securityHeaders({ event: mockEvent, resolve: mockResolve });
+			const response = await securityHeaders({ event: mockEvent, resolve: mockResolve });
 
 			expect(response.headers.get('X-Frame-Options')).toBe('DENY');
 		});
@@ -16,7 +16,7 @@ describe('Security Headers - Mutation Testing', () => {
 			const mockEvent = { url: new URL('http://localhost') } as unknown;
 			const mockResolve = vi.fn().mockResolvedValue(new Response('test'));
 
-			const _response = await securityHeaders({ event: mockEvent, resolve: mockResolve });
+			const response = await securityHeaders({ event: mockEvent, resolve: mockResolve });
 
 			expect(response.headers.get('X-Content-Type-Options')).toBe('nosniff');
 		});
@@ -25,7 +25,7 @@ describe('Security Headers - Mutation Testing', () => {
 			const mockEvent = { url: new URL('http://localhost') } as unknown;
 			const mockResolve = vi.fn().mockResolvedValue(new Response('test'));
 
-			const _response = await securityHeaders({ event: mockEvent, resolve: mockResolve });
+			const response = await securityHeaders({ event: mockEvent, resolve: mockResolve });
 			const csp = response.headers.get('Content-Security-Policy');
 
 			expect(csp).toContain("default-src 'self'");
@@ -35,7 +35,7 @@ describe('Security Headers - Mutation Testing', () => {
 			const mockEvent = { url: new URL('https://localhost') } as unknown;
 			const mockResolve = vi.fn().mockResolvedValue(new Response('test'));
 
-			const _response = await securityHeaders({ event: mockEvent, resolve: mockResolve });
+			const response = await securityHeaders({ event: mockEvent, resolve: mockResolve });
 
 			expect(response.headers.get('Strict-Transport-Security')).toBe(
 				'max-age=31536000; includeSubDomains'
@@ -46,7 +46,7 @@ describe('Security Headers - Mutation Testing', () => {
 			const mockEvent = { url: new URL('http://localhost') } as unknown;
 			const mockResolve = vi.fn().mockResolvedValue(new Response('test'));
 
-			const _response = await securityHeaders({ event: mockEvent, resolve: mockResolve });
+			const response = await securityHeaders({ event: mockEvent, resolve: mockResolve });
 
 			expect(response.headers.get('Strict-Transport-Security')).toBeNull();
 		});
@@ -63,7 +63,7 @@ describe('Security Headers - Mutation Testing', () => {
 			} as unknown;
 			const mockResolve = vi.fn();
 
-			const _response = await httpsRedirect({ event: mockEvent, resolve: mockResolve });
+			const response = await httpsRedirect({ event: mockEvent, resolve: mockResolve });
 
 			expect(response.status).toBe(301);
 			expect(response.headers.get('location')).toBe('https://example.com/path');
@@ -82,7 +82,7 @@ describe('Security Headers - Mutation Testing', () => {
 			} as unknown;
 			const mockResolve = vi.fn().mockResolvedValue(new Response('ok'));
 
-			const _response = await httpsRedirect({ event: mockEvent, resolve: mockResolve });
+			const response = await httpsRedirect({ event: mockEvent, resolve: mockResolve });
 
 			expect(mockResolve).toHaveBeenCalled();
 
@@ -134,7 +134,7 @@ describe('Security - Final Mutation Killers', () => {
 			const mockEvent = { url: new URL('http://localhost') } as unknown;
 			const mockResolve = vi.fn().mockResolvedValue(new Response('test'));
 
-			const _response = await securityHeaders({
+			const response = await securityHeaders({
 				event: mockEvent as unknown,
 				resolve: mockResolve
 			});
@@ -156,7 +156,7 @@ describe('Security - Final Mutation Killers', () => {
 				}
 			} as unknown;
 
-			const _response = await httpsRedirect({ event: mockEvent as unknown, resolve: vi.fn() });
+			const response = await httpsRedirect({ event: mockEvent as unknown, resolve: vi.fn() });
 			expect(response.status).toBe(301);
 
 			process.env.NODE_ENV = originalEnv;
