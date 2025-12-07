@@ -28,6 +28,6 @@
 		"break": 50
 	},
 	"timeoutMS": 180000,
-	"concurrency": 4,
+	"concurrency": 8,
 	"ignorePatterns": ["dist", "build", ".svelte-kit", "node_modules", "coverage"]
 }
