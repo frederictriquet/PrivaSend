@@ -258,14 +258,14 @@
 	.file-name {
 		margin: 0 0 0.5rem 0;
 		font-size: 1.5rem;
-		color: #2d3748;
+		color: var(--text-primary);
 		word-break: break-word;
 	}
 
 	.file-size {
 		margin: 0;
 		font-size: 1rem;
-		color: #718096;
+		color: var(--text-secondary);
 	}
 
 	.file-info {
@@ -285,11 +285,11 @@
 
 	.info-label {
 		font-weight: 500;
-		color: #718096;
+		color: var(--text-secondary);
 	}
 
 	.info-value {
-		color: #2d3748;
+		color: var(--text-primary);
 		text-align: right;
 	}
 
@@ -346,7 +346,7 @@
 
 	.progress-text {
 		margin: 0;
-		color: #718096;
+		color: var(--text-secondary);
 		font-size: 0.875rem;
 	}
 
@@ -355,7 +355,7 @@
 		margin: 2rem 0 0 0;
 		padding-top: 2rem;
 		border-top: 1px solid #e2e8f0;
-		color: #718096;
+		color: var(--text-secondary);
 		font-size: 0.875rem;
 	}
 
