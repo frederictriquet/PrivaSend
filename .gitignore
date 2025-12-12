@@ -25,3 +25,4 @@ test-results.json
 !.husky
 mutation-report.html
 .stryker-tmp/
+reports/
