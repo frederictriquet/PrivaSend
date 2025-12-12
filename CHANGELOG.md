@@ -5,6 +5,44 @@ All notable changes to PrivaSend will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.6](https://github.com/frederictriquet/PrivaSend/compare/privasend-v0.4.5...privasend-v0.4.6) (2025-12-12)
+
+
+### Features
+
+* **admin:** Add file management dashboard ([6e19a16](https://github.com/frederictriquet/PrivaSend/commit/6e19a16788c8f37f26816d66acc9e78c39910453))
+* **nav:** Add Admin link to navigation ([fec5952](https://github.com/frederictriquet/PrivaSend/commit/fec5952cfa385f33426b8bc0cc60a1e2134a61ec))
+* **nav:** Add global navigation in layout ([aa91b18](https://github.com/frederictriquet/PrivaSend/commit/aa91b180cab573b3c78220fdea2c9369c24ea4e4))
+* **phase-5.1:** Add admin dashboard with audit logs ([15a2d72](https://github.com/frederictriquet/PrivaSend/commit/15a2d7291bfbeb825a5c40a5d3b35540abece17a))
+* **phase-5.3:** Add system statistics to admin dashboard ([f93f341](https://github.com/frederictriquet/PrivaSend/commit/f93f341639a4ee73f40a46ef12bf0e885ebac290))
+* **quality:** Add Stryker mutation testing ([a2e0f7f](https://github.com/frederictriquet/PrivaSend/commit/a2e0f7f0c2c17c402558339243d5cb978e9abd4e))
+* **stryker:** Extend mutation testing to core files ([1e022de](https://github.com/frederictriquet/PrivaSend/commit/1e022de75ec75ccb22f4e78fa97e2c613cc02eee))
+* **stryker:** Working config with command runner ([6b97635](https://github.com/frederictriquet/PrivaSend/commit/6b976354533199328ee64bf544d954cda3e7c82a))
+
+
+### Bug Fixes
+
+* Apply dark mode colors to download page ([33fcde8](https://github.com/frederictriquet/PrivaSend/commit/33fcde849fa758036ee689aba2512e2fa0f276b8))
+* **auth:** Protect /admin and /api/audit routes ([77fd3ba](https://github.com/frederictriquet/PrivaSend/commit/77fd3bab049869a4856266a187af72212bdf885f))
+* clean ([58561e9](https://github.com/frederictriquet/PrivaSend/commit/58561e95f695a6264572fe448528a467399497ee))
+* **dark-mode:** Fix upload success page colors ([be704eb](https://github.com/frederictriquet/PrivaSend/commit/be704eb3a0e7e3ba03e6074f499d3c8fb2242ac0))
+* gitignore ([71dc5b4](https://github.com/frederictriquet/PrivaSend/commit/71dc5b49a273bf0ac47eb20cb1c70be5f5cc9709))
+* Increase body size limit for chunked uploads ([b1e749c](https://github.com/frederictriquet/PrivaSend/commit/b1e749c68268de284c4f9aa9343ff95ae508ad3f))
+* increase upload rate limit ([f4ba63a](https://github.com/frederictriquet/PrivaSend/commit/f4ba63a35a553d4c615b8576e9dca4c5b4a0151f))
+* **layout:** Always show logout button (except on login page) ([8a24ca0](https://github.com/frederictriquet/PrivaSend/commit/8a24ca0d6b07de7dac482fd55a04cb0d7de75078))
+* **nav:** Add Files link to global navigation ([238714f](https://github.com/frederictriquet/PrivaSend/commit/238714ff1b80234789db95ca4bcd98627854f408))
+* Read version from package.json dynamically ([969f74c](https://github.com/frederictriquet/PrivaSend/commit/969f74c49d060dffbf21200bcfc1790f73096ed0))
+* Remove unused CSS and variables ([a543cf0](https://github.com/frederictriquet/PrivaSend/commit/a543cf009d599c560341270ec88c3b014124a932))
+* Restore response variable in security tests ([d74b91a](https://github.com/frederictriquet/PrivaSend/commit/d74b91a9df489f88da27e8a6e37174eb4b6cc71e))
+* Restore response variable name in tests ([b2afa91](https://github.com/frederictriquet/PrivaSend/commit/b2afa9155b41cedd96b00d046b18998649d75ab2))
+* **stryker:** Add explicit test pattern ([64cfc1e](https://github.com/frederictriquet/PrivaSend/commit/64cfc1e2b270359bcc71f40b80fa46811e135f4d))
+* **stryker:** Disable related files mode ([2a88de5](https://github.com/frederictriquet/PrivaSend/commit/2a88de50114de5804edb5459f0df73bbdcae1738))
+* **stryker:** Disable TypeScript checker for SvelteKit compatibility ([80c0cc7](https://github.com/frederictriquet/PrivaSend/commit/80c0cc75b163bf36bbbed08089d82ee6a87aa668))
+* **stryker:** Simplify config - use coverageAnalysis: off ([e044969](https://github.com/frederictriquet/PrivaSend/commit/e044969b986fdd6b2f353ad83cc4028ba56c2490))
+* **tests:** Update auth test to be env-agnostic ([76b1f4a](https://github.com/frederictriquet/PrivaSend/commit/76b1f4a11f8a25ca85ddab384c0a0e274f99b9ed))
+* **upload:** Wrap long filenames in success message ([5b14e5c](https://github.com/frederictriquet/PrivaSend/commit/5b14e5c354f404c174ae445efe76e9be5ea0b927))
+* **vitest:** Add pool: forks for Stryker ([bce8c56](https://github.com/frederictriquet/PrivaSend/commit/bce8c5654b979a055621470a2f28e32533fdbc4d))
+
 ## [0.4.5](https://github.com/frederictriquet/PrivaSend/compare/privasend-v0.4.4...privasend-v0.4.5) (2025-12-05)
 
 
