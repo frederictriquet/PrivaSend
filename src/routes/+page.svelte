@@ -238,13 +238,6 @@
 			<p class="subtitle">Secure File Sharing for Your Private Network</p>
 		</header>
 
-		{#if data.sharedVolumeEnabled}
-			<nav class="mode-nav">
-				<a href="/" class="nav-link active">📤 Upload File</a>
-				<a href="/share-existing" class="nav-link">📂 Share Existing</a>
-			</nav>
-		{/if}
-
 		{#if !data.uploadEnabled}
 			<div class="upload-disabled">
 				<svg
@@ -488,35 +481,6 @@
 		opacity: 0.9;
 	}
 
-	.mode-nav {
-		display: flex;
-		gap: 1rem;
-		margin-bottom: 2rem;
-		background: rgba(255, 255, 255, 0.1);
-		padding: 0.5rem;
-		border-radius: 0.5rem;
-	}
-
-	.nav-link {
-		flex: 1;
-		padding: 0.75rem 1.5rem;
-		text-align: center;
-		color: white;
-		text-decoration: none;
-		border-radius: 0.375rem;
-		transition: all 0.2s;
-	}
-
-	.nav-link:hover {
-		background: rgba(255, 255, 255, 0.1);
-	}
-
-	.nav-link.active {
-		background: var(--bg-primary);
-		color: var(--accent);
-		font-weight: 600;
-	}
-
 	.upload-section {
 		background: var(--bg-primary);
 		border-radius: 1rem;
@@ -571,7 +535,7 @@
 		text-align: center;
 		cursor: pointer;
 		transition: all 0.3s ease;
-		background: #f7fafc;
+		background: var(--bg-secondary);
 	}
 
 	.dropzone:hover,
@@ -597,12 +561,12 @@
 	.dropzone h2 {
 		margin: 0 0 0.5rem 0;
 		font-size: 1.5rem;
-		color: #2d3748;
+		color: var(--text-primary);
 	}
 
 	.dropzone p {
 		margin: 0.5rem 0;
-		color: #718096;
+		color: var(--text-secondary);
 		font-size: 1rem;
 	}
 
@@ -621,7 +585,7 @@
 		align-items: center;
 		gap: 1rem;
 		padding: 1rem;
-		background: #f7fafc;
+		background: var(--bg-secondary);
 		border-radius: 0.5rem;
 		margin-bottom: 1.5rem;
 	}
@@ -641,14 +605,14 @@
 	.file-details h3 {
 		margin: 0 0 0.25rem 0;
 		font-size: 1rem;
-		color: #2d3748;
+		color: var(--text-primary);
 		word-break: break-all;
 	}
 
 	.file-details p {
 		margin: 0;
 		font-size: 0.875rem;
-		color: #718096;
+		color: var(--text-secondary);
 	}
 
 	.progress-bar {
@@ -669,7 +633,7 @@
 
 	.progress-text {
 		margin: 0;
-		color: #718096;
+		color: var(--text-secondary);
 		font-size: 0.875rem;
 	}
 
@@ -696,30 +660,33 @@
 
 	.success-message h2 {
 		margin: 0 0 1rem 0;
-		color: #2d3748;
+		color: var(--text-primary);
 		font-size: 1.5rem;
 	}
 
 	.error-message h2 {
 		margin: 0 0 1rem 0;
-		color: #2d3748;
+		color: var(--text-primary);
 		font-size: 1.5rem;
 	}
 
 	.file-name {
 		margin: 0.5rem 0;
-		color: #2d3748;
+		color: var(--text-primary);
 		font-weight: 500;
+		word-wrap: break-word;
+		overflow-wrap: break-word;
+		max-width: 100%;
 	}
 
 	.file-size {
 		margin: 0 0 1.5rem 0;
-		color: #718096;
+		color: var(--text-secondary);
 		font-size: 0.875rem;
 	}
 
 	.share-link-box {
-		background: #f7fafc;
+		background: var(--bg-secondary);
 		padding: 1.5rem;
 		border-radius: 0.5rem;
 		margin: 1.5rem 0;
@@ -730,7 +697,7 @@
 		display: block;
 		font-size: 0.875rem;
 		font-weight: 500;
-		color: #2d3748;
+		color: var(--text-primary);
 		margin-bottom: 0.75rem;
 	}
 
@@ -747,7 +714,7 @@
 		border-radius: 0.375rem;
 		font-family: 'Monaco', 'Courier New', monospace;
 		font-size: 0.875rem;
-		color: #2d3748;
+		color: var(--text-primary);
 		background: var(--bg-primary);
 		cursor: pointer;
 	}
@@ -785,7 +752,7 @@
 	.link-info {
 		margin: 0;
 		font-size: 0.75rem;
-		color: #718096;
+		color: var(--text-secondary);
 		text-align: center;
 	}
 

@@ -5,6 +5,7 @@ export default defineConfig({
 	plugins: [sveltekit()],
 	test: {
 		include: ['tests/**/*.test.ts'],
+		pool: 'forks',
 		coverage: {
 			provider: 'v8',
 			reporter: ['text', 'json', 'html', 'lcov'],

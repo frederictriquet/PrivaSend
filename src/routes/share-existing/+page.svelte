@@ -189,11 +189,6 @@
 			<p class="subtitle">Share Existing Files from Server</p>
 		</header>
 
-		<nav class="mode-nav">
-			<a href="/" class="nav-link">📤 Upload File</a>
-			<a href="/share-existing" class="nav-link active">📂 Share Existing</a>
-		</nav>
-
 		<div class="content-section">
 			<div class="breadcrumb">
 				<span class="path-label">Path:</span>
@@ -346,32 +341,6 @@
 		font-size: 1.1rem;
 		opacity: 0.9;
 		margin: 0;
-	}
-
-	.mode-nav {
-		display: flex;
-		gap: 0.5rem;
-		margin-bottom: 2rem;
-		justify-content: center;
-	}
-
-	.nav-link {
-		padding: 0.75rem 1.5rem;
-		background: rgba(255, 255, 255, 0.2);
-		color: white;
-		text-decoration: none;
-		border-radius: 0.5rem;
-		transition: background 0.2s;
-	}
-
-	.nav-link:hover {
-		background: rgba(255, 255, 255, 0.3);
-	}
-
-	.nav-link.active {
-		background: var(--bg-primary);
-		color: var(--accent);
-		font-weight: 600;
 	}
 
 	.content-section {

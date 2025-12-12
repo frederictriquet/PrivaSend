@@ -1,0 +1,33 @@
+{
+	"$schema": "./node_modules/@stryker-mutator/core/schema/stryker-schema.json",
+	"packageManager": "npm",
+	"testRunner": "command",
+	"commandRunner": {
+		"command": "npm test -- --run"
+	},
+	"checkers": [],
+	"mutate": [
+		"src/lib/server/security.ts",
+		"src/lib/server/config.ts",
+		"src/lib/server/auth.ts",
+		"src/lib/server/session.ts",
+		"src/lib/server/audit.ts",
+		"src/lib/stores/**/*.ts"
+	],
+	"reporters": ["progress", "clear-text", "html", "json"],
+	"htmlReporter": {
+		"fileName": "mutation-report.html"
+	},
+	"jsonReporter": {
+		"fileName": "mutation-report.json"
+	},
+	"coverageAnalysis": "off",
+	"thresholds": {
+		"high": 80,
+		"low": 60,
+		"break": 50
+	},
+	"timeoutMS": 180000,
+	"concurrency": 8,
+	"ignorePatterns": ["dist", "build", ".svelte-kit", "node_modules", "coverage"]
+}
