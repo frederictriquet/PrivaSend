@@ -103,7 +103,7 @@ export const rateLimiter = new RateLimiter();
  */
 export const rateLimitConfig = {
 	upload: {
-		maxRequests: 10, // 10 uploads
+		maxRequests: 100, // 100 uploads
 		windowMs: 60 * 60 * 1000 // per hour
 	},
 	download: {
