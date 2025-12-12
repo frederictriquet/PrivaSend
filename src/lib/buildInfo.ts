@@ -1,8 +1,10 @@
 // Build information
-// This file is generated at build time
+// Version is read from package.json
+
+import pkg from '../../package.json';
 
 export const buildInfo = {
-	version: '0.5.0',
+	version: pkg.version,
 	buildDate: new Date().toISOString(),
 	buildTimestamp: Date.now()
 };
