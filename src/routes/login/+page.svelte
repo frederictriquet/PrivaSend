@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { buildInfo } from '$lib/buildInfo';
+	import Footer from '$lib/components/Footer.svelte';
 
 	let password = $state('');
 	let error = $state('');
@@ -71,11 +71,7 @@
 		</form>
 	</div>
 
-	<footer>
-		<p>
-			PrivaSend v{buildInfo.version} • Built {buildInfo.date} at {buildInfo.time}
-		</p>
-	</footer>
+	<Footer />
 </main>
 
 <style>
@@ -193,16 +189,5 @@
 		margin-bottom: 1rem;
 		font-size: 0.9rem;
 		border: 1px solid var(--error-text);
-	}
-
-	footer {
-		margin-top: 2rem;
-		text-align: center;
-		color: rgba(255, 255, 255, 0.8);
-		font-size: 0.85rem;
-	}
-
-	footer p {
-		margin: 0;
 	}
 </style>

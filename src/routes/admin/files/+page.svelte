@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { buildInfo } from '$lib/buildInfo';
+	import Footer from '$lib/components/Footer.svelte';
 	import QRCode from '$lib/components/QRCode.svelte';
 
 	interface UploadedFile {
@@ -62,10 +62,6 @@
 		const sizes = ['Bytes', 'KB', 'MB', 'GB'];
 		const i = Math.floor(Math.log(bytes) / Math.log(k));
 		return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + ' ' + sizes[i];
-	}
-
-	function formatDate(dateStr: string): string {
-		return new Date(dateStr).toLocaleString();
 	}
 </script>
 
@@ -134,9 +130,7 @@
 			{/if}
 		</div>
 
-		<footer>
-			<p>PrivaSend v{buildInfo.version}</p>
-		</footer>
+		<Footer />
 	</div>
 </main>
 
@@ -405,12 +399,5 @@
 
 	.btn-confirm:hover {
 		background: #b91c1c;
-	}
-
-	footer {
-		text-align: center;
-		margin-top: 2rem;
-		color: rgba(255, 255, 255, 0.8);
-		font-size: 0.85rem;
 	}
 </style>

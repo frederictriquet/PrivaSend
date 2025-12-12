@@ -55,7 +55,7 @@ export const POST: RequestHandler = async (event) => {
 		`);
 
 		const createdAt = new Date().toISOString();
-		const result = stmt.run(
+		stmt.run(
 			token,
 			fileInfo.name, // Use filename as fileId for shared files
 			expiresAt.toISOString(),

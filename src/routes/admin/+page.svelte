@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { buildInfo } from '$lib/buildInfo';
+	import Footer from '$lib/components/Footer.svelte';
 
 	interface AuditLog {
 		id: number;
@@ -160,9 +160,7 @@
 			{/if}
 		</div>
 
-		<footer>
-			<p>PrivaSend v{buildInfo.version}</p>
-		</footer>
+		<Footer />
 	</div>
 </main>
 
@@ -340,12 +338,5 @@
 	.status.success {
 		background: var(--success-bg);
 		color: var(--success-text);
-	}
-
-	footer {
-		text-align: center;
-		margin-top: 2rem;
-		color: rgba(255, 255, 255, 0.8);
-		font-size: 0.85rem;
 	}
 </style>

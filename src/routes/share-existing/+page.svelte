@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { buildInfo } from '$lib/buildInfo';
+	import Footer from '$lib/components/Footer.svelte';
 	import QRCode from '$lib/components/QRCode.svelte';
 
 	interface FileEntry {
@@ -281,13 +281,7 @@
 			{/if}
 		</div>
 
-		<footer>
-			<p>
-				PrivaSend v{buildInfo.version} • Built on {new Date(
-					buildInfo.buildDate
-				).toLocaleDateString()} at {new Date(buildInfo.buildDate).toLocaleTimeString()}
-			</p>
-		</footer>
+		<Footer />
 	</div>
 </main>
 
@@ -600,16 +594,5 @@
 
 	.close-btn:hover {
 		background: var(--accent-hover);
-	}
-
-	footer {
-		text-align: center;
-		margin-top: 2rem;
-		color: rgba(255, 255, 255, 0.8);
-		font-size: 0.85rem;
-	}
-
-	footer p {
-		margin: 0;
 	}
 </style>
