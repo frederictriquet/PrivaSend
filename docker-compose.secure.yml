@@ -1,23 +1,94 @@
-# Docker Compose - Secure Mode with Admin Authentication
-# Phase 1.7 - Production deployment with authentication enabled
+# Docker Compose - Production Deployment with Traefik & CrowdSec
+# Complete security stack: Reverse proxy + WAF + File sharing
+#
+# Prerequisites:
+#   1. Domain name pointing to your server
+#   2. Ports 80/443 open
 #
 # Usage:
-#   1. Copy this file: cp docker-compose.secure.yml docker-compose.override.yml
-#   2. Edit ADMIN_PASSWORD in docker-compose.override.yml
-#   3. Run: docker-compose up -d
+#   1. Edit environment variables below (ADMIN_PASSWORD, domain, email)
+#   2. docker-compose -f docker-compose.secure.yml up -d
 #
-# IMPORTANT: Change ADMIN_PASSWORD before deploying to production!
-
-version: '3.8'
+# Stack:
+#   - Traefik: Reverse proxy with automatic HTTPS (Let's Encrypt)
+#   - CrowdSec: IPS/WAF for attack detection and blocking
+#   - PrivaSend: Secure file sharing application
 
 services:
+  # Traefik - Reverse Proxy with automatic HTTPS
+  traefik:
+    image: traefik:v3.0
+    container_name: traefik
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    ports:
+      - '80:80'
+      - '443:443'
+    environment:
+      - CF_API_EMAIL=${CF_API_EMAIL:-}
+      - CF_DNS_API_TOKEN=${CF_DNS_API_TOKEN:-}
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./traefik/traefik.yml:/traefik.yml:ro
+      - ./traefik/acme.json:/acme.json
+      - ./traefik/config.yml:/config.yml:ro
+      - traefik-logs:/var/log/traefik
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.traefik.entrypoints=http'
+      - 'traefik.http.routers.traefik.rule=Host(`traefik.${DOMAIN:-localhost}`)'
+      - 'traefik.http.middlewares.traefik-https-redirect.redirectscheme.scheme=https'
+      - 'traefik.http.routers.traefik.middlewares=traefik-https-redirect'
+      - 'traefik.http.routers.traefik-secure.entrypoints=https'
+      - 'traefik.http.routers.traefik-secure.rule=Host(`traefik.${DOMAIN:-localhost}`)'
+      - 'traefik.http.routers.traefik-secure.tls=true'
+      - 'traefik.http.routers.traefik-secure.tls.certresolver=cloudflare'
+      - 'traefik.http.routers.traefik-secure.service=api@internal'
+    networks:
+      - privasend-network
+
+  # CrowdSec - Security engine
+  crowdsec:
+    image: crowdsecurity/crowdsec:latest
+    container_name: crowdsec
+    restart: unless-stopped
+    environment:
+      - COLLECTIONS=crowdsecurity/traefik crowdsecurity/http-cve
+      - GID=1000
+    volumes:
+      - ./crowdsec/config:/etc/crowdsec
+      - crowdsec-db:/var/lib/crowdsec/data
+      - crowdsec-config:/etc/crowdsec
+      - traefik-logs:/var/log/traefik:ro
+    networks:
+      - privasend-network
+
+  # CrowdSec Bouncer for Traefik
+  bouncer-traefik:
+    image: fbonalair/traefik-crowdsec-bouncer:latest
+    container_name: bouncer-traefik
+    restart: unless-stopped
+    environment:
+      - CROWDSEC_BOUNCER_API_KEY=${CROWDSEC_BOUNCER_API_KEY:-changeme}
+      - CROWDSEC_AGENT_HOST=crowdsec:8080
+      - GIN_MODE=release
+    networks:
+      - privasend-network
+    depends_on:
+      - crowdsec
+
+  # PrivaSend - Secure File Sharing
   privasend:
     build: .
-    ports:
-      - '3000:3000'
+    container_name: privasend
+    restart: unless-stopped
+    expose:
+      - '3000'
     volumes:
       - ./storage:/app/storage
-      - ./shared:/app/shared:ro # Shared volume (optional)
+      - ./shared:/app/shared:ro
     environment:
       - NODE_ENV=production
       - STORAGE_PATH=/app/storage
@@ -26,46 +97,48 @@ services:
       - BODY_SIZE_LIMIT=10485760
       - DEFAULT_EXPIRATION_DAYS=7
       - CLEANUP_INTERVAL_HOURS=1
-      # Upload config (Phase 1.6)
+      # Upload config
       - UPLOAD_ENABLED=true
-      # Shared volume config (Phase 1.5)
+      # Shared volume config
       - SHARED_VOLUME_ENABLED=false
       - SHARED_VOLUME_PATH=/app/shared
       - SHARED_VOLUME_READ_ONLY=true
-      # Authentication config (Phase 1.7) - ENABLED
-      # ⚠️ CRITICAL: Change ADMIN_PASSWORD before production deployment!
+      # Authentication - REQUIRED IN PRODUCTION
       - AUTH_ENABLED=true
-      - ADMIN_PASSWORD=CHANGE_ME_IN_PRODUCTION_123!
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-CHANGE_ME_NOW}
       - SESSION_TIMEOUT_HOURS=24
       - LOGIN_RATE_LIMIT=3
-    restart: unless-stopped
+      # Audit
+      - AUDIT_RETENTION_DAYS=90
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.privasend.entrypoints=http'
+      - 'traefik.http.routers.privasend.rule=Host(`${DOMAIN:-privasend.localhost}`)'
+      - 'traefik.http.middlewares.privasend-https-redirect.redirectscheme.scheme=https'
+      - 'traefik.http.routers.privasend.middlewares=privasend-https-redirect,crowdsec@docker'
+      - 'traefik.http.routers.privasend-secure.entrypoints=https'
+      - 'traefik.http.routers.privasend-secure.rule=Host(`${DOMAIN:-privasend.localhost}`)'
+      - 'traefik.http.routers.privasend-secure.tls=true'
+      - 'traefik.http.routers.privasend-secure.tls.certresolver=cloudflare'
+      - 'traefik.http.routers.privasend-secure.middlewares=crowdsec@docker'
+      - 'traefik.http.services.privasend.loadbalancer.server.port=3000'
     healthcheck:
       test: ['CMD', 'wget', '--quiet', '--tries=1', '--spider', 'http://localhost:3000']
       interval: 30s
       timeout: 10s
       retries: 3
       start_period: 40s
+    networks:
+      - privasend-network
+    depends_on:
+      - traefik
+      - crowdsec
 
-# Example configurations for different use cases:
-#
-# 1. Secure Upload-Only Mode:
-#    AUTH_ENABLED=true
-#    UPLOAD_ENABLED=true
-#    SHARED_VOLUME_ENABLED=false
-#
-# 2. Secure Shared-Only Mode (NAS):
-#    AUTH_ENABLED=true
-#    UPLOAD_ENABLED=false
-#    SHARED_VOLUME_ENABLED=true
-#    Volumes: ./nas:/app/shared:ro
-#
-# 3. Secure Hybrid Mode:
-#    AUTH_ENABLED=true
-#    UPLOAD_ENABLED=true
-#    SHARED_VOLUME_ENABLED=true
-#
-# Security Notes:
-# - Admin must login at /login before accessing upload/share features
-# - Public can still download via /download/[token] links (no auth)
-# - Sessions expire after SESSION_TIMEOUT_HOURS (default: 24h)
-# - Login rate limited to LOGIN_RATE_LIMIT attempts/minute (default: 3)
+networks:
+  privasend-network:
+    driver: bridge
+
+volumes:
+  traefik-logs:
+  crowdsec-db:
+  crowdsec-config:
