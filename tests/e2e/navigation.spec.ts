@@ -1,5 +1,8 @@
 import { test, expect } from '@playwright/test';
 
+const uploadDisabled = process.env.UPLOAD_ENABLED === 'false';
+const authEnabled = process.env.AUTH_ENABLED === 'true';
+
 test.describe('Navigation', () => {
 	test('should have correct page title', async ({ page }) => {
 		await page.goto('/');
@@ -7,26 +10,35 @@ test.describe('Navigation', () => {
 	});
 
 	test('should display header', async ({ page }) => {
+		test.skip(authEnabled, 'Requires auth disabled');
 		await page.goto('/');
 		const header = page.locator('header');
 		await expect(header).toBeVisible();
 	});
 
 	test('should have footer', async ({ page }) => {
+		test.skip(authEnabled, 'Requires auth disabled');
 		await page.goto('/');
 		const footer = page.locator('footer');
 		await expect(footer).toBeVisible();
 	});
 
 	test('should show upload interface elements', async ({ page }) => {
+		test.skip(
+			uploadDisabled || authEnabled,
+			'Only runs when upload is enabled and auth is disabled'
+		);
 		await page.goto('/');
 
-		// Check for key UI elements
 		await expect(page.locator('.upload-section')).toBeVisible();
 		await expect(page.locator('.dropzone')).toBeVisible();
 	});
 
 	test('should have accessible file input', async ({ page }) => {
+		test.skip(
+			uploadDisabled || authEnabled,
+			'Only runs when upload is enabled and auth is disabled'
+		);
 		await page.goto('/');
 
 		const fileInput = page.locator('input[type="file"]');
@@ -36,6 +48,8 @@ test.describe('Navigation', () => {
 });
 
 test.describe('Responsive Design', () => {
+	test.skip(authEnabled, 'Requires auth disabled');
+
 	test('should be mobile friendly', async ({ page }) => {
 		await page.setViewportSize({ width: 375, height: 667 }); // iPhone size
 		await page.goto('/');
@@ -63,6 +77,10 @@ test.describe('Responsive Design', () => {
 
 test.describe('UI States', () => {
 	test('should show upload zone initially', async ({ page }) => {
+		test.skip(
+			uploadDisabled || authEnabled,
+			'Only runs when upload is enabled and auth is disabled'
+		);
 		await page.goto('/');
 
 		const dropzone = page.locator('.dropzone');
@@ -71,6 +89,10 @@ test.describe('UI States', () => {
 	});
 
 	test('should have clickable dropzone', async ({ page }) => {
+		test.skip(
+			uploadDisabled || authEnabled,
+			'Only runs when upload is enabled and auth is disabled'
+		);
 		await page.goto('/');
 
 		const dropzone = page.locator('.dropzone');
