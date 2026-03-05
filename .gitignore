@@ -24,5 +24,7 @@ vite.config.ts.timestamp-*
 test-results.json
 !.husky
 mutation-report.html
+mutation-report.json
+reports.txt
 .stryker-tmp/
 reports/
