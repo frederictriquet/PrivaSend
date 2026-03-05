@@ -5,6 +5,22 @@ All notable changes to PrivaSend will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.7](https://github.com/frederictriquet/PrivaSend/compare/privasend-v0.4.6...privasend-v0.4.7) (2026-03-05)
+
+
+### Features
+
+* Add Traefik + CrowdSec to docker-compose.secure.yml ([77319ef](https://github.com/frederictriquet/PrivaSend/commit/77319ef57e7d14264e535931984f1abf29637498))
+
+
+### Bug Fixes
+
+* Fix E2E CI test failures in auth-enabled and upload-disabled modes ([2862d9b](https://github.com/frederictriquet/PrivaSend/commit/2862d9bdcb6fd09bd8a1bc603578852b12bb617d))
+* hide logout button when authentication is disabled ([b5a7b05](https://github.com/frederictriquet/PrivaSend/commit/b5a7b05636721fa9e25b3953af036aead47eeae7))
+* Make E2E auth tests pass with AUTH_ENABLED=true ([1a1aad9](https://github.com/frederictriquet/PrivaSend/commit/1a1aad9bd70b251e4b5835130a474cdc4e5b93b3))
+* Skip upload/nav E2E tests when upload disabled or auth enabled ([983a3ce](https://github.com/frederictriquet/PrivaSend/commit/983a3ce88c316466a81c5e6444294a372c887716))
+* use $derived for reactive time remaining computation in download page ([36303bd](https://github.com/frederictriquet/PrivaSend/commit/36303bd65ba1ba223a9b88b708ef2ccd6faec3f1))
+
 ## [0.4.6](https://github.com/frederictriquet/PrivaSend/compare/privasend-v0.4.5...privasend-v0.4.6) (2025-12-12)
 
 
