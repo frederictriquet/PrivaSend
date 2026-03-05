@@ -139,7 +139,7 @@ PrivaSend/
 ├── vite.config.ts
 ├── tsconfig.json
 ├── .env.example
-└── ROADMAP.md                 # Full project roadmap
+└── docs/ROADMAP.md                 # Full project roadmap
 ```
 
 ## API Documentation
@@ -299,7 +299,7 @@ docker run -p 3000:3000 -v $(pwd)/storage:/app/storage privasend
 
 ## Next Steps (Roadmap)
 
-See [ROADMAP.md](ROADMAP.md) for the complete feature roadmap.
+See [ROADMAP.md](docs/ROADMAP.md) for the complete feature roadmap.
 
 **Upcoming in Phase 1.2 - Secure Link Generation:**
 

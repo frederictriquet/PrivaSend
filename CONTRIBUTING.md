@@ -316,7 +316,7 @@ PrivaSend/
 Avant de contribuer, lire:
 
 - [README.md](README.md) - Documentation principale
-- [ROADMAP.md](ROADMAP.md) - Roadmap du projet
+- [ROADMAP.md](docs/ROADMAP.md) - Roadmap du projet
 - [VERSIONING.md](VERSIONING.md) - Stratégie de versioning
 - [PHASE_2_COMPLETE.md](PHASE_2_COMPLETE.md) - CI/CD setup
 
@@ -421,8 +421,8 @@ Brief description of changes
 
 ## Getting Help
 
-- Consulter [ROADMAP.md](ROADMAP.md)
-- Lire [SETUP.md](SETUP.md)
+- Consulter [ROADMAP.md](docs/ROADMAP.md)
+- Lire [SETUP.md](docs/SETUP.md)
 - Créer une Issue GitHub
 - Demander dans les Discussions
 
