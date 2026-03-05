@@ -93,11 +93,13 @@
 	}
 
 	// Calculate time remaining
-	const expiresAt = new Date(data.expiresAt);
+	const expiresAt = $derived(new Date(data.expiresAt));
 	const now = new Date();
-	const timeRemaining = expiresAt.getTime() - now.getTime();
-	const daysRemaining = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
-	const hoursRemaining = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+	const timeRemaining = $derived(expiresAt.getTime() - now.getTime());
+	const daysRemaining = $derived(Math.floor(timeRemaining / (1000 * 60 * 60 * 24)));
+	const hoursRemaining = $derived(
+		Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+	);
 </script>
 
 <svelte:head>
