@@ -90,6 +90,12 @@ jobs:
             echo "✅ **200+ unit tests passing**" >> $GITHUB_STEP_SUMMARY
           fi
 
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          files: ./coverage/lcov.info
+          fail_ci_if_error: false
+
       - name: Upload coverage HTML report
         uses: actions/upload-artifact@v4
         if: always()
@@ -140,67 +146,7 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Run E2E tests
-        id: e2e
         run: npm run test:e2e
-        continue-on-error: true
-
-      - name: Generate E2E test summary
-        if: always()
-        run: |
-          echo "## 🎭 E2E Test Results" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-
-          # Overall status
-          if [ "${{ steps.e2e.outcome }}" == "success" ]; then
-            echo "✅ **All 18 E2E tests passed**" >> $GITHUB_STEP_SUMMARY
-          else
-            echo "❌ **Some E2E tests failed**" >> $GITHUB_STEP_SUMMARY
-          fi
-          echo "" >> $GITHUB_STEP_SUMMARY
-
-          echo "### 🏠 Homepage Tests (3)" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "| Test | Status |" >> $GITHUB_STEP_SUMMARY
-          echo "|------|--------|" >> $GITHUB_STEP_SUMMARY
-          echo "| should load homepage | ✅ |" >> $GITHUB_STEP_SUMMARY
-          echo "| should have file input | ✅ |" >> $GITHUB_STEP_SUMMARY
-          echo "| should show upload zone with text | ✅ |" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-
-          echo "### 🧭 Navigation Tests (5)" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "| Test | Status |" >> $GITHUB_STEP_SUMMARY
-          echo "|------|--------|" >> $GITHUB_STEP_SUMMARY
-          echo "| should have correct page title | ✅ |" >> $GITHUB_STEP_SUMMARY
-          echo "| should display header | ✅ |" >> $GITHUB_STEP_SUMMARY
-          echo "| should have footer | ✅ |" >> $GITHUB_STEP_SUMMARY
-          echo "| should show upload interface elements | ✅ |" >> $GITHUB_STEP_SUMMARY
-          echo "| should have accessible file input | ✅ |" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-
-          echo "### 📱 Responsive Design Tests (3)" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "| Test | Status |" >> $GITHUB_STEP_SUMMARY
-          echo "|------|--------|" >> $GITHUB_STEP_SUMMARY
-          echo "| should be mobile friendly (375x667) | ✅ |" >> $GITHUB_STEP_SUMMARY
-          echo "| should be tablet friendly (768x1024) | ✅ |" >> $GITHUB_STEP_SUMMARY
-          echo "| should be desktop friendly (1920x1080) | ✅ |" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-
-          echo "### 🎨 UI States Tests (2)" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "| Test | Status |" >> $GITHUB_STEP_SUMMARY
-          echo "|------|--------|" >> $GITHUB_STEP_SUMMARY
-          echo "| should show upload zone initially | ✅ |" >> $GITHUB_STEP_SUMMARY
-          echo "| should have clickable dropzone | ✅ |" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-
-          echo "### Configuration" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "- 🌐 **Browser:** Chromium (Desktop Chrome)" >> $GITHUB_STEP_SUMMARY
-          echo "- 🔄 **Retries:** 2 attempts on failure" >> $GITHUB_STEP_SUMMARY
-          echo "- 📸 **Trace:** Captured on first retry" >> $GITHUB_STEP_SUMMARY
-          echo "- ⚡ **Workers:** 1 (CI mode for stability)" >> $GITHUB_STEP_SUMMARY
 
       - name: Upload Playwright report
         uses: actions/upload-artifact@v4

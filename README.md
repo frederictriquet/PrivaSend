@@ -5,6 +5,7 @@ Secure file sharing application for VPC and local networks - An open-source alte
 [![CI](https://github.com/frederictriquet/PrivaSend/workflows/CI/badge.svg)](https://github.com/frederictriquet/PrivaSend/actions/workflows/ci.yml)
 [![Docker](https://github.com/frederictriquet/PrivaSend/workflows/Docker/badge.svg)](https://github.com/frederictriquet/PrivaSend/actions/workflows/docker.yml)
 [![Security](https://github.com/frederictriquet/PrivaSend/workflows/Security%20Scan/badge.svg)](https://github.com/frederictriquet/PrivaSend/actions/workflows/security.yml)
+[![codecov](https://codecov.io/gh/frederictriquet/PrivaSend/graph/badge.svg)](https://codecov.io/gh/frederictriquet/PrivaSend)
 
 **Version**: v0.4.0 | **Status**: Production Ready with CI/CD
 
