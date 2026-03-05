@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 const uploadDisabled = process.env.UPLOAD_ENABLED === 'false';
+const authEnabled = process.env.AUTH_ENABLED === 'true';
 
 test.describe('Upload Disabled Mode', () => {
 	test.skip(!uploadDisabled, 'Requires UPLOAD_ENABLED=false');
@@ -120,7 +121,7 @@ test.describe('Config API', () => {
 });
 
 test.describe('Upload Enabled Mode (Default)', () => {
-	test.skip(uploadDisabled, 'Only runs when UPLOAD_ENABLED is not false');
+	test.skip(uploadDisabled || authEnabled, 'Only runs when upload is enabled and auth is disabled');
 
 	test('should show upload UI when enabled', async ({ page }) => {
 		await page.goto('/');

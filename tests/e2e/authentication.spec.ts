@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 const authEnabled = process.env.AUTH_ENABLED === 'true';
+const uploadDisabled = process.env.UPLOAD_ENABLED === 'false';
 
 test.describe('Authentication Flow', () => {
 	test.skip(!authEnabled, 'Requires AUTH_ENABLED=true');
@@ -132,7 +133,9 @@ test.describe('Auth Disabled Mode (Default)', () => {
 		await page.goto('/');
 
 		await expect(page).toHaveURL(/\/$/);
-		await expect(page.locator('.dropzone')).toBeVisible();
+		if (!uploadDisabled) {
+			await expect(page.locator('.dropzone')).toBeVisible();
+		}
 	});
 
 	test('should not show logout button when auth disabled', async ({ page }) => {
