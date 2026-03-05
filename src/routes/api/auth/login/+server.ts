@@ -1,4 +1,4 @@
-import { json, error } from '@sveltejs/kit';
+import { json, error, isHttpError } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { AuthService } from '$lib/server/auth';
 import { SessionService } from '$lib/server/session';
@@ -46,10 +46,8 @@ export const POST: RequestHandler = async (event) => {
 			expiresAt: session.expiresAt.toISOString()
 		});
 	} catch (err) {
+		if (isHttpError(err)) throw err;
 		console.error('Login error:', err);
-		if (err instanceof Error && 'status' in err) {
-			throw err;
-		}
 		throw error(500, 'Login failed');
 	}
 };

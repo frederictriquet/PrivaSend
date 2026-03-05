@@ -5,7 +5,7 @@
 	import { page } from '$app/stores';
 	import '../app.css';
 
-	let { children } = $props();
+	let { children, data } = $props();
 
 	onMount(() => {
 		auth.checkStatus();
@@ -45,7 +45,7 @@
 		{$theme === 'light' ? '🌙' : '☀️'}
 	</button>
 
-	{#if !isLoginPage && $auth.authEnabled}
+	{#if !isLoginPage && data.authEnabled}
 		<button class="logout-button" onclick={handleLogout}>Logout</button>
 	{/if}
 </div>

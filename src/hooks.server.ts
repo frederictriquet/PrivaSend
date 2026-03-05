@@ -30,7 +30,7 @@ const authMiddleware: Handle = async ({ event, resolve }) => {
 
 	// Public routes (explicitly allowed without auth)
 	const publicRoutes = ['/login'];
-	const publicPaths = ['/download/', '/api/auth/'];
+	const publicPaths = ['/download/', '/api/auth/', '/api/test/'];
 
 	// Check if route is public
 	const isPublicRoute = publicRoutes.includes(event.url.pathname);

@@ -129,8 +129,22 @@ jobs:
           retention-days: 7
 
   e2e:
-    name: E2E Tests
+    name: E2E Tests (${{ matrix.name }})
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: default
+            env: {}
+          - name: auth-enabled
+            env:
+              AUTH_ENABLED: 'true'
+              ADMIN_PASSWORD: 'testpass_ci'
+              ALLOW_RATE_LIMIT_RESET: 'true'
+          - name: upload-disabled
+            env:
+              UPLOAD_ENABLED: 'false'
     steps:
       - uses: actions/checkout@v4
 
@@ -142,16 +156,20 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Build application
+        run: npm run build
+
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
 
       - name: Run E2E tests
         run: npm run test:e2e
+        env: ${{ matrix.env }}
 
       - name: Upload Playwright report
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: playwright-report
+          name: playwright-report-${{ matrix.name }}
           path: playwright-report/
           retention-days: 7

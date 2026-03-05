@@ -1,14 +1,18 @@
 import { defineConfig, devices } from '@playwright/test';
 
+const isCI = !!process.env.CI;
+const port = isCI ? 3000 : 5173;
+const baseURL = `http://localhost:${port}`;
+
 export default defineConfig({
 	testDir: './tests/e2e',
 	fullyParallel: true,
-	forbidOnly: !!process.env.CI,
-	retries: process.env.CI ? 2 : 0,
-	workers: process.env.CI ? 1 : undefined,
+	forbidOnly: isCI,
+	retries: isCI ? 2 : 0,
+	workers: isCI ? 1 : undefined,
 	reporter: [['html'], ['json', { outputFile: 'test-results.json' }], ['list']],
 	use: {
-		baseURL: 'http://localhost:5173',
+		baseURL,
 		trace: 'on-first-retry'
 	},
 	projects: [
@@ -18,8 +22,8 @@ export default defineConfig({
 		}
 	],
 	webServer: {
-		command: 'npm run dev',
-		url: 'http://localhost:5173',
-		reuseExistingServer: !process.env.CI
+		command: isCI ? `node build` : 'npm run dev',
+		url: baseURL,
+		reuseExistingServer: !isCI
 	}
 });
