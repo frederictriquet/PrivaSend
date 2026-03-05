@@ -21,6 +21,7 @@ vite.config.ts.timestamp-*
 # Test coverage
 /coverage
 /playwright-report
+/test-results
 test-results.json
 !.husky
 mutation-report.html
