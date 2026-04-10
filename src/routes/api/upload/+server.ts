@@ -20,16 +20,20 @@ export const POST: RequestHandler = async (event) => {
 		throw error(403, 'File upload is disabled on this server');
 	}
 
-	// Rate limiting
-	const rateLimit = checkRateLimit(event, 'upload');
-	if (!rateLimit.allowed) {
-		throw error(429, 'Too many upload requests. Please try again later.');
+	// Rate limiting : pour les uploads chunked, ne compter que le premier chunk
+	// afin qu'un grand fichier (ex: 700 MB = 140 chunks) ne dépasse pas la limite par chunk
+	const contentType = request.headers.get('content-type') || '';
+	const isChunkedUpload = contentType.includes('application/octet-stream');
+	const chunkIndex = isChunkedUpload ? parseInt(request.headers.get('x-chunk-index') || '0') : 0;
+	if (!isChunkedUpload || chunkIndex === 0) {
+		const rateLimit = checkRateLimit(event, 'upload');
+		if (!rateLimit.allowed) {
+			throw error(429, 'Too many upload requests. Please try again later.');
+		}
 	}
 	try {
-		const contentType = request.headers.get('content-type') || '';
-
 		// Handle chunked upload
-		if (contentType.includes('application/octet-stream')) {
+		if (isChunkedUpload) {
 			return await handleChunkedUpload(request);
 		}
 
